@@ -1,0 +1,166 @@
+.upper-bar{
+	background-color:#363c3d;
+	height:45px;
+	color:#e5eae7;
+}
+
+.upper-bar:hover{
+	color:white;
+}
+
+#left-elt{
+	float:left;
+	font-size:23px;
+	font-weight:bold;
+	padding:10px;
+}
+
+#right-elt{
+	float:right;
+	font-size:23px;
+	font-weight:bold;
+}
+
+footer{
+	background-color:#363c3d;
+	height:30px;
+	color:#e5eae7;
+	text-align:center;
+	font-size:23px;
+	padding:10px 0px;
+}
+#main-body{
+    background-color: #d3dbde;
+    font-family: 'Lato', sans-serif;
+    height:94% ;	
+      
+}
+#signup-main-body{
+	background-color: #d3dbde;
+    font-family: 'Lato', sans-serif;
+	height:100% auto;
+}
+
+.form-area{
+	margin-left:500px;
+    width:340px;
+    height:auto;
+    border:1px solid #5989ea;
+	border-radius:6px;
+	background-color: #f4fdff;
+}
+
+#form-area-signup{
+	margin-left:450px;
+    width: 480px;
+    height: auto;
+    border:1px solid #5989ea;
+	border-radius:6px;
+	background-color: #f4fdff;
+}
+#mandatory{
+	color:red;
+	margin-left:250px;
+}
+#s-name,#s-email,#s-dob,#s-mobile,
+#s-address,#s-password,#s-cpassword{
+	margin-left:20px;
+	padding:5px;	
+}
+
+.form-header{
+	background-color: #5989ea;
+	font-size:20px;
+	padding:8px;
+	color:white;
+}
+.form-image{
+	margin-left:120px;
+}
+
+.loginEmail,.password,.confirm-password,.loginPassword{
+	margin-left:20px;
+	padding:7px
+}
+.labelContainer{
+	font-size:18px;
+}
+
+.input_box{
+	border-radius:5px;
+	padding:6px;
+	border:2px solid #9d9ea0;
+	width:265px;
+}
+.input_box:hover{
+	border:2px solid #5989ea;
+}
+
+
+.btn{
+    background-color: #5989ea;
+    color:white;
+    border:none;
+    width:140px;
+    border-radius:5px;
+    padding:8px 4px;
+	margin:25px;
+    font-size:16px;
+    cursor:pointer;
+    
+}
+.btn:hover{
+	background-color: #2150af;
+}
+
+
+.hat-icon{
+    margin-left:570px;	
+}
+
+
+#pid,#eid,#cpid,.err{
+	color:red;
+	font-size:16px;
+   }
+
+ul{
+    list-style-type: none;
+    overflow: hidden;
+    margin-top:1px;
+}
+     
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size:20px;
+     
+  }
+
+li a:hover {
+    background-color: #5989ea;
+}
+#serverSideError{
+	color:#e80b28;
+	font-size:18px;
+	margin-left:506px;
+	padding:5px;
+	font-weight:bold;
+}
+#serverError{
+	
+	color:#e80b28;
+	font-size:18px;
+	margin-left:455px;
+	padding:5px;
+	font-weight:bold;
+}
+
+
