@@ -4,48 +4,18 @@
 <html>
 	<head>
 		<title>Adding Question</title>
-		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<link href="../../assets/css/onlineExam.css" rel="stylesheet">
-	</head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 
-	<body>
-		<div id="main-body">
-	    	<div class="upper-bar">
-	    		<div id="left-elt"> ONLINE EXAM SYSTEM </div>
-            	<div id="right-elt">
-               		<a href="../../Controller/logoutAction.cfm" >
-					  <img src="../../assets/icon/logout1.png" align="right" width="50px" height="50px" title="LOGOUT">
-				    </a>
-            	</div>
-			 </div>
-			 <div class="grid-container">
-             		<div class="side-bar">
-						<ul>
-						  <li id="user-img"><img src="../../assets/image/admin.png" height="50px" width="50px">
-						  <br>ADMIN
-						  </li>
-						  <li><a href="adminDashboard.cfm">Dashboard</a></li>
-						  <li><a href="viewStudents.cfm">Students</a></li>
-						  <li><a href="viewMarks.cfm">Results</a></li>
-						  <li><a href="viewQuestions.cfm">Questions</a></li>
-						  <li><a href="addQuestion.cfm">Add Question</a></li>
-						  <li><a href="#contactUs">Contact us</a></li>
-						  <li><a href="#About Us">About us</a></li>
-						  <li><a href="#help">Help</a></li>
-						  <li id="last-elt">.</li>
-				        </ul>
-					 </div>
+		<cfinclude template = "../../Includes/adminModule.cfm" />
 
 					<div class="data-container">
 					    <div id="heading"> Add Question</div>
 
 					    <div class="serverSideError">
-						    <cfset errorArray = ["Question added successfully ..!!!"] />
+						    <cfset errorArray = ["Question added successfully ..!!!" ] />
 						    <cfif isDefined("URL.errID") >
-								<cfif URL.errID EQ 1>
-									<cfoutput>#errorArray[1]# </cfoutput>
-								</cfif>
+								<cfif URL.errID EQ 1><cfoutput>#errorArray[1]# </cfoutput></cfif>
+
 							<cfelse>
 						    </cfif>
 					    </div>
@@ -94,7 +64,7 @@
                             	<div class="label-container">Option 4:</div>
 							    <textarea id="op4" name="op4" placeholder="Fourth Option" class="input-box" maxlength="250" onblur="op4Valid()"></textarea>
 							    <div id="oid4" class="error"></div>
-                             </div>
+                            </div>
 
 							<div class="container">
 								<div class="label-container">Please select answer</div>
@@ -112,10 +82,9 @@
 					    </form><br>
 		         </div>
 		   </div><br>
-	 <footer>
-		@2018 onlineexam.com/All rights reserved
-     </footer>
+	 <cfinclude template="../../Includes/footer.cfm" />
 	 <script type="text/javascript" src="../../assets/js/addQuestion.js"> </script>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 	 </body>
 </html>
 

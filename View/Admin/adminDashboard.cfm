@@ -2,45 +2,47 @@
 <html>
 	<head>
 		<title>Admin Dashboard</title>
-		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-		<link href="../../assets/css/onlineExam.css" rel="stylesheet">
-	</head>
+		<cfinclude template = "../../Includes/adminModule.cfm" />
 
-	<body>
-		<div id="main-body">
-		        <div class="upper-bar">
-			        <div id="left-elt"> ONLINE EXAM SYSTEM </div>
-	            	<div id="right-elt">
-	               		<a href="../../Controller/logoutAction.cfm" >
-						  <img src="../../assets/icon/logout1.png" align="right" width="50px" height="50px" title="LOGOUT">
-					    </a>
-	            	</div>
-				</div>
-				<div class="grid-container">
-					<div class="side-bar">
-						<ul>
-						  <li id="user-img"><img src="../../assets/image/admin.png" height="50px" width="50px;">
-							<br>ADMIN
-						  </li>
-						  <li><a href="adminDashboard.cfm">Dashboard</a></li>
-						  <li><a href="viewStudents.cfm">Students</a></li>
-						  <li><a href="viewMarks.cfm">Results</a></li>
-						  <li><a href="viewQuestions.cfm">Questions</a></li>
-						  <li><a href="addQuestion.cfm">Add Question</a></li>
-						  <li><a href="#About Us">About us</a></li>
-						  <li><a href="#contactUs">Contact us</a></li>
-						  <li><a href="#help">Help</a></li>
-						  <li id="last-elt">.</li>
-				        </ul>
-					 </div>
 
 		             <div class="data-container">
 	                    <center><h1> admin dashboard</h1></center>
+	                    <div class="serverSideError">
+				              <cfset errorArray=["Internal problem.Please try again"]>
+					          <cfif isdefined("URL.errID")>
+								<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
+								<cfelse>
+							  </cfif>
+			             </div>
+			             <center><h2> Active/Inactive Questions chart</h2><center>
+			             <cfchart format="jpg" scalefrom="0"   scaleto="10" show3d="Yes" chartwidth="850"
+			                      chartheight="350" dataBackgroundColor="##b5deff">
+
+
+							<cfchartseries type="cone"  serieslabel="Active Question" seriescolor="##2ef739">
+								<cfchartdata item="English"   value="8">
+								<cfchartdata item="Math"      value="8">
+								<cfchartdata item="Science"   value="9">
+								<cfchartdata item="Computer"  value="8">
+								<cfchartdata item="Chemistry" value="5">
+								<cfchartdata item="Physics"   value="9">
+								<cfchartdata item="Reasoning" value="9">
+							</cfchartseries>
+							<cfchartseries type="cone"  serieslabel="Inactive Question" seriescolor="##ff2369">
+								<cfchartdata item="English"   value="3">
+								<cfchartdata item="Math"      value="6">
+								<cfchartdata item="Science"   value="2">
+								<cfchartdata item="Computer"  value="4">
+								<cfchartdata item="Chemistry" value="2">
+								<cfchartdata item="Physics"   value="1">
+								<cfchartdata item="Reasoning" value="3">
+							</cfchartseries>
+
+						</cfchart>
+
 		             </div>
 		  		</div><br>
           </div>
-	 <footer>
-		@2018 onlineexam.com/All rights reserved
-     </footer>
+	  <cfinclude template="../../Includes/footer.cfm" />
 	 </body>
 </html>

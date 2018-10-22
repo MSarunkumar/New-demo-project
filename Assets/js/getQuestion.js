@@ -15,8 +15,8 @@ $(document).ready(function () {
 		var totalQ = 0;
 		var num = 0;
 		var subjectName = $("#subjectName").val();
-		
 		getTotalQuestion(subjectName);
+		});
 	      
 	$("#nextBtn").click( function () {
 		
@@ -30,7 +30,7 @@ $(document).ready(function () {
             //....   it is for removing Next button and change the color of submit 
             //         button  at last question ...............................
 		if (totalQuestion == 1) {
-		     //$("#nextBtn").hide();
+		     $("#nextBtn").attr("disabled","disabled");
 		     $("#submitBtn").css("background-color", "#e80b28");
 		   }
 			
@@ -54,10 +54,13 @@ $(document).ready(function () {
 	         success:function(res)
 	              {
 	        	    var res = $.parseJSON(res);
-	                if(res.DATA[0] == undefined){
-	            	   submitScore();
+	        	    
+	                if(res.DATA[0][0] == -1) {
+	                	window.location.assign("studentDashboard.cfm?errId=1");	
 	            	}
-	              else{ 
+	                
+	              else {
+	            	  
 	                $("#ques").html("<br>Question &nbsp"+num+":&nbspof "+totalQ+" ::&nbsp" +res.DATA[0][0]);
 	                   for (i = 1; i < 5; i++) {
 	                $('<br><br><input type="radio" name="radioBtn" value = '+i+'>&nbsp' + res.DATA[0][i] +'</input>').appendTo('#ques');
@@ -70,14 +73,14 @@ $(document).ready(function () {
 	
 	function submitScore() {
 		//.........       It is for calculating score of last question 
-	      alert(score);
+	     
 	         if ($("#answer").val() != undefined ) {
 	        	if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
 	                        score = score+1;
 	                        }
 	    	          }
 	    //..............   It will submit the score  
-	         
+	         alert(score);
 	         $.ajax( {
 		         type: "Post"  ,
 		         url: "/OnlineExam2/Model/takeTest.cfc?method=submitScore" ,
@@ -91,12 +94,10 @@ $(document).ready(function () {
 		              { 
                         var submitRes = $.parseJSON(res);
                         if (submitRes) {
-		        	    	alert("!!!  Test End  !!!");
-			        	    window.location.assign("studentDashboard.cfm");
+			        	    window.location.assign("studentDashboard.cfm?errId=3");
 		        	    }
 		        	    else {
-		        	    	alert("Internal problem.Please try again");
-		        	        window.location.assign("studentDashboard.cfm");
+		        	        window.location.assign("studentDashboard.cfm?errId=1");
 		        	    }
 		        	  }
 		           });
@@ -117,7 +118,7 @@ $(document).ready(function () {
 		              {
 		        	     questionId = $.parseJSON(res);
 		        	     if(questionId == -1) {
-		        	    	alert("server side error");
+		        	    	 window.location.assign("studentDashboard.cfm?errId=1");
 		        	     }
 		        	     nextQuestion(questionId);
 		              }
@@ -138,17 +139,32 @@ $(document).ready(function () {
 		        	  if (totalQ === 0) {
 		    	    	  totalQ = totalQuestion;
 		    	    	  }
+		        	  if (totalQuestion == -1) {
+		        		  window.location.assign("studentDashboard.cfm?errId=1");  
+		        	  }
 		        	  getQuestionId(totalQuestion);
 		              }
 		        });
             }
 	
 	$("#submitBtn").click( function () {
-		if (confirm("Do you want to submit the test ?")) {
-			submitScore();
-		}
-		   
+		$.confirm({
+		    title: "Confirm...!!",
+			type:"green",
+		    content: "Do you want to submit the test ?",
+		    theme: 'material',
+		    boxWidth: "35%",
+		    useBootstrap: false,
+		    buttons: {
+		        confirm: function () {
+		        	submitScore();
+		        },
+		        cancel: function () {
+                  
+		        }
+		    }
 		});
+	  });
 	
 	//.........This function calls when time will be over .
 	
@@ -161,18 +177,24 @@ $(document).ready(function () {
 			  //.......... it will fire, when some one click on timer
 		  });
 		});
-});
 
 
-window.onbeforeunload = function () {
+
+/*window.onbeforeunload = function () {
     window.setTimeout(function () { 
-        window.location = 'hsdgfhsgfhs.cfm';
+    	if(isSubmit) { 
+    		
+    	}
+    	else {
+    		window.location.assign("../../Controller/logoutAction.cfm");
+    	}
+        
     }, 0);
     window.onbeforeunload = null;  
                                     
     return 'Press "Stay On Page" to go to BBC website!';
        
-}
+}*/
 
 
 

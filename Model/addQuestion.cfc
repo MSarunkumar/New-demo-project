@@ -10,8 +10,8 @@
 <cfcomponent hint = "It will add the question in DB." accessors = "true" output = "false" persistent = "false">
 
 <!--- -----   Method: It will submit the question in ms_question table --->
-	<cffunction name = "submitQuestion" access = "remote" hint="It will submit the question/answer with subject"
-                                        returntype = "boolean"  returnformat="JSON">
+	<cffunction name = "submitQuestion" access = "remote" hint = "It will submit the question/answer with subject"
+                                        returntype = "boolean"  returnformat = "JSON">
 			<cfargument name = "sub"  required = "true" type = "string"  />
 			<cfargument name = "ques" required = "true" type = "string"  />
 			<cfargument name = "op1"  required = "true" type = "string"  />
@@ -36,7 +36,7 @@
 			<cfreturn TRUE />
 
 			<cfcatch type = "database">
-			<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitQuestion]addQuestion.cfc">
+			<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitQuestion]addQuestion.cfc" />
 			<cfreturn FALSE />
 			</cfcatch>
 		</cftry>

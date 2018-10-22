@@ -15,7 +15,7 @@
 				         <cfset VARIABLES.valid = FALSE />
 			   </cfif>
 
-			   <!------- It will check password formate --->
+			   <!------- It will check password formate ----------------------->
 			   <cfif NOT (len(FORM.password) GTE 8 AND refind('[A-Z]',FORM.password)
 				     AND refind('[a-z]',FORM.password) AND refind('[0-9]',FORM.password)
 				     AND refind('[!@##$&* = -{}<>,.:;|?""''~]',FORM.password ) )>
@@ -35,6 +35,7 @@
 				    <cfif VARIABLES.record EQ 1 >
 
                             <cfset VARIABLES.pass = APPLICATION.loginObj.getPassword(FORM.uid) />
+
 							<cfset VARIABLES.salt = APPLICATION.loginObj.getSalt(FORM.uid) />
 	                        <cfset VARIABLES.hashedPassword = Hash(FORM.password & VARIABLES.salt, "SHA-512") />
 

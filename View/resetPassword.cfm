@@ -23,9 +23,9 @@
 
 		<html>
 			<head>
+				<title>Reset Password</title>
 				<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 				<link href="../assets/css/index.css"  rel="stylesheet">
-				<title>Reset Password</title>
 			</head>
 			<body>
 				<div id="main-body">
@@ -46,7 +46,7 @@
 						<div class="form-image">
 		            	<img src="../assets/image/loginUser.png" width="100px" height="80px">
 						</div>
-							<form action="../Controller/resetPasswordAction.cfm" onsubmit="return formValidation()" method="POST" id='form'>
+							<form action="../Controller/resetPasswordAction.cfm" onsubmit="return formValidation()" method="POST" id="form">
 		                        <div class="password">
 									<div class="labelContainer"> New Password </div>
 									<input type="Password" id="password" name="password"  class="input_box" maxlength="16" placeholder="Enter password" onblur="rpassword()">
@@ -58,13 +58,11 @@
 								    <input type="Password" id="cpassword" name="cpassword"  class="input_box" maxlength="16" placeholder="Re-enter password" onblur="rcpassword()">
 								    <div id="cpid"></div>
 								</div>
-		                           <input name="resetPassword" type="Submit" value="Reset Password" id="btn" class="btn" >
+		                            <input name="resetPassword" type="Submit" value="Reset Password" id="btn" class="btn" >
 							</form>
 		            </div>
 		     	</div>
-			<footer>
-				@2018 onlineexam.com/All rights reserved
-			</footer>
+			<cfinclude template="../Includes/footer.cfm" />
 			<script type="text/javascript" src="../assets/js/resetPassword.js"> </script>
 			</body>
 		</html>

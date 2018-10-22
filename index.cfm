@@ -4,9 +4,7 @@
 		 <title> Online Examination Home page </title>
 		 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	     <link href="assets/css/index.css"  rel="stylesheet">
-
     </head>
-
 	<body>
         <div id="main-body">
              <div class="upper-bar">
@@ -76,8 +74,6 @@
 	           </div>
           </div>
           <script src="assets/js/login.js" type="text/javascript"></script>
-		<footer>
-			 @2018 onlineexam.com/All rights reserved
-		</footer>
+		<cfinclude template="Includes/footer.cfm" />
       </body>
 </html>

@@ -55,13 +55,14 @@
         	<cfquery name = "insertQuery" >
 	     	INSERT  INTO  ms_student (Name,email,dob,phone,address,password,salt)
          	VALUES  (
-	            <cfqueryparam value = "#ARGUMENTS.name#"     cfsqltype = "cf_sql_varchar" >,
-	            <cfqueryparam value = "#ARGUMENTS.email#"    cfsqltype = "cf_sql_varchar">,
-	            <cfqueryparam value = "#ARGUMENTS.dob#"      cfsqltype = "cf_sql_date">,
-				<cfqueryparam value = "#ARGUMENTS.phone#"    cfsqltype = "cf_sql_bigint">,
-				<cfqueryparam value = "#ARGUMENTS.address#"  cfsqltype = "cf_sql_varchar">,
-				<cfqueryparam value = "#LOCAL.hashedPassword#" cfsqltype = "cf_sql_char">,
-				<cfqueryparam value = "#LOCAL.salt#"     cfsqltype = "cf_sql_char">)
+	            <cfqueryparam value = "#ARGUMENTS.name#"        cfsqltype = "cf_sql_varchar" >,
+	            <cfqueryparam value = "#ARGUMENTS.email#"       cfsqltype = "cf_sql_varchar" >,
+	            <cfqueryparam value = "#ARGUMENTS.dob#"         cfsqltype = "cf_sql_date"    >,
+				<cfqueryparam value = "#ARGUMENTS.phone#"       cfsqltype = "cf_sql_bigint"  >,
+				<cfqueryparam value = "#ARGUMENTS.address#"     cfsqltype = "cf_sql_varchar" >,
+				<cfqueryparam value = "#LOCAL.hashedPassword#"  cfsqltype = "cf_sql_char"    >,
+				<cfqueryparam value = "#LOCAL.salt#"            cfsqltype = "cf_sql_char"    >
+				 )
 			</cfquery>
 
 			<cfreturn TRUE />

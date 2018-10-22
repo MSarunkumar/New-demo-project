@@ -33,12 +33,12 @@
             	  
               
               
-             if (q_Valid && o1_Valid && o2_Valid && o3_Valid && o4_Valid && a_Valid && s_Valid ) {
-                  if (confirm("Question is going to add. Press OK/CANCEL"))
+             if (q_Valid && o1_Valid && o2_Valid && o3_Valid && o4_Valid && a_Valid && s_Valid ) {      
                       return true;
-                  else
-                      return false;
-              } else return false;
+             }
+                  
+               else 
+            	      return false;
           }
     //................................................... Subject validation     
           function subValid() {
@@ -170,12 +170,27 @@
         			        },
         			  
         			  datatype:"json",
-        			  success:function (res) {
-        				 
+        			  success:function (res) {	 
         				var resp = $.parseJSON(res);
-        			 
         			   if(resp) {
-        				    submitQuestion();
+        				   $.confirm({
+         					    title: "Confirm ..!!",
+         						type:"green",
+         					    content: "Do you want to add this question ?",
+         					    theme: "material",
+         					    boxWidth: "35%",
+         					    useBootstrap: false,
+         					    buttons: {
+         					        confirm: function () {
+         					        	submitQuestion();
+         					        },
+         					        cancel: function () {
+         			                  
+         					        }
+         					    }
+         					});
+        				   
+        				    
         				   }
         			   else {
         				    $(".serverSideError").html("Invalid details");
@@ -206,7 +221,7 @@
         				window.location.assign("addQuestion.cfm?errID=1"); 
         			 }
         			 else {
-        				 $(".serverSideError").html("Internal Problem. Please try again..@");
+        				 $(".serverSideError").html("Internal Problem. Please try again.");
         			 }
         		 }
         	  });

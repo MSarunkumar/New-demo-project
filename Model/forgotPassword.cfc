@@ -36,26 +36,26 @@
 		         DELETE
 		         FROM   ms_password
 		         WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
-               </cfquery>
-			   <cfreturn TRUE />
-               <cfcatch type = "database">
+              </cfquery>
+			  <cfreturn TRUE />
+              <cfcatch type = "database">
 			     <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[deleteEmail]FP" />
 			     <cfreturn FALSE />
-			   </cfcatch>
+			  </cfcatch>
 		</cftry>
 	</cffunction >
 
-<!---------------- Method : It store the details of sended Link like[guid,time] ----->
-	<cffunction name = "submitData" access = "public" returntype="boolean" >
-		<cfargument name = "email" required = "true" type = "string" />
-		<cfargument name = "guid"  required = "true" type = "string" />
+<!---------------- Method : It store the details of sended Link like[Email,guid,time] ----->
+	<cffunction name = "submitData" access = "public" returntype = "boolean" >
+		<cfargument name = "email" required = "true" type = "string" hint = "It will catch email" />
+		<cfargument name = "guid"  required = "true" type = "string" hint = "It will catch guid"  />
     	<cfset var currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
         <cftry>
 			   <cfquery name = "insertData" >
 	             INSERT  INTO  ms_password (email,guids,times)
                          VALUES (
-                        <cfqueryparam value = "#ARGUMENTS.email#" cfsqltype = "cf_sql_varchar">,
-                        <cfqueryparam value = "#ARGUMENTS.guid#" cfsqltype = "cf_sql_char">,
+                        <cfqueryparam value = "#ARGUMENTS.email#"   cfsqltype = "cf_sql_varchar">,
+                        <cfqueryparam value = "#ARGUMENTS.guid#"    cfsqltype = "cf_sql_char">,
 						<cfqueryparam value = "#LOCAL.currentTime#" cfsqltype = "cf_sql_timestamp">
 						)
                </cfquery>
@@ -68,10 +68,10 @@
 	</cffunction>
 
 <!--- Method : It will return the send time of link from ms_password table ---------->
-	<cffunction name = "getTime" returntype = "String" access = "public" hint = "It will return time">
+	<cffunction name = "getTime" returntype = "string" access = "public" hint = "It will return time">
 		<cfargument name = "guid" hint = "It will catch guid" required = "true" type = "string" />
          <cftry>
-		        <cfquery name = "timeQuery"  >
+		        <cfquery name = "timeQuery">
 		          SELECT times
 		          FROM   ms_password
 		          WHERE  guids = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.guid#">
@@ -79,7 +79,7 @@
                 <cfreturn timeQuery.times>
                 <cfcatch type = "database">
 		          <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getTime]FP">
-                  <cfreturn "" />
+                  <cfreturn "FALSE" />
 				</cfcatch>
 		  </cftry>
 	</cffunction >
@@ -103,7 +103,7 @@
 
 
 <!---------      Method : It will do update the password    --------->
-	<cffunction name = "resetPassword" access = "public" returntype="boolean">
+	<cffunction name = "resetPassword" access = "public" returntype = "boolean">
 		<cfargument name = "id"   required = "true" type = "string" />
 	    <cfargument name = "pass" required = "true" type = "string" />
 	    <cfargument name = "salt" required = "true" type = "string" />
@@ -144,7 +144,7 @@
 	         <cfreturn returnEmail.email />
 	         <cfcatch type = "database">
 	           <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getEmail]FP">
-		       <cfreturn  "" />
+		       <cfreturn  "FALSE" />
 			 </cfcatch>
 		</cftry>
 	</cffunction>

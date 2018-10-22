@@ -2,45 +2,18 @@
 <html>
 	<head>
 		<title>Question View</title>
-		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-		<link href="../../assets/css/onlineExam.css" rel="stylesheet">
-		<script src="../../assets/js/viewQuestions.js" type="text/javascript" ></script>
-	</head>
 
-	<body>
-		<div id="main-body">
-	        <div class="upper-bar">
-		        <div id="left-elt"> ONLINE EXAM SYSTEM </div>
-            	<div id="right-elt">
-               		<a href="../../Controller/logoutAction.cfm" >
-					  <img src="../../assets/icon/logout1.png" align="right" width="50px" height="50px" title="LOGOUT">
-				    </a>
-            	</div>
-            </div>
-			<div class="grid-container">
-				<div class="side-bar">
-					<ul>
-					  <li id="user-img"><img src="../../assets/image/admin.png" height="50px" width="50px">
-						<br>ADMIN
-					  </li>
-					  <li><a href="adminDashboard.cfm">Dashboard</a></li>
-					  <li><a href="viewStudents.cfm">Students</a></li>
-					  <li><a href="viewMarks.cfm">Results</a></li>
-					  <li><a href="viewQuestions.cfm">Questions</a></li>
-					  <li><a href="addQuestion.cfm">Add Question</a></li>
-					  <li><a href="#contactUs">Contact us</a></li>
-					  <li><a href="#About Us">About us</a></li>
-					  <li><a href="#help">Help</a></li>
-					  <li id="last-elt">.</li>
-			        </ul>
-				</div>
+		<cfinclude template = "../../Includes/adminModule.cfm" />
 
 				<div class="data-container">
 					<center><h1>Question View </h1><center>
-	                <cfset LOCAL.questions = APPLICATION.viewDetailsObj.getQuestions() />
+					<div class="serverSideError"></div>
+	                <cfset VARIABLES.questions = APPLICATION.viewDetailsObj.getQuestions() />
+	                <cfif isDefined("VARIABLES.questions.errID") >
+					<cfif VARIABLES.questions.errID EQ -1>
+						<cflocation url = "adminDashboard.cfm?errID=1" addtoken = "no" />
+					</cfif>
+					</cfif>
 	                <table id="tableId" class="cell-border order-column  stripe hover">
 						<thead>
 							<tr>
@@ -51,10 +24,11 @@
 								<th>Option3</th>
 								<th>Option4</th>
 								<th>Answer</th>
+								<th>Status</th>
  							</tr>
 						 </thead>
 						 <tbody>
-							 <cfoutput query="LOCAL.questions">
+							 <cfoutput query="VARIABLES.questions">
 								 <tr>
 									 <td>#subject#</td>
 									 <td>#question#</td>
@@ -63,7 +37,13 @@
 									 <td>#option3#</td>
 									 <td>#option4#</td>
 									 <td>#answer#</td>
-
+									 <td >
+								    <cfif  #status# EQ 1>
+										 <input type="button" class="actionButton btn-green " id="blockButton" onClick="javascript:getQuestionStatus('#questionId#', this);" value="Active" />
+									<cfelse>
+										<input type="button" class="actionButton btn-red " id="unblockButton" onClick="javascript:getQuestionStatus('#questionId#', this);" value="Inactive" />
+									</cfif>
+									</td>
 								 </tr>
 							 </cfoutput>
 						 </tbody>
@@ -71,8 +51,7 @@
 				</div>
 			</div><br>
 	    </div>
-	    <footer>
-		 	@2018 onlineexam.com/All rights reserved
-        </footer>
+	    <cfinclude template="../../Includes/footer.cfm" />
+	<script src="../../assets/js/viewQuestions.js" type="text/javascript" ></script>
 	</body>
 </html>

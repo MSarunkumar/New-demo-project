@@ -76,7 +76,8 @@ li a:hover:not(.active) {
 	cursor:pointer;
 	padding:20px;
 }
-/*........... Data Tabel  ......*/
+
+/*........... Data Tabel  ........................................*/
 input[type="search"],select{
 	border-radius:5px;
 	border:2px solid #b4d9ed;
@@ -87,7 +88,7 @@ input[type="search"],select{
 	border:2px solid #417cf4;
 	padding:5px;
 	}
-/*..............................*/
+/*.................................................................*/
 .grid-container{
 	display: grid;
 	grid-template-columns:auto auto;
@@ -108,10 +109,6 @@ input[type="search"],select{
 }
 .btn-green{
 	background-color: #1bef09;
-}
-#unblockButton{
-	background-color:#42e033;
-	color:white;
 }
 
 #tableId{
@@ -193,10 +190,15 @@ footer{
 /*................................    Profile   ....................*/
 #profile-container{
 	font-size:20px;
-	margin-left:400px;
-	margin-top:100px;
+	margin-left:700px;
+	margin-top:30px;
+	background-color: #8af7f0;
 	
 
+}
+.tutorials{
+	font-size:20px;
+	margin-left:100px;
 }
 /*.................................  Instruction ...........*/
 #ins{
@@ -206,4 +208,18 @@ footer{
 	font-size:22px;
 	margin-left:100px;
 	font-weight: 450;
+}
+/*...............................viewMark.................*/
+#resultBtn{
+	margin-left: 450px;
+	background-color: #5989ea;
+	font-size:18px;
+	padding:10px;
+	border:none;
+	border-radius: 10px;
+	color:white;
+	cursor: pointer;
+}
+#resultBtn:hover{
+	background-color: #2150af;
 }

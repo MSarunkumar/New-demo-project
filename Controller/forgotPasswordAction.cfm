@@ -9,7 +9,7 @@
 		<cfif isDefined("FORM.send") >
 
 			<cfset VARIABLES.valid = TRUE />
-			<!---    Check email format    --->
+			<!---    Check email format    --------------------------->
 			<cfif NOT isValid("regex", trim(FORM.uid),"^([a-zA-Z0-9_\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$")>
 				<cfset VARIABLES.valid = FALSE />
 			</cfif>
@@ -29,12 +29,12 @@
 					 <cfif VARIABLES.emailExist EQ -1>
 						<cflocation url="../view/forgotPassword.cfm?errId=4">
 					 </cfif>
-<!---  It will delete record if already exist    -------------------------------------->
+<!------------------------  It will delete record if already exist    -------------------------------------->
 	                 <cfif VARIABLES.emailExist NEQ 0>
 				     	<cfset VARIABLES.delete = APPLICATION.FP.deleteRecord(FORM.uid) />
-<!---  It is for catch block [record deleted or not] --------------------------------->
+<!----------------------  It is for catch block [record deleted or not] --------------------------------->
 				     	<cfif VARIABLES.delete EQ FALSE>
-					       <cflocation url="../view/forgotPassword.cfm?errId=4">
+					       <cflocation url = "../view/forgotPassword.cfm?errId=4" addtoken = "no" />
 					    </cfif>
 				     </cfif>
 
@@ -42,7 +42,7 @@
 <!---  ---------------------------------------------------------------------------- --->
 			         <cfset VARIABLES.submitStatus = APPLICATION.FP.submitData(FORM.uid,VARIABLES.guid) />
                         <cfif VARIABLES.submitStatus EQ FALSE>
-					     <cflocation url="../view/forgotPassword.cfm?errId=4">
+					     <cflocation url = "../view/forgotPassword.cfm?errId=4" addtoken = "no" />
 					 </cfif>
 <!--- ---------------------------------------------------------------------------- ---->
                      <cfset VARIABLES.mail = APPLICATION.FP.sendEmail("arunyc2@gmail.com",FORM.uid,VARIABLES.guid) />

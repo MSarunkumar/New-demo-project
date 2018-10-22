@@ -17,23 +17,23 @@
 
 		<cftry>
 			    <cfset LOCAL.qd = LSParseNumber(qid)>
-		        <cfquery name = "fetchQuestion"  >
+		        <cfquery name = "fetchQuestion">
 
 		          SELECT    question,option1,option2,option3,option4,answer
 		          FROM      ms_question
-		          WHERE     questionId = <cfqueryparam cfsqltype = "cf_sql_integer"
-			                              value = "#LOCAL.qd#">
+		          WHERE     questionId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#LOCAL.qd#">
 		         </cfquery>
 		         <cfreturn fetchQuestion />
 		         <cfcatch type = "database">
-		         <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestions]takeTest" />
-                 </cfcatch>
+		           <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestions]takeTest" />
+                   <cfreturn queryNew("errID","Integer",{errId=-1}) />
+				 </cfcatch>
 		</cftry>
 
 	</cffunction>
 
 
-	<!---    Method   It will return questionId based on total no. of question   --->
+	<!---    Method   It will return questionId based on total no. of question and active state   --->
 
 	<cffunction name = "getQuestionId" returntype = "numeric" access = "remote" returnformat = "JSON">
 		<cfargument name = "qno" type = "numeric" required = "true" hint="It will catch no. of question">
@@ -59,32 +59,37 @@
 	<!--- Method:  it will submit the result of test --- --->
 
 	<cffunction name = "submitScore" access = "remote" returntype = "boolean"  returnformat = "JSON">
-        <cfargument name = "score"         required = "true"   type = "numeric"  />
-		<cfargument name = "totalQuestion" required = "true"   type = "numeric"  />
-		<cfargument name = "subject"       required = "true"  type = "string"    />
+        <cfargument name = "score"         required = "true"   type = "numeric"   />
+		<cfargument name = "totalQuestion" required = "true"   type = "numeric"   />
+		<cfargument name = "subject"       required = "true"   type = "string"    />
 		<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
-               <cfset StructDelete(SESSION,"startTest",true)>
+               <cfset StructDelete(SESSION,"startTest",true) />
 
-        <!--- <cftry> --->
+         <cftry>
 
-		       <cfset VARIABLES.isChangeActive = APPLICATION.takeTestObj.changeActivity() />
-		       <!--- <cfquery name = "submitResult" >
-		       INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject)
-               VALUES(
-                      <cfqueryparam value = "#SESSION.userEmail#"    cfsqltype = "cf_sql_varchar"    >,
+
+		        <cfquery name = "submitResult" >
+		        INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject)
+                       VALUES(
+                      <cfqueryparam value = "#SESSION.userEmail#"       cfsqltype = "cf_sql_varchar"    >,
 		              <cfqueryparam value = "#SESSION.startTime#"       cfsqltype = "cf_sql_timestamp"  >,
-		              <cfqueryparam value = "#LOCAL.currentTime#"      cfsqltype = "cf_sql_timestamp"  >,
+		              <cfqueryparam value = "#LOCAL.currentTime#"       cfsqltype = "cf_sql_timestamp"  >,
 		              <cfqueryparam value = "#ARGUMENTS.score#"         cfsqltype = "cf_sql_integer"    >,
 		              <cfqueryparam value = "#ARGUMENTS.totalQuestion#" cfsqltype = "cf_sql_integer"    >,
 		              <cfqueryparam value = "#ARGUMENTS.subject#"       cfsqltype = "cf_sql_varchar"    >
                       )
-		         </cfquery> --->
-               <cfreturn TRUE />
-		        <!--- <cfcatch type = "database">
+		         </cfquery>
+		        <cfset LOCAL.isChangeActive = APPLICATION.takeTestObj.changeActivity() />
+		        <cfif LOCAL.isChangeActive EQ FALSE >
+			       <cfreturn FALSE />
+		        </cfif>
+                <cfreturn TRUE />
+		        <cfcatch type = "database">
 		        <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[submitScore]takeTest" />
                 <cfreturn FALSE />
 				</cfcatch>
-		</cftry>--->
+
+		</cftry>
 
   </cffunction>
 
@@ -95,10 +100,10 @@
 		<cfargument name = "sub" required = "true" type = "string" hint = "It will catch subject name">
 		<cftry>
 			   <cfquery name = "totalNo">
-               SELECT COUNT(questionId) AS total
-	           FROM   ms_question
-	           WHERE  (subject = <cfqueryparam value="#ARGUMENTS.sub#" cfsqltype = "cf_sql_varchar">
-	                   AND status = 1)
+                   SELECT COUNT(questionId) AS total
+	               FROM   ms_question
+	               WHERE  (subject = <cfqueryparam value = "#ARGUMENTS.sub#" cfsqltype = "cf_sql_varchar">
+	                     AND status = 1)
 	           </cfquery>
 		       <cfreturn totalNo.total>
 		       <cfcatch type = "database"   >
@@ -107,7 +112,8 @@
 			   </cfcatch>
 		</cftry>
 	</cffunction>
-<!---  Method : It will update the value of active in ms_student table  --->
+
+<!---  Method : It will update the value of active in ms_student table  -------------------------->
  	<cffunction name = "changeActivity" access = "public" hint = "Update active column in table" returntype = "boolean">
 		<cftry>
 			<cfquery name = "updateActive">
@@ -116,7 +122,7 @@
 			                   WHEN active = 1 THEN 0
 			                   ELSE 1
 			                END
-			  WHERE email = <cfqueryparam cfsqltype = "cf_sql_varchar" maxlength="50"
+			  WHERE email = <cfqueryparam cfsqltype = "cf_sql_varchar" maxlength = "50"
 			                              value = "#SESSION.userEmail#">
 
 			</cfquery>

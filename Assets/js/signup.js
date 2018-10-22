@@ -23,14 +23,12 @@
               dobValid();
               cpasswordValid();
              
-             if (d_Valid && n_Valid && e_Valid && p_Valid && m_Valid && a_Valid ) {
-                  if (confirm("Your detail is going to submit.[OK/CANCEL]")) {
-                	 
-                	  return true;
-                	  }
-                  else
-                      return false;
-              } else return false;
+             if (d_Valid && n_Valid && e_Valid && p_Valid && m_Valid && a_Valid ) { 	 
+                   return true;
+               }
+                  
+             else 
+            	   return false;
           }
         
         //...................................................  Name Validation 
@@ -231,7 +229,23 @@
           				
           				var res = $.parseJSON(res);
           				if(res == 0) {
-          					submitDetail();
+          					$.confirm({
+          					    title: "Confirm ..!!",
+          						type:"green",
+          					    content: "Do you want to submit your detail ?",
+          					    theme: 'material',
+          					    boxWidth: "35%",
+          					    useBootstrap: false,
+          					    buttons: {
+          					        confirm: function () {
+          					        	submitDetail();
+          					        },
+          					        cancel: function () {
+          			                  
+          					        }
+          					    }
+          					});
+          					
           				}
           				else if(res == -1){
           					$("#serverError").html("Internal problem. Please try again");	
@@ -264,8 +278,7 @@
             	        success:function(res) {
             	        	
             	        	var res = $.parseJSON(res);
-            	        	if(res) {
-            	        		
+            	        	if(res) {           	        		
             	        		window.location.assign("../index.cfm?errId=5");	
             	        	}
             	        	else {

@@ -4,7 +4,12 @@
 
 $(document).ready(function () {
 
-	$("#tableId").dataTable();
+	var table = $("#tableId").DataTable({
+		   "aoColumnDefs": [{
+		        "bSortable": false,
+		        "aTargets": [-1]               /* Disable sort 1st one, start by the right side */
+		    }]
+		});
 	
 		
 	//........ It will block the student if it is unblock	
