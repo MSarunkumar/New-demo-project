@@ -32,7 +32,7 @@
 				                    "Registered Successfully... !! ",
 				                    "Your password has been changed",
 				                    "You are blocked by ADMIN",
-				                    "Invalid user"]>
+				                    "Invalid user","You are offline for taking the test"]>
 				<cfif isdefined("URL.errID")>
 					<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 2> <cfoutput>#errorArray[2]#</cfoutput> </cfif>
@@ -42,6 +42,7 @@
 					<cfif URL.errId EQ 6> <cfoutput>#errorArray[6]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 7> <cfoutput>#errorArray[7]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 8> <cfoutput>#errorArray[8]#</cfoutput> </cfif>
+					<cfif URL.errId EQ 9> <cfoutput>#errorArray[9]#</cfoutput> </cfif>
 
 				<cfelse>
 				</cfif>
@@ -59,16 +60,16 @@
                            <div class="labelContainer"> Email Id   </div>
 						   <input type="text" id="uid" name="uid" placeholder="Email Id" class="input_box" maxlength="50" onblur="emailValid()">
                            <div id="eid"> </div>
-                     </div>
+                    </div>
 
-				     <div class="loginPassword">
+				    <div class="loginPassword">
                            <div class="labelContainer">  Password </div>
 					       <input type="Password" id="password" name="password"  class="input_box" placeholder="Password"  maxlength="16" onblur="passwordValid()">
                            <div id="pid"> </div>
-				      </div>
+				    </div>
 
-				      <input name="login" type="Submit" class="btn" value="Login" >
-		              <a href="view/forgotPassword.cfm">Forgot Password ?</a>
+				    <input name="login" type="Submit" class="btn" value="Login" >
+		            <a href="view/forgotPassword.cfm">Forgot Password ?</a>
 
                  </form>
 	           </div>

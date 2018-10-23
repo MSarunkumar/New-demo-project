@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div id="signup-main-body">
-		<cfinclude template="../Includes/upperBar.cfm" />
+			<cfinclude template="../Includes/upperBar.cfm" />
 			<div id="serverError">  </div>
 
 

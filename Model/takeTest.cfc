@@ -63,13 +63,14 @@
 		<cfargument name = "totalQuestion" required = "true"   type = "numeric"   />
 		<cfargument name = "subject"       required = "true"   type = "string"    />
 		<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
-               <cfset StructDelete(SESSION,"startTest",true) />
+              <!---  <cfset StructDelete(SESSION,"startTest",true) /> --->
+
 
          <cftry>
 
 
 		        <cfquery name = "submitResult" >
-		        INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject)
+		         INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject)
                        VALUES(
                       <cfqueryparam value = "#SESSION.userEmail#"       cfsqltype = "cf_sql_varchar"    >,
 		              <cfqueryparam value = "#SESSION.startTime#"       cfsqltype = "cf_sql_timestamp"  >,
@@ -133,6 +134,13 @@
 			</cfcatch>
 		</cftry>
 
+	</cffunction>
+<!---  Method : It will return info about user is online or not    ------------------------------- --->
+	<cffunction name = "isOnline" access = "remote" returnformat = "JSON" returntype = "string">
+		 <cfif structKeyExists(SESSION,"student")>
+		   <cfreturn "online" />
+		 </cfif>
+		 <cfreturn "offline" />
 	</cffunction>
 
 

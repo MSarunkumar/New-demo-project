@@ -2,6 +2,7 @@
 <cfheader name="pragma" value="no-cache">
 <cfheader name="cache-control" value="no-cache, no-store, must-revalidate">
 
+
 <cfif  structKeyExists(SESSION, "admin")>
 	<cflocation  url="view/admin/adminDashboard.cfm" addtoken="no">
 </cfif>

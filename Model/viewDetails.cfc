@@ -125,4 +125,76 @@
 		</cftry>
 
 	</cffunction>
+<!--- Method : it will return question count array [active/total  ]--->
+	<cffunction name = "quesInfoChart" returntype = "Any" access = "public" >
+		<cfargument name = "quecInfo" required = "true" type = "string" />
+
+		<cfset LOCAL.Array = arrayNew(1) />
+
+
+         <cfif ARGUMENTS.quecInfo EQ "active">
+			<cfset LOCAL.activ = getActiveSubject() />
+
+		     <cfloop Query = "LOCAL.activ">
+                <cfset   arrayAppend(LOCAL.Array,"#activ.active#","true") />
+		    </cfloop>
+
+		    <cfreturn LOCAL.Array />
+		</cfif>
+
+		<cfif ARGUMENTS.quecInfo EQ "total">
+		    <cfset LOCAL.getTotal = getTotalSubject() />
+		     <cfloop Query = "LOCAL.getTotal">
+                <cfset   arrayAppend(LOCAL.Array,"#getTotal.total#","true") />
+		    </cfloop>
+		    <cfreturn LOCAL.Array />
+		</cfif>
+
+	</cffunction>
+
+	<!--- Method: It will return total question group by subject  --->
+	<cffunction name = "getTotalSubject" access = "private" hint = "Return total question group by subject"
+				returntype = "Query" output = "false" >
+
+		<cftry>
+			<cfquery name = "fetchTotal">
+				SELECT   COUNT(status) as total
+                FROM     ms_question
+                GROUP BY subject
+				ORDER BY subject
+			</cfquery>
+			<cfreturn  fetchTotal />
+			<cfcatch type = "database">
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getActivity]viewDetails" />
+			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
+			</cfcatch>
+		</cftry>
+
+	</cffunction>
+	<!--- Method :It will return total active question group by subject    ------- --->
+	<cffunction name = "getActiveSubject" access = "private" hint = "Return total active question group by subject"
+				returntype = "Query" output = "false" >
+
+		<cftry>
+			<cfquery name = "fetchActive">
+				SELECT COUNT(status) as active
+                FROM ms_question
+                WHERE status = 1
+                GROUP BY subject,status
+				ORDER BY subject
+			</cfquery>
+			<cfreturn  fetchActive />
+			<cfcatch type = "database">
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getActivity]viewDetails" />
+			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
+			</cfcatch>
+		</cftry>
+
+	</cffunction>
+
+
+
+
+
+
 </cfcomponent>

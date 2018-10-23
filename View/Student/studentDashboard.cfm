@@ -15,8 +15,9 @@
 		     <div class="serverSideError">
 			 <cfset errorArray=["Internal problem.Please try again",
 				                "Your test is already started.
-				                So please complete that before starting a new test [or login again].",
-				                "Your score successfully submited.Please check your result... [GOOD LUCK]"]>
+				                 So please complete that before starting a new test.[Or login again]",
+				                "Your score successfully submited.Please check your result.@.. [GOOD LUCK]"
+				                 ]>
 				<cfif isdefined("URL.errID")>
 					<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 2> <cfoutput>#errorArray[2]#</cfoutput> </cfif>

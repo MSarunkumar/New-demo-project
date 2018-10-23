@@ -79,7 +79,7 @@
                 <cfreturn timeQuery.times>
                 <cfcatch type = "database">
 		          <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getTime]FP">
-                  <cfreturn "FALSE" />
+                  <cfreturn "" />
 				</cfcatch>
 		  </cftry>
 	</cffunction >
@@ -97,7 +97,7 @@
                         Please Click on following link.
                 </h3>
                    <h2>Link</h2>
-                  <a href = "http://172.16.9.95:5000/Project/View/resetPassword.cfm?id=#ARGUMENTS.guid#">Please Click here</a>
+                  <a href = "http://172.16.9.95:5000/OnlineExam2/View/resetPassword.cfm?id=#ARGUMENTS.guid#">Please Click here</a>
             </cfmail>
 		</cffunction>
 
@@ -144,7 +144,7 @@
 	         <cfreturn returnEmail.email />
 	         <cfcatch type = "database">
 	           <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getEmail]FP">
-		       <cfreturn  "FALSE" />
+		       <cfreturn  "" />
 			 </cfcatch>
 		</cftry>
 	</cffunction>

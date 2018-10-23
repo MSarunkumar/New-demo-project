@@ -20,7 +20,7 @@
 				<cfset VARIABLES.valid = FALSE />
 			</cfif>
             <cfif VARIABLES.valid EQ TRUE >
-<!--- ------------------------------------------------------------------------------------ --->
+<!--- ------------------------------------------------------------------------------------------- --->
                 <cfset VARIABLES.salt = Hash(GenerateSecretKey("AES"), "SHA-512") />
 	            <cfset VARIABLES.hashedPassword = Hash(FORM.password & VARIABLES.salt, "SHA-512") />
 <!--- ------------------------------------------------------------------------------------------- --->

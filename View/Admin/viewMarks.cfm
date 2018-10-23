@@ -38,13 +38,12 @@
 		                      </tr>
 							 </cfoutput>
 						 </tbody>
-	            	</table>
+	            	</table><br>
 
-				</div><br>
-        	</div>
+				</div>
+        	</div><br>
         </div>
-		 <cfinclude template="../../Includes/footer.cfm" />
+		  <cfinclude template="../../Includes/footer.cfm" />
 		<script src="../../assets/js/viewMark.js"></script>
-
 	</body>
 </html>

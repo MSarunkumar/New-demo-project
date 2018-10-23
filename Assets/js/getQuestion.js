@@ -15,8 +15,9 @@ $(document).ready(function () {
 		var totalQ = 0;
 		var num = 0;
 		var subjectName = $("#subjectName").val();
+		
 		getTotalQuestion(subjectName);
-		});
+		
 	      
 	$("#nextBtn").click( function () {
 		
@@ -80,7 +81,7 @@ $(document).ready(function () {
 	                        }
 	    	          }
 	    //..............   It will submit the score  
-	         alert(score);
+	         
 	         $.ajax( {
 		         type: "Post"  ,
 		         url: "/OnlineExam2/Model/takeTest.cfc?method=submitScore" ,
@@ -165,7 +166,7 @@ $(document).ready(function () {
 		    }
 		});
 	  });
-	
+});
 	//.........This function calls when time will be over .
 	
 	$(function(){
@@ -195,6 +196,6 @@ $(document).ready(function () {
     return 'Press "Stay On Page" to go to BBC website!';
        
 }*/
-
+	
 
 
