@@ -11,7 +11,7 @@
              <div id="serverSideError">
 		     	<cfset errorArray=[ "Not registered Email Id",
 		     	                    "Please enter valid format",
-		                            "Link has been send to your email.Please open that within 10 hrs.",
+		                            "Link has been send to your email.Please open that within 1 hrs.",
 		                            "Internal problem. Please try again"]>
 				<cfif isdefined("URL.errID")>
 				    <cfif URL.errId EQ 1>

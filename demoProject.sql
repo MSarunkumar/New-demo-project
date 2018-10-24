@@ -32,7 +32,7 @@ where email='admin@admin.com';/* password = Admin@123 */
   );
  /*....................    NEW   ms_result         .............. */
 CREATE TABLE  ms_result (
-  studentEmail   varchar(50)   NOT NULL ,
+  studentEmail   varchar(50)   NOT NULL,
   startDate      datetime      NOT NULL,
   endDate        datetime      DEFAULT NULL, 
   score          int           DEFAULT 0,
@@ -47,3 +47,13 @@ CREATE TABLE  ms_result (
   times     datetime     NOT NULL
   
   );
+ /*....................... NEW ms_test ..............*/
+  CREATE TABLE   ms_test (
+  test          varchar(15)  NOT NULL PRIMARY KEY,
+  startTime     datetime     NOT NULL,
+  endTime       datetime     NOT NULL,
+  duration      int          NOT NULL
+  )
+  INSERT INTO ms_test (test, startTime, endTime, duration)
+VALUES ('Math','2018-10-01 06:59:00','2018-10-01 9:59:00',20);
+  /*...............................................*/

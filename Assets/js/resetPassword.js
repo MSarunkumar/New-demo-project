@@ -9,14 +9,9 @@
              
                    
               if (p_Valid &&  c_Valid )
-            	  {
-            	     if(confirm("Password is going to reset.[OK/CANCEL]"))
-            	    	    return true;
-            	    	 else
-            	    		 return false;
-            	  }
-            	 
-              else   return false;
+            	 return true;
+              else   
+            	 return false;
             }
                 
           

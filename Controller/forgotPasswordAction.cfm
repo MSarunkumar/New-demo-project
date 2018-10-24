@@ -30,16 +30,16 @@
 						<cflocation url="../view/forgotPassword.cfm?errId=4">
 					 </cfif>
 <!------------------------  It will delete record if already exist    -------------------------------------->
-	                 <cfif VARIABLES.emailExist NEQ 0>
+	                 <!--- <cfif VARIABLES.emailExist NEQ 0>
 				     	<cfset VARIABLES.delete = APPLICATION.FP.deleteRecord(FORM.uid) />
 <!----------------------  It is for catch block [record deleted or not] --------------------------------->
 				     	<cfif VARIABLES.delete EQ FALSE>
 					       <cflocation url = "../view/forgotPassword.cfm?errId=4" addtoken = "no" />
 					    </cfif>
-				     </cfif>
+				     </cfif> --->
 
 			         <cfset VARIABLES.guid = APPLICATION.FP.getGuid() />
-<!---  ---------------------------------------------------------------------------- --->
+ ----------------------------------------------------------------------------
 			         <cfset VARIABLES.submitStatus = APPLICATION.FP.submitData(FORM.uid,VARIABLES.guid) />
                         <cfif VARIABLES.submitStatus EQ FALSE>
 					     <cflocation url = "../view/forgotPassword.cfm?errId=4" addtoken = "no" />

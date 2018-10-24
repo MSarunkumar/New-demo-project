@@ -10,7 +10,8 @@
 <cfcomponent hint = "This is for sending a link and reset password" accessors = "true"
              output = "false" persistent = "false">
 
-<!--- Method : Check Email from ms_password return recordcount  --->
+<!--- Method : Check Email from ms_password return recordcount -------------- --->
+
 	<cffunction name = "emailExist" returntype = "numeric" access = "public" hint = "It will return no. of record">
 		<cfargument name = "email" hint = "It will catch the email" required = "true" type = "string" />
         <cftry>
@@ -27,7 +28,8 @@
 		</cftry>
 	</cffunction>
 
-<!--- Method : if user want to resend link than we have to delete previouse record,So it will Delete the stored record --->
+<!---
+Method : if user want to resend link than we have to delete previouse record,So it will Delete the stored record
 
 	<cffunction name = "deleteRecord" access = "public" hint = "It will delete the record" returntype = "boolean">
 		<cfargument name = "email" hint = "It will catch the email" required = "true" type = "string" />
@@ -44,8 +46,10 @@
 			  </cfcatch>
 		</cftry>
 	</cffunction >
+ --->
 
-<!---------------- Method : It store the details of sended Link like[Email,guid,time] ----->
+<!---------------- Method : It store the details of sended Link like[Email,guid,time] ----------->
+
 	<cffunction name = "submitData" access = "public" returntype = "boolean" >
 		<cfargument name = "email" required = "true" type = "string" hint = "It will catch email" />
 		<cfargument name = "guid"  required = "true" type = "string" hint = "It will catch guid"  />
@@ -67,7 +71,8 @@
 		</cftry>
 	</cffunction>
 
-<!--- Method : It will return the send time of link from ms_password table ---------->
+<!--- Method : It will return the send time of link from ms_password table --------------------->
+
 	<cffunction name = "getTime" returntype = "string" access = "public" hint = "It will return time">
 		<cfargument name = "guid" hint = "It will catch guid" required = "true" type = "string" />
          <cftry>
@@ -94,7 +99,7 @@
                <h3>
                 Hello,
                         This is for Reset password link from Online exam system.
-                        Please Click on following link.
+                        Please Click on following link within one hrs,after one hrs it will be expired.
                 </h3>
                    <h2>Link</h2>
                   <a href = "http://172.16.9.95:5000/OnlineExam2/View/resetPassword.cfm?id=#ARGUMENTS.guid#">Please Click here</a>
@@ -102,7 +107,8 @@
 		</cffunction>
 
 
-<!---------      Method : It will do update the password    --------->
+<!---------      Method : It will do update the password    ------------------------------------------>
+
 	<cffunction name = "resetPassword" access = "public" returntype = "boolean">
 		<cfargument name = "id"   required = "true" type = "string" />
 	    <cfargument name = "pass" required = "true" type = "string" />
@@ -124,6 +130,7 @@
 	</cffunction>
 
   <!------------------      Method : It will return GUID     ------------------------>
+
 	<cffunction name = "getGuid" access = "public" returntype = "string">
 		<cfquery name = "guid" >
 		 SELECT Newid() as id;

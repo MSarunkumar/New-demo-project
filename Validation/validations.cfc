@@ -65,7 +65,7 @@
 
 <!-------------------- Method: for question and answers validation  ---------------------->
 	<cffunction name = "questionValid" access = "remote" hint = "It will check question and option [empty/duplicates]"
-			                           returntype="boolean" returnformat="JSON">
+			                           returntype = "boolean" returnformat = "JSON">
 
 			<cfargument name = "sub"   required = "true"  type = "string"  />
 		    <cfargument name = "ques"  required = "true"  type = "string"  />
@@ -75,35 +75,83 @@
 		    <cfargument name = "op4"   required = "true"  type = "string"  />
 		    <cfargument name = "ans"   required = "true"  type = "string"  />
 
-				<cfset LOCAL.valid = TRUE />
-			 		<cfif (len( trim(ARGUMENTS.ques)) GTE 900) OR ((len( trim(ARGUMENTS.ques))) LT 1 ) >
-						<cfset LOCAL.valid = FALSE />
-			        </cfif>
-			        <cfif (len( trim(ARGUMENTS.op1)) GTE 250) OR ((len( trim(ARGUMENTS.op1))) LT 1 ) >
-				        <cfset LOCAL.valid = FALSE />
-			        </cfif>
-			        <cfif (len( trim(ARGUMENTS.op2)) GTE 250) OR ((len( trim(ARGUMENTS.op2))) LT 1 ) >
-				        <cfset LOCAL.valid = FALSE />
-			        </cfif>
-			        <cfif (len( trim(ARGUMENTS.op3)) GTE 250) OR ((len( trim(ARGUMENTS.op3))) LT 1 ) >
-				        <cfset LOCAL.valid = FALSE />
-			        </cfif>
-			        <cfif (len( trim(ARGUMENTS.op4)) GTE 250) OR ((len( trim(ARGUMENTS.op4))) LT 1 ) >
-				        <cfset LOCAL.valid = FALSE />
-			        </cfif>
-			        <cfif (trim(ARGUMENTS.op1) EQ trim(ARGUMENTS.op2)) OR (trim(ARGUMENTS.op1) EQ trim(ARGUMENTS.op3))OR
-			              (trim(ARGUMENTS.op1) EQ trim(ARGUMENTS.op4)) OR (trim(ARGUMENTS.op2) EQ trim(ARGUMENTS.op3))OR
-			              (trim(ARGUMENTS.op2) EQ trim(ARGUMENTS.op4)) OR (trim(ARGUMENTS.op3) EQ trim(ARGUMENTS.op4))>
-				        <cfset LOCAL.valid = FALSE />
-			       </cfif>
-			       <cfif (ARGUMENTS.sub EQ "0" ) OR (ARGUMENTS.ans EQ "0")>
-			            <cfset LOCAL.valid = FALSE />
-			       </cfif>
+			    <cfset LOCAL.valid = TRUE />
 
-				<cfreturn LOCAL.valid />
+		 		<cfif (len( trim(ARGUMENTS.ques)) GTE 900) OR ((len( trim(ARGUMENTS.ques))) LT 1 ) >
+					<cfset LOCAL.valid = FALSE />
+		        </cfif>
+		        <cfif (len( trim(ARGUMENTS.op1)) GTE 250) OR ((len( trim(ARGUMENTS.op1))) LT 1 ) >
+			        <cfset LOCAL.valid = FALSE />
+		        </cfif>
+		        <cfif (len( trim(ARGUMENTS.op2)) GTE 250) OR ((len( trim(ARGUMENTS.op2))) LT 1 ) >
+			        <cfset LOCAL.valid = FALSE />
+		        </cfif>
+		        <cfif (len( trim(ARGUMENTS.op3)) GTE 250) OR ((len( trim(ARGUMENTS.op3))) LT 1 ) >
+			        <cfset LOCAL.valid = FALSE />
+		        </cfif>
+		        <cfif (len( trim(ARGUMENTS.op4)) GTE 250) OR ((len( trim(ARGUMENTS.op4))) LT 1 ) >
+			        <cfset LOCAL.valid = FALSE />
+		        </cfif>
+		        <cfif (trim(ARGUMENTS.op1) EQ trim(ARGUMENTS.op2)) OR (trim(ARGUMENTS.op1) EQ trim(ARGUMENTS.op3))OR
+		              (trim(ARGUMENTS.op1) EQ trim(ARGUMENTS.op4)) OR (trim(ARGUMENTS.op2) EQ trim(ARGUMENTS.op3))OR
+		              (trim(ARGUMENTS.op2) EQ trim(ARGUMENTS.op4)) OR (trim(ARGUMENTS.op3) EQ trim(ARGUMENTS.op4))>
+			        <cfset LOCAL.valid = FALSE />
+		       </cfif>
+		       <cfif (ARGUMENTS.sub EQ "0" ) OR (ARGUMENTS.ans EQ "0")>
+		            <cfset LOCAL.valid = FALSE />
+		       </cfif>
+
+			<cfreturn LOCAL.valid />
+	</cffunction>
+
+<!--- Method : It will validate duration of test, start and end time of test which is made by admin ---------->
+
+	<cffunction name = "makeTestValid" access = "remote" returnformat = "JSON" returntype = "Array">
+		<cfargument name = "startTime"  required = "true"  type = "any"     />
+		<cfargument name = "endTime"    required = "true"  type = "any"     />
+		<cfargument name = "duration"   required = "true"  type = "numeric" />
+
+			<cfset LOCAL.sTime = getDateTimeFormat(ARGUMENTS.startTime) />
+			<cfset LOCAL.eTime = getDateTimeFormat(ARGUMENTS.endTime)   />
+            <cfset LOCAL.err = arrayNew(1) />
+            <cfset LOCAL.minutes = Datediff("n",LOCAL.sTime, LOCAL.eTime) />
+
+			<cfif LOCAL.minutes LT 60>
+				<cfset arrayAppend(LOCAL.err,1,"true") />
+			</cfif>
+	        <cfif (LOCAL.minutes-5) LT ARGUMENTS.duration >
+		        <cfset arrayAppend(LOCAL.err,2,"true") />
+	        </cfif>
+            <cfreturn  LOCAL.err/>
+	</cffunction>
+
+<!--- -- Method : it will return array of timestump ----------------------------->
+	<cffunction name = "getDateTimeFormat" access = "remote"  returntype = "string" returnformat = "JSON">
+		<cfargument name = "time" type = "string" />
+
+		<cfset LOCAL.sDateTime = ARGUMENTS.time.Split('T') />
+		<cfset LOCAL.sdayArray = LOCAL.sDateTime[1].split('-') />
+		<cfset LOCAL.sTimeArray = LOCAL.sDateTime[2].split(':') />
+		<cfset LOCAL.Time = arrayNew(1) />
+		<cfset arrayAppend(LOCAL.Time,LOCAL.sdayArray[1],"true") />
+		<cfset arrayAppend(LOCAL.Time,LOCAL.sdayArray[2],"true") />
+		<cfset arrayAppend(LOCAL.Time,LOCAL.sdayArray[3],"true") />
+		<cfset arrayAppend(LOCAL.Time,LOCAL.sTimeArray[1],"true") />
+		<cfset arrayAppend(LOCAL.Time,LOCAL.sTimeArray[2],"true") />
+
+		<cfset LOCAL.stime = CreateDateTime(LOCAL.Time[1],LOCAL.Time[2],LOCAL.Time[3],
+			                                    LOCAL.Time[4],LOCAL.Time[5],00) />
+        <cfset LOCAL.STime = #DateTimeFormat(LOCAL.stime, "MM d yyyy HH:nn:ss ")# />
+		<cfreturn  LOCAL.STime/>
+
+
+	</cffunction>
+<!--- Method : Make Date time formate  --->
+	<cffunction name = "getFormat" >
+
 	</cffunction>
 
 
 
-		<!-------      Method for login form validation   ------>
+
 </cfcomponent>

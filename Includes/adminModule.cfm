@@ -1,5 +1,5 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+		 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<link href="../../assets/css/onlineExam.css" rel="stylesheet">
@@ -27,9 +27,10 @@
 					  <li><a href="viewMarks.cfm">Results</a></li>
 					  <li><a href="viewQuestions.cfm">Questions</a></li>
 					  <li><a href="addQuestion.cfm">Add Question</a></li>
+					  <li><a href="makeTest.cfm">Make Test</a></li>
 					  <li><a href="#contactUs">Contact us</a></li>
 					  <li><a href="#About Us">About us</a></li>
 					  <li><a href="#help">Help</a></li>
-					  <li id="last-elt">.</li>
+
 			        </ul>
 				</div>

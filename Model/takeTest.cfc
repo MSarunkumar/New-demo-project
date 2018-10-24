@@ -143,5 +143,25 @@
 		 <cfreturn "offline" />
 	</cffunction>
 
+	<!---        Method : It will update test time  --------------------------->
+
+	<cffunction name ="updateTestTime" access = "remote" returntype = "boolean" returnformat = "JSON">
+		<cfargument name = "testName" required = "true" type = "string" />
+		<cfargument name = "startTime" required = "true" type = "date"  />
+		<cfargument name = "endTime"   required = "true" type = "date"  />
+		<cfargument name = "duration"  required = "true" type = "numeric" />
+
+		<cfquery name = "doUpdateTestTime">
+		  UPDATE ms_test
+		  SET    startTime = <cfqueryparam cfsqltype = "cf_sql_timestamp" value = "#ARGUMENTS.startTime#"> ,
+		         endTime = <cfqueryparam cfsqltype = "cf_sql_timestamp" value = "#ARGUMENTS.endTime#">,
+		         duration = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.duration#">
+		  WHERE  test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.testName#">
+		</cfquery>
+        <cfreturn TRUE />
+
+	</cffunction>
+
+
 
 </cfcomponent>

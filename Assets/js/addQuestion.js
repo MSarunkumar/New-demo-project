@@ -189,9 +189,8 @@
          					        }
          					    }
          					});
-        				   
-        				    
-        				   }
+        				   	    
+        				 }
         			   else {
         				    $(".serverSideError").html("Invalid details");
         			   }

@@ -1,17 +1,18 @@
 <cfif NOT isDefined("URL.id")>
-	<cflocation  url = "../error/error.cfm" addtoken = "no">
+	<cflocation  url = "../error/error.cfm" addtoken = "no" />
 <cfelse>
+
 	<cfset VARIABLES.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
 
 	<cfset VARIABLES.times = APPLICATION.FP.getTime(URL.id) />
 
 	<cfif  VARIABLES.times EQ "">
-		<cflocation  url = "badRequest.cfm" addtoken = "no" />
+		<cflocation  url = "../error/error.cfm" addtoken = "no" />
 	</cfif>
 
 	<cfset VARIABLES.sec = Datediff("s",VARIABLES.times,VARIABLES.currentTime) />
-	<cfset VARIABLES.hours = int(VARIABLES.sec/3600) />
-	<cfif  VARIABLES.hours GT 10>
+	<cfset VARIABLES.minutes = int(VARIABLES.sec/60) />
+	<cfif  VARIABLES.minutes GT 60>
 		<cfoutput>
 			<h1>
 				The Link has been Expired.
@@ -46,7 +47,7 @@
 						<div class="form-image">
 		            	<img src="../assets/image/loginUser.png" width="100px" height="80px">
 						</div>
-							<form action="../Controller/resetPasswordAction.cfm" onsubmit="return formValidation()" method="POST" id="form">
+							<form action="##" onsubmit="return formValidation()" method="POST" id="form">
 		                        <div class="password">
 									<div class="labelContainer"> New Password </div>
 									<input type="Password" id="password" name="password"  class="input_box" maxlength="16" placeholder="Enter password" onblur="rpassword()">
