@@ -52,7 +52,7 @@
 	<cffunction name = "getTimeInfo" access = "public" returntype = "query">
     	<cfargument name = "test" required = "true"  type ="string" />
 			<cfquery name = "fetchTime">
-				SELECT startTime,endTime,duration
+				SELECT startTime,duration
 				FROM   ms_test
 				WHERE  test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.TEST#">
 			</cfquery>
@@ -229,6 +229,16 @@
 			</cftry>
 
 	</cffunction>
+
+	<!--- Method : It will return scheduled test information  --->
+	<cffunction name = "getSchedule" access  = "public"  returntype = "query" hint = "fetch scheduled test info">
+		<cfquery name = "fetchSchedule">
+			SELECT test,startTime,duration
+			FROM ms_test
+		</cfquery>
+		<cfreturn fetchSchedule />
+	</cffunction>
+
 
 
 

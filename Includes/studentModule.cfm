@@ -21,11 +21,12 @@
 					  </li>
 					  <li><a href="studentDashboard.cfm">Dashboard</a></li>
 					  <li><a href="profile.cfm">Profile</a></li>
-					  <li><a href="viewMark.cfm">Result</a></li>
+					  <li><a href="scheduledTest.cfm">Scheduled Tests</a></li>
 					  <li><a href="instruction.cfm">Take Test</a></li>
+					  <li><a href="viewMark.cfm">Result</a></li>
 					  <li><a href="#About us">Abouts us</a></li>
 					  <li><a href="#Contact us">Contact us</a></li>
 					  <li><a href="#Help">Help</a></li>
-					  <li id="last-elt">.</li>
+
 		        	</ul>
 				</div>

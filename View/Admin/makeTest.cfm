@@ -1,7 +1,7 @@
 <cfinclude template="../../Includes/adminPageValidate.cfm" />
 <html>
 	<head>
-		<title>Admin Dashboard</title>
+		<title>Make Test</title>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 
@@ -10,10 +10,10 @@
 
 		             <div class="data-container">
 	                    <center><h1> Make Test</h1></center>
-                        <strong>NOTE</strong><br>
+                        <!--- <strong>NOTE</strong><br>
 						1. Activate time must be less than Deactivate time.<br>
 						2. Time interval of activate and deactivate time should not be less than 1 hrs.<br>
-						3. Time duration of test must be less than time interval(Activation test time).<br>
+						3. Time duration of test must be less than time interval(Activation test time).<br> --->
 	                    <div class="serverSideError">
 				              <cfset errorArray=["Test time and duration updated successfully"]>
 					          <cfif isdefined("URL.errID")>
@@ -45,12 +45,12 @@
 								<div id="stid" class="error"> </div>
 							</div>
 
-                            <div class="container">
+                            <!--- <div class="container">
 								<div class="label-container">Please set the deactivate time of test </div>
                                  <input type="datetime-local" id="endId" name="end" class="input-box"
 								        onblur="endValid()" />
 							    <div id= "etid" class="error"> </div>
-							</div>
+							</div> --->
 
 							<div class="container">
 								<div class="label-container">Please enter time duration of test in minutes </div>

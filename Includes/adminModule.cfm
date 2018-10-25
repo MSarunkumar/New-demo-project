@@ -28,7 +28,7 @@
 					  <li><a href="viewQuestions.cfm">Questions</a></li>
 					  <li><a href="addQuestion.cfm">Add Question</a></li>
 					  <li><a href="makeTest.cfm">Make Test</a></li>
-					  <li><a href="#contactUs">Contact us</a></li>
+					  <li><a href="scheduledTest.cfm">Scheduled Test</a></li>
 					  <li><a href="#About Us">About us</a></li>
 					  <li><a href="#help">Help</a></li>
 

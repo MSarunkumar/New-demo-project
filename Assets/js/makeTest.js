@@ -3,23 +3,24 @@
  */
           var t_Valid  = false;
           var st_Valid = false;
-          var et_Valid = false;
+          //var et_Valid = false;
           var d_Valid = false;
          
           var test; var startT;
-          var endT; var durationT;
+          //var endT; 
+          var durationT;
           var readyStartTime = "" ;
-          var readyEndTime = ""; 
+          //var readyEndTime = ""; 
           
           
           function formValidation() {
 
               testValid();
               startValid();
-              endValid();
+             // endValid();
               durValid();
               
-              if (t_Valid && st_Valid && et_Valid && d_Valid ) {      
+              if (t_Valid && st_Valid  && d_Valid ) {      
                    return true;
               }    
               else 
@@ -44,7 +45,7 @@
               
            }
     //.............................................................  end time  validation
-          function endValid() {
+         /* function endValid() {
         	  endT = document.getElementById("endId").value;
         	  endT = endT.trim();
         	  if(endT == "") {
@@ -53,7 +54,7 @@
               else {
             	  et_Valid = done("etid");
               }
-           }
+           }*/
    //..............................................................  Test duration validation
           function durValid() {
         	  durationT = document.getElementById("durId").value;
@@ -95,7 +96,7 @@
           
   //.................. server side validations .......................
           
-          $("#update").click(function() {
+     /*     $("#update").click(function() {
         	  
         	  if(formValidation()) {
         		  
@@ -130,10 +131,14 @@
 	        		    });        			      
         		}
           });
-          
+          */
           
      //.......................   getStartTimeFormat ................
-          function getStartTimeFormat(startT) {
+         
+          
+          $("#update").click(function() {
+        	  
+        	  if(formValidation()) {
         	  $.ajax({
   				type: "Post"  ,
   		        url: "/OnlineExam2/Validation/validations.cfc?method=getDateTimeFormat" ,
@@ -141,17 +146,33 @@
   		        	   time:startT  
   		       	     },
   		        datatype: "json",
-  		        success:function(res)
-  		             { 
-  		               readyStartTime = $.parseJSON(res);
-  		                getEndTimeFormat(endT);
-  		             }
-        	  });
+  		        success:function(res) { 
+  		                readyStartTime = $.parseJSON(res);
+  		              $.confirm({
+  					    title: "Confirm ..!!",
+  						type:"green",
+  					    content: "Do you want to update test time ?",
+  					    theme: "material",
+  					    boxWidth: "35%",
+  					    useBootstrap: false,
+  					    buttons: {
+  					        confirm: function () {
+  					        	updateTestTime();
+  					        },
+  					        cancel: function () {
+  			                  
+  					        }
+  					      }
+ 	       	          });
+  		               
+  		           }
+        	    });
+        	 }
         	  
-          }
+          });
           
      //................  getEndTimeFormat  ..............................
-          function getEndTimeFormat(endT) {
+       /*   function getEndTimeFormat(endT) {
         	  $.ajax({
   				type: "Post"  ,
   		        url: "/OnlineExam2/Validation/validations.cfc?method=getDateTimeFormat" ,
@@ -182,7 +203,7 @@
   		             }
         	  });
         	  
-          }
+          }*/
           
     //...........         it will update the test time and duration      ....................... 
     			        	   
@@ -194,7 +215,7 @@
         		 data:{
         			    testName: test,
 		        	    startTime:readyStartTime,
-		       	        endTime:readyEndTime,
+		       	       // endTime:readyEndTime,
 		       	        duration:durationT
         		      },
         		 datatype:"json",

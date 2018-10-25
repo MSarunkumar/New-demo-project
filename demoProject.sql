@@ -50,10 +50,9 @@ CREATE TABLE  ms_result (
  /*....................... NEW ms_test ..............*/
   CREATE TABLE   ms_test (
   test          varchar(15)  NOT NULL PRIMARY KEY,
-  startTime     datetime     NOT NULL,
-  endTime       datetime     NOT NULL,
+  startTime     datetime     NOT NULL, 
   duration      int          NOT NULL
   )
-  INSERT INTO ms_test (test, startTime, endTime, duration)
-VALUES ('Math','2018-10-01 06:59:00','2018-10-01 9:59:00',20);
+  INSERT INTO ms_test (test, startTime, duration)
+VALUES ('Math','2018-10-01 06:59:00',20);
   /*...............................................*/

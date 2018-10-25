@@ -69,7 +69,7 @@
          <cftry>
 
 
-		        <cfquery name = "submitResult" >
+		        <!--- <cfquery name = "submitResult" >
 		         INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject)
                        VALUES(
                       <cfqueryparam value = "#SESSION.userEmail#"       cfsqltype = "cf_sql_varchar"    >,
@@ -79,7 +79,7 @@
 		              <cfqueryparam value = "#ARGUMENTS.totalQuestion#" cfsqltype = "cf_sql_integer"    >,
 		              <cfqueryparam value = "#ARGUMENTS.subject#"       cfsqltype = "cf_sql_varchar"    >
                       )
-		         </cfquery>
+		         </cfquery> --->
 		        <cfset LOCAL.isChangeActive = APPLICATION.takeTestObj.changeActivity() />
 		        <cfif LOCAL.isChangeActive EQ FALSE >
 			       <cfreturn FALSE />
@@ -148,13 +148,13 @@
 	<cffunction name ="updateTestTime" access = "remote" returntype = "boolean" returnformat = "JSON">
 		<cfargument name = "testName" required = "true" type = "string" />
 		<cfargument name = "startTime" required = "true" type = "date"  />
-		<cfargument name = "endTime"   required = "true" type = "date"  />
+		<!--- <cfargument name = "endTime"   required = "true" type = "date"  /> --->
 		<cfargument name = "duration"  required = "true" type = "numeric" />
 
 		<cfquery name = "doUpdateTestTime">
 		  UPDATE ms_test
 		  SET    startTime = <cfqueryparam cfsqltype = "cf_sql_timestamp" value = "#ARGUMENTS.startTime#"> ,
-		         endTime = <cfqueryparam cfsqltype = "cf_sql_timestamp" value = "#ARGUMENTS.endTime#">,
+		         <!--- endTime = <cfqueryparam cfsqltype = "cf_sql_timestamp" value = "#ARGUMENTS.endTime#">, --->
 		         duration = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.duration#">
 		  WHERE  test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.testName#">
 		</cfquery>

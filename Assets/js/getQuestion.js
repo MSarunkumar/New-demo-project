@@ -22,27 +22,26 @@ $(document).ready(function () {
 	$("#nextBtn").click( function () {
 		
 		if ( $("#answer").val() != undefined ) {
-	    	if (totalQuestion != 1){
+	    	if (totalQuestion != 1) {
                if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
-                 score = score+1;
+                  score = score+1;
                 }
-	    	  }
-		    }
-            //....   it is for removing Next button and change the color of submit 
-            //         button  at last question ...............................
+	    	}
+		}
+            //....   it is for disabled Next button and change the color of submit 
+            //       button  at last question     ...................
 		if (totalQuestion == 1) {
 		     $("#nextBtn").attr("disabled","disabled");
 		     $("#submitBtn").css("background-color", "#e80b28");
-		   }
-			
+		}			
 		else {
-			totalQuestion = totalQuestion-1;
-		    getQuestionId(totalQuestion);
-		 }
+			 totalQuestion = totalQuestion-1;
+		     getQuestionId(totalQuestion);
+		}
 	});
 	
 	//..............  It is fetching the questions with options and answer based 
-	//                  on question Id.   ..................
+	//                on question Id.   ..................
 	
 	function nextQuestion(questionId) {
 		 num=num+1;           // This variable  is showing question number. 
@@ -55,19 +54,16 @@ $(document).ready(function () {
 	         success:function(res)
 	              {
 	        	    var res = $.parseJSON(res);
-	        	    
 	                if(res.DATA[0][0] == -1) {
 	                	window.location.assign("studentDashboard.cfm?errId=1");	
-	            	}
-	                
-	              else {
-	            	  
-	                $("#ques").html("<br>Question &nbsp"+num+":&nbspof "+totalQ+" ::&nbsp" +res.DATA[0][0]);
+	            	}	                
+	                else {	            	  
+	                $("#ques").html("Question &nbsp"+num+":&nbspof "+totalQ+" ::&nbsp" +res.DATA[0][0]);
 	                   for (i = 1; i < 5; i++) {
 	                $('<br><br><input type="radio" name="radioBtn" value = '+i+'>&nbsp' + res.DATA[0][i] +'</input>').appendTo('#ques');
 	                	}
 	                $("#answer").val(res.DATA[0][5]);
-	              }
+	                }
 	            }
 	        });
 	     }
@@ -78,8 +74,8 @@ $(document).ready(function () {
 	         if ($("#answer").val() != undefined ) {
 	        	if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
 	                        score = score+1;
-	                        }
-	    	          }
+	             }
+	    	 }
 	    //..............   It will submit the score  
 	         
 	         $.ajax( {
@@ -91,8 +87,7 @@ $(document).ready(function () {
 		        	    },
 		         
 		         datatype: "json",
-		         success:function(res)
-		              { 
+		         success:function(res) { 
                         var submitRes = $.parseJSON(res);
                         if (submitRes) {
 			        	    window.location.assign("studentDashboard.cfm?errId=3");
@@ -101,8 +96,8 @@ $(document).ready(function () {
 		        	        window.location.assign("studentDashboard.cfm?errId=1");
 		        	    }
 		        	  }
-		           });
-                }
+	         });
+	}
 	
 	function getQuestionId(tq) {
 		//....  It will fetch question Id based on subject and total number of question 
@@ -124,7 +119,8 @@ $(document).ready(function () {
 		        	     nextQuestion(questionId);
 		              }
 		          });
-		    }	
+		    }
+	
 	  function getTotalQuestion(subjectName) {
 		 //....... It will fetch total number of question based on subject
 		  
@@ -170,14 +166,14 @@ $(document).ready(function () {
 	//.........This function calls when time will be over .
 	
 	$(function(){
-		  $(".timer").startTimer({
+		  $(".timer").startTimer( {
 		    onComplete: function(element) {
 		       submitScore();
 		    }
 		  }).click(function() { 
 			  //.......... it will fire, when some one click on timer
-		  });
-		});
+		     });
+	});
 
 
 

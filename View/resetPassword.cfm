@@ -26,6 +26,9 @@
 			<head>
 				<title>Reset Password</title>
 				<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+
 				<link href="../assets/css/index.css"  rel="stylesheet">
 			</head>
 			<body>
@@ -47,7 +50,7 @@
 						<div class="form-image">
 		            	<img src="../assets/image/loginUser.png" width="100px" height="80px">
 						</div>
-							<form action="##" onsubmit="return formValidation()" method="POST" id="form">
+							<form action="../Controller/resetPasswordAction.cfm" onsubmit="return formValidation()" method="POST" id="form">
 		                        <div class="password">
 									<div class="labelContainer"> New Password </div>
 									<input type="Password" id="password" name="password"  class="input_box" maxlength="16" placeholder="Enter password" onblur="rpassword()">
@@ -64,7 +67,9 @@
 		            </div>
 		     	</div>
 			<cfinclude template="../Includes/footer.cfm" />
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 			<script type="text/javascript" src="../assets/js/resetPassword.js"> </script>
+
 			</body>
 		</html>
 	</cfif>

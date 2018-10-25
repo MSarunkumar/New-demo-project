@@ -6,37 +6,30 @@
 
               rpassword();
               rcpassword();
-             
-                   
+           
               if (p_Valid &&  c_Valid )
             	 return true;
               else   
             	 return false;
             }
-                
-          
-          function rpassword()
-          {
-        	  var  password = document.getElementById('password').value;
-              p_Valid = passwordValid('pid',password);  
-              
+ 
+          function rpassword() {
+        	  var  password = document.getElementById("password").value;
+              p_Valid = passwordValid("pid",password);      
           }
           
           
           
-          function rcpassword(){
-        	 var  cpassword = document.getElementById('cpassword').value;
-                    c_Valid = passwordValid('cpid',cpassword);  
-                if(((document.getElementById('password').value)
-                  		  .localeCompare(document.getElementById('cpassword').value)))
-                    	c_Valid=ShowError('cpid','Does not match confirm-password') ;
-                    else c_Valid=done('cpid');
+          function rcpassword() {
+        	 var  cpassword = document.getElementById("cpassword").value;
+                    c_Valid = passwordValid("cpid",cpassword);  
+                if(((document.getElementById("password").value)
+                  		  .localeCompare(document.getElementById("cpassword").value)))
+                    	c_Valid = ShowError("cpid","Does not match confirm-password") ;
+                    else c_Valid = done("cpid");
                     	
           }
-          
-          
-          
-          
+    
           //................................................   password Validation 
         function passwordValid(ids,password) {
               
@@ -58,19 +51,17 @@
                   return true;
                   }
               }
-           
-          
-         
-          //.....................................   It will remove error
-          function done(ids) {
-              document.getElementById(ids).innerHTML = '';
-              return true;
-          }
-          //......................................  It will display error message on specified position(based on ids)
-          function ShowError(ids, msg) {
-              document.getElementById(ids)
-                  .innerHTML = msg;
-              return false;
-          }
-         
-         
+
+      //.....................................   It will remove error
+      function done(ids) {
+          document.getElementById(ids).innerHTML = "";
+          return true;
+      }
+      //......................................  It will display error message on specified position(based on ids)
+      function ShowError(ids, msg) {
+          document.getElementById(ids)
+              .innerHTML = msg;
+          return false;
+      }
+     
+     

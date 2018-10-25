@@ -106,24 +106,24 @@
 
 <!--- Method : It will validate duration of test, start and end time of test which is made by admin ---------->
 
-	<cffunction name = "makeTestValid" access = "remote" returnformat = "JSON" returntype = "Array">
+	<!--- <cffunction name = "makeTestValid" access = "remote" returnformat = "JSON" returntype = "Array">
 		<cfargument name = "startTime"  required = "true"  type = "any"     />
 		<cfargument name = "endTime"    required = "true"  type = "any"     />
 		<cfargument name = "duration"   required = "true"  type = "numeric" />
 
 			<cfset LOCAL.sTime = getDateTimeFormat(ARGUMENTS.startTime) />
-			<cfset LOCAL.eTime = getDateTimeFormat(ARGUMENTS.endTime)   />
+			 <cfset LOCAL.eTime = getDateTimeFormat(ARGUMENTS.endTime)   />
             <cfset LOCAL.err = arrayNew(1) />
             <cfset LOCAL.minutes = Datediff("n",LOCAL.sTime, LOCAL.eTime) />
 
 			<cfif LOCAL.minutes LT 60>
 				<cfset arrayAppend(LOCAL.err,1,"true") />
 			</cfif>
-	        <cfif (LOCAL.minutes-5) LT ARGUMENTS.duration >
+	        <cfif (LOCAL.minutes) LT ARGUMENTS.duration >
 		        <cfset arrayAppend(LOCAL.err,2,"true") />
 	        </cfif>
             <cfreturn  LOCAL.err/>
-	</cffunction>
+	</cffunction> --->
 
 <!--- -- Method : it will return array of timestump ----------------------------->
 	<cffunction name = "getDateTimeFormat" access = "remote"  returntype = "string" returnformat = "JSON">

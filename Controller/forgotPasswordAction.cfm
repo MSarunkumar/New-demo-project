@@ -22,7 +22,7 @@
 					<cflocation url = "../view/forgotPassword.cfm?errId=1" addToken = "no" />
 				<cfelse>
                      <cfset SESSION.passwordId = FORM.uid />
-                     <cfset APPLICATION.FP = CreateObject("component", "OnlineExam2.Model.forgotPassword") />
+
 
 			  		 <cfset VARIABLES.emailExist = APPLICATION.FP.emailExist(FORM.uid) />
 

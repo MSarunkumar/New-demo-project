@@ -17,16 +17,17 @@
 				                "Your test is already started.
 				                 So please complete that before starting a new test.[Or login again]",
 				                "Your score successfully submited.Please check your result.@.. [GOOD LUCK]",
-				                "You have already attempted this test.You can attempt one test one time",
-				                "Test will be active at (....)","Test is offline.You late "
+				                "You have already attempted this test.You can attempt one test only for a subject",
+				                "Please wait,Test will be active at","Test has been started.You late more than 10 minute"
 				                 ]>
 				<cfif isdefined("URL.errID")>
 					<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 2> <cfoutput>#errorArray[2]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 3> <cfoutput>#errorArray[3]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 4> <cfoutput>#errorArray[4]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 5> <cfoutput>#errorArray[5]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 6> <cfoutput>#errorArray[6]#</cfoutput> </cfif>
+					<cfif URL.errId EQ 5>
+						<cfoutput>#errorArray[5]#&nbsp::&nbsp#SESSION.isStarted.startTime# </cfoutput> </cfif>
+					<cfif URL.errId EQ 6><cfoutput>#errorArray[6]#</cfoutput> </cfif>
 				<cfelse>
 				</cfif>
 			 </div>

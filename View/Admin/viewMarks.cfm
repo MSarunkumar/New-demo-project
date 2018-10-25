@@ -9,10 +9,12 @@
 					<center><h1>Result of all students </h1></center>
 
 					<cfset VARIABLES.marks = APPLICATION.viewDetailsObj.getMarks() />
+
 					<cfif isDefined("VARIABLES.marks.errID") >
 					<cfif VARIABLES.marks.errID EQ -1>
 						<cflocation url = "adminDashboard.cfm?errID=1" addtoken = "no">
 					</cfif>
+
 					</cfif>
 
 	                <table id="tableId" class="cell-border order-column  stripe hover">

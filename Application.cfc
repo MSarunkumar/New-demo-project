@@ -1,7 +1,7 @@
 <cfcomponent hint = "This is Application cfc for Online Exam System Project" accessors = "true"
 	output = "false" persistent = "false">
 
-	<cfset THIS.name = "onlineExam33" />
+	<cfset THIS.name = "onlineExam2" />
 	<cfset THIS.applicationTimeout = CreateTimeSpan(1,0 ,0, 0) />
 	<cfset THIS.sessionManagement = TRUE />
 	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 2,0, 0) />
@@ -11,13 +11,16 @@
 
 	<cffunction name = "OnApplicationStart" access = "public" returntype = "boolean" output = "false"
 		        hint = "Fires when the application start">
-		<cffile action = "write" file = "D:/Errors/project.txt" output = "Application has been started,all errors in project " />
+          <cffile action = "write" file = "D:/Errors/project.txt"
+		          output = "Application has been started,all errors in demo project ">
+
           <cfset APPLICATION.signupObj = CreateObject("component", "Model.signup")               />
 		  <cfset APPLICATION.loginObj = CreateObject("component", "Model.login")                 />
 		  <cfset APPLICATION.logoutObj = CreateObject("component", "Model.logout")               />
           <cfset APPLICATION.takeTestObj = CreateObject("component", "Model.takeTest")           />
           <cfset APPLICATION.viewDetailsObj = CreateObject("component", "Model.viewDetails")     />
 		  <cfset APPLICATION.blockUnblockObj = CreateObject("component", "Model.blockUnblock")   />
+		  <cfset APPLICATION.FP  = CreateObject("component", "Model.forgotPassword") />
 
 		<cfreturn TRUE />
 	</cffunction>
@@ -40,37 +43,17 @@
 		<cfreturn TRUE />
 	</cffunction>
 
-	<!---   Method [onMissingTemplate]   --->
+	<!---   Method [onMissingTemplate]   ---------------------->
 
   	<cffunction name = "onMissingTemplate" access = "public" >
-	<cfargument  name = "targetPage" type = "string" required = "true" />
-
-		<cftry>
-		        <cflog type = "error" text = "Missing template: #Arguments.targetPage#">
-
-			    <cfoutput><center>
-				<h1>
-					#Arguments.targetPage# could not be found.
-				</h1>
-			    <h3>
-				You requested a non-existent ColdFusion page.
-				<br>
-				Please check the URL/Go Back
-			    </h3></center>
-		        </cfoutput>
-		        <cfreturn TRUE />
-		     <cfcatch>
-			    <cfreturn FALSE />
-		     </cfcatch>
-		</cftry>
+		<cfargument  name = "targetPage" type = "string" required = "true" />
+		<cffile action = "append" file = "D:/Errors/project.txt"
+		        output = "onMissingTemplate Error #Arguments.targetPage# not found" >
+         <cfinclude template="error/error.cfm" />
 	</cffunction>
 
-
-
-
-
 <!--- Method [onRequest] --->
-	 <cffunction name = "OnRequest" access = "public" returntype = "void" output = "true"
+	<cffunction name = "OnRequest" access = "public" returntype = "void" output = "true"
 		                            hint = "Fires after pre page processing is complete.">
 		 <cfargument name = "TargetPage" type = "string" required = "TRUE"/>
          <cfinclude template = "#ARGUMENTS.TargetPage#" />
@@ -109,21 +92,17 @@
 		<cfreturn />
 	</cffunction>
 
-	<!--- Method [OnError] --->
+	<!--- Method [OnError] ---------------------------------------------------------->
 	 <cffunction name = "OnError" access = "public" returntype = "void" output = "true"
 		                          hint = "Fires when an exception occures that is not caught by a try/catch.">
 		<cfargument name = "Exception" type = "any" required = "true" />
 		<cfargument type = "String" name = "EventName" required = "true"/>
 		    <!------------------- Log all errors. --------------------->
-
-         <cflog file = "#This.Name#" type = "error"
-            text = "Event Name: #ARGUMENTS.Eventname#"  />
-
-		 <cflog file = "#This.Name#" type = "error"
-            text = "Message: #ARGUMENTS.Exception.message#" />
-
-
-			<!--- Display an error message if there is a page context. --->
+         <cfoutput><cffile action = "append" file = "D:/Errors/project.txt"
+		  output = "onError  Event Name: #ARGUMENTS.Eventname# Message:
+		           #ARGUMENTS.Exception.message#--><cfdump var = #ARGUMENTS.Exception#>" ></cfoutput>
+		  <cfinclude template="error/error.cfm" />
+       			<!--- Display an error message if there is a page context. --->
             <cfif NOT (ARGUMENTS.EventName IS "onSessionEnd") OR
                       (ARGUMENTS.EventName IS "onApplicationEnd")>
                        <cfoutput>
