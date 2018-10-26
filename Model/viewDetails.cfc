@@ -230,7 +230,7 @@
 
 	</cffunction>
 
-	<!--- Method : It will return scheduled test information  --->
+	<!--- Method : It will return scheduled test information  ----------------------->
 	<cffunction name = "getSchedule" access  = "public"  returntype = "query" hint = "fetch scheduled test info">
 		<cfquery name = "fetchSchedule">
 			SELECT test,startTime,duration
@@ -240,9 +240,17 @@
 	</cffunction>
 
 
+<!--- Method : it will return question information based on questionId ---------  --->
+	<cffunction name = "getQuestionInfo"  access = "public"  returntype = "query" hint = "return question info">
+		<cfargument name = "id" required = "true" type = "numeric" hint = "It will catch question ID" />
 
+		<cfquery name = "fetchQuestionInfo">
+			SELECT  question,option1,option2,option3,option4,answer,subject
+			FROM    ms_question
+			WHERE questionId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.id#" >
+		</cfquery>
 
-
-
+		<cfreturn fetchQuestionInfo />
+	</cffunction>
 
 </cfcomponent>

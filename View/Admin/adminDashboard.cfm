@@ -18,27 +18,28 @@
 			             <cfset VARIABLES.activeQues = APPLICATION.viewDetailsObj.quesInfoChart("active") />
 			             <cfset VARIABLES.totalQues = APPLICATION.viewDetailsObj.quesInfoChart("total") />
 
-			             <cfchart format="jpg" scalefrom="0"   scaleto="10" show3d="Yes" chartwidth="850"
-			                      chartheight="350" dataBackgroundColor="##b5deff">
+			             <cfchart format = "jpg" scalefrom = "0"   scaleto = "14" show3d = "Yes" chartwidth = "850"
+			                      chartheight = "350" dataBackgroundColor = "##b5deff">
 
 
-							<cfchartseries type="cone"  serieslabel="Total Question " seriescolor="##2ef739">
-								<cfchartdata item="Chemistry"     value="#VARIABLES.totalQues[1]#">
-								<cfchartdata item="Computer"      value="#VARIABLES.totalQues[2]#">
-								<cfchartdata item="English"       value="#VARIABLES.totalQues[3]#">
-								<cfchartdata item="Math"          value="#VARIABLES.totalQues[4]#">
-								<cfchartdata item="Physics"       value="#VARIABLES.totalQues[5]#">
-								<cfchartdata item="Reasoning"     value="#VARIABLES.totalQues[6]#">
-								<cfchartdata item="Science"       value="#VARIABLES.totalQues[7]#">
+
+							<cfchartseries type = "cone"  serieslabel = "Total Question " seriescolor = "##2ef739">
+								<cfchartdata item = "Chemistry"     value = "#VARIABLES.totalQues[1]#" >
+								<cfchartdata item = "Computer"      value = "#VARIABLES.totalQues[2]#">
+								<cfchartdata item = "English"       value = "#VARIABLES.totalQues[3]#">
+								<cfchartdata item = "Math"          value = "#VARIABLES.totalQues[4]#">
+								<cfchartdata item = "Physics"       value = "#VARIABLES.totalQues[5]#">
+								<cfchartdata item = "Reasoning"     value = "#VARIABLES.totalQues[6]#">
+								<cfchartdata item = "Science"       value = "#VARIABLES.totalQues[7]#">
 							</cfchartseries>
-							<cfchartseries type="cone"  serieslabel="Active Question" seriescolor="##ff2369">
-								<cfchartdata item="Chemistry"     value="#VARIABLES.activeQues[1]#">
-								<cfchartdata item="Computer"      value="#VARIABLES.activeQues[2]#">
-								<cfchartdata item="English"       value="#VARIABLES.activeQues[3]#">
-								<cfchartdata item="Math"          value="#VARIABLES.activeQues[4]#">
-								<cfchartdata item="Physics"       value="#VARIABLES.activeQues[5]#">
-								<cfchartdata item="Reasoning"     value="#VARIABLES.activeQues[6]#">
-								<cfchartdata item="Science"       value="#VARIABLES.activeQues[7]#">
+							<cfchartseries type = "cone"  serieslabel = "Active Question" seriescolor = "##ff2369">
+								<cfchartdata item = "Chemistry"     value = "#VARIABLES.activeQues[1]#">
+								<cfchartdata item = "Computer"      value = "#VARIABLES.activeQues[2]#">
+								<cfchartdata item = "English"       value = "#VARIABLES.activeQues[3]#">
+								<cfchartdata item = "Math"          value = "#VARIABLES.activeQues[4]#">
+								<cfchartdata item = "Physics"       value = "#VARIABLES.activeQues[5]#">
+								<cfchartdata item = "Reasoning"     value = "#VARIABLES.activeQues[6]#">
+								<cfchartdata item = "Science"       value = "#VARIABLES.activeQues[7]#">
 							</cfchartseries>
 
 						</cfchart>

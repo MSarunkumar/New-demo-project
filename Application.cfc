@@ -1,7 +1,7 @@
 <cfcomponent hint = "This is Application cfc for Online Exam System Project" accessors = "true"
 	output = "false" persistent = "false">
 
-	<cfset THIS.name = "onlineExam2" />
+	<cfset THIS.name = "onlineExam21" />
 	<cfset THIS.applicationTimeout = CreateTimeSpan(1,0 ,0, 0) />
 	<cfset THIS.sessionManagement = TRUE />
 	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 2,0, 0) />
@@ -49,7 +49,7 @@
 		<cfargument  name = "targetPage" type = "string" required = "true" />
 		<cffile action = "append" file = "D:/Errors/project.txt"
 		        output = "onMissingTemplate Error #Arguments.targetPage# not found" >
-         <cfinclude template="error/error.cfm" />
+          <cfinclude template="error/error.cfm" />
 	</cffunction>
 
 <!--- Method [onRequest] --->
@@ -83,12 +83,12 @@
 
 <!--- Method [OnApplicationEnd] --->
 	<cffunction name = "OnApplicationEnd" access = "public" returntype = "void" output = "true"
-		hint = "Fires when the application is terminated.">
-		<cfargument name = "ApplicationScope" type = "struct" required = "FALSE"
-			default = "#StructNew()#" />
+		                                  hint = "Fires when the application is terminated.">
+		<cfargument name = "ApplicationScope" type = "struct" required = "FALSE" default = "#StructNew()#" />
 
-	    <cflog file = "#This.Name#" type = "Information"
-			text = "Application #Arguments.ApplicationScope.applicationname# Ended" >
+        <cffile action = "append" file = "D:/Errors/project.txt"
+		        output = "Application #Arguments.ApplicationScope.applicationname# Ended" />
+
 		<cfreturn />
 	</cffunction>
 
@@ -97,13 +97,15 @@
 		                          hint = "Fires when an exception occures that is not caught by a try/catch.">
 		<cfargument name = "Exception" type = "any" required = "true" />
 		<cfargument type = "String" name = "EventName" required = "true"/>
-		    <!------------------- Log all errors. --------------------->
-         <cfoutput><cffile action = "append" file = "D:/Errors/project.txt"
-		  output = "onError  Event Name: #ARGUMENTS.Eventname# Message:
-		           #ARGUMENTS.Exception.message#--><cfdump var = #ARGUMENTS.Exception#>" ></cfoutput>
-		  <cfinclude template="error/error.cfm" />
-       			<!--- Display an error message if there is a page context. --->
-            <cfif NOT (ARGUMENTS.EventName IS "onSessionEnd") OR
+		    <!------------------- Write all error --------------------->
+        <cfoutput>
+		<cffile action = "append" file = "D:/Errors/project.txt"output = "onError  Event Name: #ARGUMENTS.Eventname# Message:
+		           #ARGUMENTS.Exception.message#--> #ARGUMENTS.Exception#" ></cfoutput>
+	    <cflocation url="http://www.localhost:5000/OnlineExam2/error/onError.cfm" addtoken="no" />
+
+
+		<!--- Display an error message if there is a page context. --->
+            <!--- <cfif NOT (ARGUMENTS.EventName IS "onSessionEnd") OR
                       (ARGUMENTS.EventName IS "onApplicationEnd")>
                        <cfoutput>
                               <h2>An unexpected error occurred.</h2>
@@ -112,7 +114,7 @@
                               <p>Error details:<br>
                               <cfdump var = #ARGUMENTS.Exception#></p>
                          </cfoutput>
-               </cfif>
+               </cfif> --->
 
 		<cfreturn />
 	</cffunction>

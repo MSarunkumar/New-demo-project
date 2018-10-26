@@ -62,14 +62,14 @@
         <cfargument name = "score"         required = "true"   type = "numeric"   />
 		<cfargument name = "totalQuestion" required = "true"   type = "numeric"   />
 		<cfargument name = "subject"       required = "true"   type = "string"    />
-		<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
+		<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss")# />
               <!---  <cfset StructDelete(SESSION,"startTest",true) /> --->
 
 
          <cftry>
 
 
-		        <!--- <cfquery name = "submitResult" >
+		     <cfquery name = "submitResult" >
 		         INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject)
                        VALUES(
                       <cfqueryparam value = "#SESSION.userEmail#"       cfsqltype = "cf_sql_varchar"    >,
@@ -79,7 +79,7 @@
 		              <cfqueryparam value = "#ARGUMENTS.totalQuestion#" cfsqltype = "cf_sql_integer"    >,
 		              <cfqueryparam value = "#ARGUMENTS.subject#"       cfsqltype = "cf_sql_varchar"    >
                       )
-		         </cfquery> --->
+		         </cfquery>
 		        <cfset LOCAL.isChangeActive = APPLICATION.takeTestObj.changeActivity() />
 		        <cfif LOCAL.isChangeActive EQ FALSE >
 			       <cfreturn FALSE />

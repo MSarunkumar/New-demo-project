@@ -12,6 +12,7 @@
 
 			<div class="data-container">
 		     <center><h1><br>Welcome:&nbsp <cfoutput>#SESSION.student.Name#</cfoutput><br></h1></center>
+
 		     <div class="serverSideError">
 			 <cfset errorArray=["Internal problem.Please try again",
 				                "Your test is already started.

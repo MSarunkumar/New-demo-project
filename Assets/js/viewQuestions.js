@@ -6,7 +6,7 @@ $(document).ready(function () {
 var table = $("#tableId").DataTable({
 	   "aoColumnDefs": [{
 	        "bSortable": false,
-	        "aTargets": [-1,-3,-4,-5,-6]               /* 1st one, start by the right side */
+	        "aTargets": [-1,-2]               /* 1st one, start by the right side */
 	    }]
 	});
 });
