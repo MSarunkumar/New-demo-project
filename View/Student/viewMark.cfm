@@ -11,12 +11,13 @@
 
 				<div class="data-container">
 					<cfset VARIABLES.mark = APPLICATION.viewDetailsObj.getMark() />
+					<!--- Check DB error ---------------------------------------------- --->
 					<cfif isDefined("VARIABLES.mark.errID") >
 					<cfif VARIABLES.mark.errID EQ -1>
 						<cflocation url = "studentDashboard.cfm?errID=1" addtoken = "no" />
 					</cfif>
 					</cfif>
-
+                    <!--- ----------------------------------------------------------- --->
 		        	<center><h1>Your Result</h1></center>
 
 					<table id="tableId" class="cell-border order-column  stripe hover">

@@ -1,12 +1,10 @@
 <cfinclude template="../../Includes/studentPageValidate.cfm" />
+
 <cfif NOT isDefined("FORM.startTestBtn")>
 	<cflocation addtoken="no" url="studentDashboard.cfm" />
 </cfif>
- <!--- <cfif  structKeyExists(SESSION,"startTest") >
-	   <cflocation addtoken="no" url="studentDashboard.cfm?errId=2" />
-</cfif> --->
 
-<!--- ----------------------------------------------- for multiple device  --->
+<!--- -----------------------------------------------     for multiple device  --->
 
  <cfset VARIABLES.isActive = APPLICATION.viewDetailsObj.getActivity() />
 <!--- It is for checking DB error --->
@@ -18,7 +16,7 @@
 	<cflocation url="studentDashboard.cfm?errId=2" addtoken="no" />
 </cfif>
 
-<!--- ------------------------------------------------ one test for a subject --->
+<!--- ------------------------------------------------     one test for a subject --->
 
 <cfset VARIABLES.isAttempt =  APPLICATION.viewDetailsObj.isAttemptTest(FORM.subId) />
 <!--- It is for checking DB error --->
@@ -50,17 +48,6 @@
 <cfset VARIABLES.testDuration = (SESSION.isStarted.duration - VARIABLES.minutes) />
 
 
-<!--- <cfset VARIABLES.seconds = Datediff("s",VARIABLES.currentTime,SESSION.isStarted.startTime) />
-<cfif VARIABLES.seconds GT 0>
-	<!--- Test will active on next time  --->
-	<cflocation url="studentDashboard.cfm?errId=5" addtoken="no" />
-</cfif>
-<cfset VARIABLES.minutes = Datediff("n",VARIABLES.currentTime,SESSION.isStarted.endTime) >
-
-<cfif VARIABLES.minutes LT SESSION.isStarted.duration >
-	<!--- End active test  --->
-	<cflocation url="studentDashboard.cfm?errId=6" addtoken="no" />
-</cfif> --->
 <!--- --------------------------------------------------------------------------------------- --->
 <!--- It is changing the test activity of student so he can`t give test to another device. --->
 <cfset VARIABLES.isChangeActive = APPLICATION.takeTestObj.changeActivity() />
@@ -69,7 +56,7 @@
 	<cflocation url="studentDashboard.cfm?errId=1" addtoken="no" />
 </cfif>
 <cfset SESSION.startTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
-<!--- <cfset SESSION.startTest = "true" /> --->
+
 <html>
 	<head>
 		<title>    Online Test    </title>

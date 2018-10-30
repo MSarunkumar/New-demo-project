@@ -68,13 +68,36 @@
 			<cfreturn TRUE />
 
 			<cfcatch type = "database">
-			<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitDetail]signup.cfc" />
-			<cfreturn FALSE />
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitDetail]signup.cfc" />
+				<cfreturn FALSE />
 			</cfcatch>
 
 		</cftry>
 
 	</cffunction>
 
+	<!--- Method : It will update the student infor  --->
+    <cffunction name = "updateProfile" access = "remote" returnformat = "JSON" returntype = "boolean">
+		<cfargument name = "name"     required = "true" type = "string"   />
+		<cfargument name = "dob"      required = "true" type = "date"     />
+		<cfargument name = "phone"    required = "true" type = "numeric"  />
+		<cfargument name = "address"  required = "true" type = "string"   />
+		<cftry>
+			<cfquery name="doUpdate">
+				UPDATE ms_student
+				SET		Name = <cfqueryparam value = "#ARGUMENTS.name#"        cfsqltype = "cf_sql_varchar" >,
+		                dob = <cfqueryparam value = "#ARGUMENTS.dob#"         cfsqltype = "cf_sql_date"    >,
+					    phone = <cfqueryparam value = "#ARGUMENTS.phone#"       cfsqltype = "cf_sql_bigint"  >,
+					    address = <cfqueryparam value = "#ARGUMENTS.address#"     cfsqltype = "cf_sql_varchar" >
+				WHERE email = <cfqueryparam cfsqltype = "cf_sql_varchar" maxlength = "50"
+				                   value = "#SESSION.userEmail#">
+			</cfquery>
+			<cfreturn TRUE />
+			<cfcatch>
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[updateProfile]signup.cfc" />
+				<cfreturn FALSE />
+			</cfcatch>
+        </cftry>
+	</cffunction>
 
 </cfcomponent>

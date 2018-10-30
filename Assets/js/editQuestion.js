@@ -31,7 +31,7 @@
               ansValid();
              
               if(option1==option2 ||option1==option3 ||option1==option4||
-        	     option2==option3 || option2==option4 ||option3==option4){
+        	     option2==option3 || option2==option4 ||option3==option4) {
             	  return ShowError("oid4","All options must be unique.");
               }
             	  
@@ -99,7 +99,7 @@
          
         	 if (value == "") {
                    return ShowError(id,msg);
-                   } 
+             } 
               else {
                    return done(id);
                   }
@@ -136,9 +136,9 @@
           
           
           
-    //.................. server side validations .......................
+    
           
-          $("#save").click(function (){
+          $("#save").click(function () {
         	  
         	  if(formValidation()) {
         		  $.confirm({

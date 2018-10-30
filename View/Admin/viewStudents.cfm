@@ -8,13 +8,14 @@
 				<center><h1>Students detail </h1></center>
 				<div class="serverSideError"></div>
 
-
 				<cfset VARIABLES.student = APPLICATION.viewDetailsObj.getStudents() />
+
                 <cfif isDefined("VARIABLES.student.errID") >
 					<cfif VARIABLES.student.errID EQ -1>
 						<cflocation url = "adminDashboard.cfm?errID=1" addtoken = "no">
 					</cfif>
 				</cfif>
+
                 <table id="tableId" class="cell-border order-column  stripe hover">
                    <thead>
 						<tr>
@@ -44,8 +45,8 @@
 
 								 </td>
 
-							 </tr>
-						 </cfoutput>
+							  </tr>
+						    </cfoutput>
 					  </tbody>
                   </table>
          		</div><br>

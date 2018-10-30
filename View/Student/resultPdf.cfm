@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Result PDF</title>
-		<link href="../../assets/css/PDF.css"  rel="stylesheet"> </link>
 	</head>
 	<body>
 		<cfset 	VARIABLES.mark = APPLICATION.viewDetailsObj.getMark() />
@@ -13,10 +12,7 @@
 					<cflocation url = "studentDashboard.cfm?errID=1" addtoken = "no" />
 				</cfif>
 			</cfif>
-		    <!--- ------------------------------------------------------------------ --->
-
-
-
+		<!--- ------------------------------------------------------------------ --->
 		<cfdocument format = "PDF" overwrite = "true" >
 
 			<cfoutput>
@@ -55,7 +51,7 @@
 						<td style="border-top: 1px solid black;padding:4px 6px;text-align:center;border-bottom: 1px solid black;">#VARIABLES.date# #VARIABLES.time#</td>
 						<td style="border-top: 1px solid black;padding:4px 6px;text-align:center;
 						           border-bottom: 1px solid black;">#dateDiff("s","#VARIABLES.mark.startDate#","#VARIABLES.mark.endDate#")#</td>
-						<cfif #VARIABLES.scorePer# LT 40>
+						<cfif #VARIABLES.scorePer# LT 33>
 						<td style="border-top: 1px solid black;padding:4px 6px;border-right: 1px solid black;
 						border-bottom: 1px solid black;text-align:center;color:orangeRed;">FAIL</td>
 						<cfelse>

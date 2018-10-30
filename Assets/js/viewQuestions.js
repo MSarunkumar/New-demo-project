@@ -27,9 +27,11 @@ function getQuestionStatus(questionId, _this) {
 			  },
 		datatype:"JSON",
 		success:function(data) {
+			
 			 var respStatus = $.parseJSON(data);
-			 console.log(respStatus);
+			 
 			 if(respStatus.DONE) {
+				 
 				 var result = respStatus.DATA;
 				 if(result) {
 					 $(_this).val("Active");	

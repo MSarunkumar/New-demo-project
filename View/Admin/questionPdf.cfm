@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>All question PDF</title>
-		<link href="../../assets/css/PDF.css"  rel="stylesheet"> </link>
+
 	</head>
 	<body>
 		<cfset VARIABLES.allQuestion = APPLICATION.viewDetailsObj.getQuestions() />
@@ -18,7 +18,7 @@
     	<cfdocument format = "PDF" overwrite = "true" >
 
 			<cfoutput>
-			<cfdocumentitem type="header">
+			<cfdocumentitem type = "header">
 				<div style="font-size:25px; font-weight:bold;color:white;background-color:4c4848;padding:10px;">
 					Online Exam System </div>
 			</cfdocumentitem>
@@ -64,7 +64,7 @@
 			</table>
 
 
-		<cfoutput><cfdocumentitem type="footer">
+		<cfoutput><cfdocumentitem type = "footer">
 	    	<Center><strong>Page #cfdocument.currentPageNumber# of #cfdocument.totalPageCount#</strong></center>
 		</cfdocumentitem></cfoutput>
 

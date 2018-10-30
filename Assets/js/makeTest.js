@@ -3,21 +3,17 @@
  */
           var t_Valid  = false;
           var st_Valid = false;
-          //var et_Valid = false;
-          var d_Valid = false;
-         
-          var test; var startT;
-          //var endT; 
+          var d_Valid = false;         
+          var test; var startT;         
           var durationT;
           var readyStartTime = "" ;
-          //var readyEndTime = ""; 
+          
           
           
           function formValidation() {
 
               testValid();
               startValid();
-             // endValid();
               durValid();
               
               if (t_Valid && st_Valid  && d_Valid ) {      
@@ -215,7 +211,6 @@
         		 data:{
         			    testName: test,
 		        	    startTime:readyStartTime,
-		       	       // endTime:readyEndTime,
 		       	        duration:durationT
         		      },
         		 datatype:"json",

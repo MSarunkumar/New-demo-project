@@ -65,7 +65,7 @@ Method : if user want to resend link than we have to delete previouse record,So 
                </cfquery>
                <cfreturn TRUE />
 		       <cfcatch type = "database">
-		       	 <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[emailExist]FP">
+		       	 <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitData]FP">
 		         <cfreturn FALSE />
 			   </cfcatch>
 		</cftry>

@@ -17,8 +17,8 @@
 
 					2.&nbsp You can not go to previous questions,So please try to attempt in one go.<br><br>
 
-					3.&nbsp Once you start the test. Don`t press refresh button otherwise your score will not be acceptted.
-					  and you have to login again for taking the test.<br><br>
+					3.&nbsp Once you start the test. Don`t press refresh button otherwise your score will be submit immediately.
+					 <br><br>
 
 
 

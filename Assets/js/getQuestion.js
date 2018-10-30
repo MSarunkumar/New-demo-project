@@ -9,8 +9,7 @@ if(document.referrer != 'http://localhost:5000/') {
 	   });
 }
 //......................................................................
-
-$(document).ready(function () {
+        var isSubmit = false;
 		var score = 0;
 		var totalQ = 0;
 		var num = 0;
@@ -20,6 +19,7 @@ $(document).ready(function () {
 		
 	      
 	$("#nextBtn").click( function () {
+		
 		
 		if ( $("#answer").val() != undefined ) {
 	    	if (totalQuestion != 1) {
@@ -32,6 +32,7 @@ $(document).ready(function () {
             //       button  at last question     ...................
 		if (totalQuestion == 1) {
 		     $("#nextBtn").attr("disabled","disabled");
+		     $("#nextBtn").css("background-color", "#abafba");
 		     $("#submitBtn").css("background-color", "#e80b28");
 		}			
 		else {
@@ -69,14 +70,16 @@ $(document).ready(function () {
 	     }
 	
 	function submitScore() {
-		//.........       It is for calculating score of last question 
-	     
+		
+		 if(! isSubmit)
+	     {
+		//............................       It is for calculating score of last question 
 	         if ($("#answer").val() != undefined ) {
 	        	if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
 	                        score = score+1;
 	             }
 	    	 }
-	    //..............   It will submit the score  
+	    //............................   It will submit the score  
 	         
 	         $.ajax( {
 		         type: "Post"  ,
@@ -90,6 +93,7 @@ $(document).ready(function () {
 		         success:function(res) { 
                         var submitRes = $.parseJSON(res);
                         if (submitRes) {
+                        	isSubmit = true;
 			        	    window.location.assign("studentDashboard.cfm?errId=3");
 		        	    }
 		        	    else {
@@ -97,6 +101,10 @@ $(document).ready(function () {
 		        	    }
 		        	  }
 	         });
+	   }
+	else {
+		 window.location.assign("studentDashboard.cfm");		 
+		 }
 	}
 	
 	function getQuestionId(tq) {
@@ -145,6 +153,7 @@ $(document).ready(function () {
             }
 	
 	$("#submitBtn").click( function () {
+		
 		$.confirm({
 		    title: "Confirm...!!",
 			type:"green",
@@ -154,6 +163,7 @@ $(document).ready(function () {
 		    useBootstrap: false,
 		    buttons: {
 		        confirm: function () {
+		        	
 		        	submitScore();
 		        },
 		        cancel: function () {
@@ -162,7 +172,7 @@ $(document).ready(function () {
 		    }
 		});
 	  });
-});
+
 	//.........This function calls when time will be over .
 	
 	$(function(){
@@ -177,21 +187,18 @@ $(document).ready(function () {
 
 
 
-/*window.onbeforeunload = function () {
+window.onbeforeunload = function () {
     window.setTimeout(function () { 
-    	if(isSubmit) { 
-    		
+    	
+    	if( ! isSubmit) { 
+    		submitScore();	
     	}
-    	else {
-    		window.location.assign("../../Controller/logoutAction.cfm");
-    	}
+    	if(isSubmit) {
+    		window.location.assign("studentDashboard.cfm?errId=3");  
+    		}
         
     }, 0);
     window.onbeforeunload = null;  
                                     
-    return 'Press "Stay On Page" to go to BBC website!';
-       
-}*/
-	
-
-
+    return 'Press "Stay On Page" to go to online exam system!';      
+}

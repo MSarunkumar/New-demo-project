@@ -1,6 +1,4 @@
 <cfinclude template="../../Includes/adminPageValidate.cfm" />
-
-
 <html>
 	<head>
 		<title>Adding Question</title>

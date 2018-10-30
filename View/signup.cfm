@@ -20,20 +20,20 @@
 				<form  id="form" >
 		                <div id="s-name">
 							<div class="labelContainer"> Name </div>
-							<input type="text" id="name" name="name" placeholder='Full Name' class="input_box" maxlength="50" onblur="nameValid()">
+							<input type="text" id="name" name="name" placeholder="Full Name" class="input_box" maxlength="50" onblur="nameValid()">
 							<div id="nid" class="err"></div>
 					    </div>
 
 		                <div id="s-email">
 							<div class="labelContainer"> Email </div>
-							<input type="text" id="email" name="email" placeholder='abc@mindfiresolutions.com' class="input_box" maxlength="50" onblur="emailValid()">
+							<input type="text" id="email" name="email" placeholder="abc@mindfiresolutions.com" class="input_box" maxlength="50" onblur="emailValid()">
 					        <div id= "eid" class="err"></div>
 						</div>
 
 						<div id="s-dob">
 							<div class="labelContainer"> DOB </div>
 							<input type="date" id="date" name="date" class="input_box" onblur="dobValid()">
-		                       <div id="did" class="err"></div>
+		                    <div id="did" class="err"></div>
 					    </div>
 
 		                <div id="s-mobile">
@@ -57,7 +57,7 @@
 						<div id="s-cpassword">
 							<div class="labelContainer"> Confirm-Password </div>
 						    <input type="Password" id="cpassword" name="cpassword" placeholder="Re-enter password" class="input_box" maxlength="16" onblur="cpasswordValid()">
-						     <div  id="cpid" class="err"></div>
+						    <div  id="cpid" class="err"></div>
 						</div>
 
 						<input type="Button" value="Register" class="btn" id="btn" name="submit">

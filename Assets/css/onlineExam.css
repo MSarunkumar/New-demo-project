@@ -65,19 +65,26 @@ li a:hover:not(.active) {
 .data-container {
 	margin-left:20px;
 	margin-top: 20px;
-	height: 150px auto ;
+	height:  auto ;
 	width: 1050px;
 	background-color:#f4fdff;
 	box-shadow: 0px 2px 5px 8px #9aa4af;
 	 
 }
-#testIcon,#resultIcon{
-	margin-left:300px;
+.testIcon{
+	margin-left:100px;
 	cursor:pointer;
-	padding:20px;
+	padding:10px;
+	float:left;
+}
+.resultIcon{
+	margin-right:100px;
+	cursor:pointer;
+	padding:10px;
+	float:right;
 }
 
-/*........... Data Tabel  ........................................*/
+/*..................................... Data Tabel  .............*/
 input[type="search"],select{
 	border-radius:5px;
 	border:2px solid #b4d9ed;
@@ -88,6 +95,10 @@ input[type="search"],select{
 	border:2px solid #417cf4;
 	padding:5px;
 	}
+	
+#activeId{
+	color:blue;
+}
 /*.................................................................*/
 .grid-container{
 	display: grid;
@@ -134,7 +145,7 @@ footer{
     margin-left:200px;	
 }
 .input-box{
-	width:350px;
+	width:555px;
 	border-radius:5px;
 	padding:6px;
 	border:2px solid #9d9ea0;
@@ -167,10 +178,11 @@ footer{
     background-color: #2150af;
 }
 #resetBtn{
- 	background-color:#77e032;
+ 	background-color: #aeb1b2;
+    margin-left: 1px;
  }
  #resetBtn:hover{
- 	background-color:#13f707;
+ 	background-color:#959899;
  }
 .error{
 	
@@ -180,7 +192,7 @@ footer{
 .serverSideError{
 	font-size:18px;
 	color:#ff0043;
-	margin-left:205px;
+	text-align:center;
 	font-weight:bold;
 	padding:10px;
 	
@@ -193,6 +205,7 @@ footer{
 	margin-left:700px;
 	margin-top:30px;
 	background-color: #8af7f0;
+	padding:10px;
 	
 
 }
@@ -223,3 +236,36 @@ footer{
 #resultBtn:hover{
 	background-color: #2150af;
 }
+
+
+/*...................................viewMarks.................*/
+
+#fail{
+	color:#ed2849;
+}
+#pass{
+	color:#2a60ea;
+}
+/*..................   editProfile .....................*/
+#editProfile{
+	float:left;
+	margin:10px;
+}
+#s-name,#s-email,#s-dob,#s-mobile,
+#s-address,#editBtn{
+	margin-left:200px;
+	padding:6px;	
+}
+.input_box{
+	border-radius:5px;
+	padding:6px;
+	border:2px solid #9d9ea0;
+	width:550px;
+}
+.err{
+	color:red;
+}
+/*......................................................*/
+
+
+

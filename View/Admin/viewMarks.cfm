@@ -26,10 +26,12 @@
 								<th>Total Questions</th>
 								<th>Start Time</th>
 								<th>End Time</th>
+								<th>Status</th>
 							 </tr>
 						 </thead>
 						 <tbody>
 		                    <cfoutput query = "VARIABLES.marks">
+			                    <cfset VARIABLES.scorePer = int(((VARIABLES.marks.score)*100)/VARIABLES.marks.totalQuestion)>
 							 <tr>
 	                             <td>#studentEmail#</td>
 								 <td>#subject#</td>
@@ -37,6 +39,11 @@
 			                     <td align="center">#totalQuestion#</td>
 			                     <td>#startDate#</td>
 								 <td>#endDate#</td>
+								 <cfif #VARIABLES.scorePer# LT 33>
+						         <td id="fail">FAIL</td>
+						         <cfelse>
+						         <td id="pass">PASS</td>
+						         </cfif>
 		                      </tr>
 							 </cfoutput>
 						 </tbody>

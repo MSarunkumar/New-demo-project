@@ -1,9 +1,6 @@
-
 <html>
 	<head>
-		<title>
-			Login Action
-		</title>
+		<title>Login Action</title>
 	</head>
 	<body>
 		<!---  <cfdump var = "#FORM#"> --->
@@ -42,19 +39,25 @@
 
 							<cfif compare(VARIABLES.hashedPassword,VARIABLES.pass) EQ 0>
 								    <cfset VARIABLES.role = APPLICATION.loginObj.getRole(FORM.uid) />
+
 								    <cfset SESSION.userEmail = FORM.uid>
+
 								    <cfif VARIABLES.role EQ "student">
 								        <cfset VARIABLES.status = APPLICATION.loginObj.getStatus(FORM.uid) />
+
 									    <cfif VARIABLES.status EQ 0 >
 										  <cflocation url = "../index.cfm?errID=7" addToken = "no" />
 										</cfif>
+
 										<cfif VARIABLES.status EQ -1 >
 										  <cflocation url = "../index.cfm?errID=4" addToken = "no" />
 										</cfif>
+
 									    <cfset SESSION.student = "valid">
 										<cflocation url = "../view/student/studentDashboard.cfm" addToken = "no" />
 									<cfelse>
 									    <cfif VARIABLES.role EQ "admin">
+
 									    <cfset SESSION.admin = "valid">
 									      <cflocation url = "../view/admin/adminDashboard.cfm" addToken = "no" />
 									    <cfelse>

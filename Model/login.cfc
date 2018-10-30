@@ -28,7 +28,7 @@
 		</cftry>
 	</cffunction>
 
- <!--- Method 3 it will return salt from ms_student or ms_admin --->
+ <!--- Method 3 it will return salt from ms_student  --->
 
      <cffunction name = "getSalt" access = "public" output = "false" returntype = "string">
 		<cfargument name = "email" required = "yes" type = "string" />
@@ -41,7 +41,7 @@
 	          </cfquery>
 		      <cfreturn fetchSalt.salt />
 		      <cfcatch type = "database">
-		        <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getSalt]]login">
+		        <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getSalt]login">
 		        <cfreturn "FALSE" />
 			  </cfcatch>
 		</cftry>
@@ -51,15 +51,15 @@
     <cffunction name = "getRole" access = "public" output = "false" returntype = "string">
 		<cfargument name = "email" required = "yes" type = "string" />
 		<cftry>
-		       <cfquery name = "fetchRole" >
+		      <cfquery name = "fetchRole" >
 		         SELECT roles
 		         FROM   ms_student
 		         WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
-	           </cfquery>
+	          </cfquery>
 		      <cfreturn fetchRole.roles />
 		      <cfcatch type = "database">
-		       <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getRole]]login">
-		       <cfreturn "FALSE" />
+		      	<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getRole]login">
+		      	<cfreturn "" />
 			 </cfcatch>
 		</cftry>
 	</cffunction>

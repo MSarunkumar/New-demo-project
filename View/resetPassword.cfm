@@ -12,6 +12,7 @@
 
 	<cfset VARIABLES.sec = Datediff("s",VARIABLES.times,VARIABLES.currentTime) />
 	<cfset VARIABLES.minutes = int(VARIABLES.sec/60) />
+	<!--- Link will be expired in 60 minetus --->
 	<cfif  VARIABLES.minutes GT 60>
 		<cfoutput>
 			<h1>
@@ -21,6 +22,8 @@
 		</cfoutput>
 	<cfelse>
 		<cfset VARIABLES.email = APPLICATION.FP.getEmail(URL.id) />
+
+
 
 		<html>
 			<head>
@@ -62,7 +65,7 @@
 								    <input type="Password" id="cpassword" name="cpassword"  class="input_box" maxlength="16" placeholder="Re-enter password" onblur="rcpassword()">
 								    <div id="cpid"></div>
 								</div>
-		                            <input name="resetPassword" type="Submit" value="Reset Password" id="btn" class="btn" >
+		                        <input name="resetPassword" type="Submit" value="Reset Password" id="btn" class="btn" >
 							</form>
 		            </div>
 		     	</div>

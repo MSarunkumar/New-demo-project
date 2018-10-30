@@ -19,9 +19,8 @@
 			<cfquery name = "students"  >
 			   SELECT  Name,email,dob,phone,address,status
 			   FROM    ms_student
-			   WHERE   roles like 'student';
-			 </cfquery>
-
+			   WHERE   roles LIKE 'student';
+			</cfquery>
 			<cfreturn students />
 			<cfcatch type = "database">
 			  <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getStudents]viewDetails" />
@@ -44,19 +43,25 @@
              <cfcatch type = "database">
                <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestions]viewDetails" />
                <cfreturn queryNew("errID","Integer",{errId=-1}) />
-			</cfcatch>
+			 </cfcatch>
 		</cftry>
 	</cffunction>
 
-	<!--- Method it will return test start active time       ------>
+<!--- ----- Method it will return test start active time       ------>
 	<cffunction name = "getTimeInfo" access = "public" returntype = "query">
     	<cfargument name = "test" required = "true"  type ="string" />
+		<cftry>
 			<cfquery name = "fetchTime">
 				SELECT startTime,duration
 				FROM   ms_test
 				WHERE  test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.TEST#">
 			</cfquery>
 			<cfreturn fetchTime />
+			<cfcatch>
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getTimeInfo]viewDetails" />
+				<cfreturn queryNew("errID","Integer",{errId=-1}) />
+			</cfcatch>
+		</cftry>
 
 	</cffunction>
 
@@ -141,7 +146,7 @@
 	</cffunction>
 
 
-<!--- Method : it will return question count array [active/total  ]   ------------->
+<!--- Method : it will return question count array [active/total  ] for chart  ------------->
 
 	<cffunction name = "quesInfoChart" returntype = "Any" access = "public" >
 		<cfargument name = "quecInfo" required = "true" type = "string" />
@@ -221,7 +226,7 @@
 					      AND subject = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.testName#">
 				</cfquery>
 				<cfreturn isAttempt.RecordCount />
-				<cfcatch>
+				<cfcatch type = "database">
 					<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[isAttemptTest]viewDetails" />
 					<cfreturn -1 />
 				</cfcatch>
@@ -232,25 +237,35 @@
 
 	<!--- Method : It will return scheduled test information  ----------------------->
 	<cffunction name = "getSchedule" access  = "public"  returntype = "query" hint = "fetch scheduled test info">
-		<cfquery name = "fetchSchedule">
-			SELECT test,startTime,duration
-			FROM ms_test
-		</cfquery>
-		<cfreturn fetchSchedule />
+		<cftry>
+			<cfquery name = "fetchSchedule">
+				SELECT test,startTime,duration
+				FROM ms_test
+			</cfquery>
+			<cfreturn fetchSchedule />
+			<cfcatch type = "database">
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getSchedule]viewDetails" />
+			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
+			</cfcatch>
+		</cftry>
 	</cffunction>
 
 
 <!--- Method : it will return question information based on questionId ---------  --->
 	<cffunction name = "getQuestionInfo"  access = "public"  returntype = "query" hint = "return question info">
 		<cfargument name = "id" required = "true" type = "numeric" hint = "It will catch question ID" />
-
-		<cfquery name = "fetchQuestionInfo">
-			SELECT  question,option1,option2,option3,option4,answer,subject
-			FROM    ms_question
-			WHERE questionId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.id#" >
-		</cfquery>
-
-		<cfreturn fetchQuestionInfo />
+		<cftry>
+			<cfquery name = "fetchQuestionInfo">
+				SELECT  question,option1,option2,option3,option4,answer,subject
+				FROM    ms_question
+				WHERE questionId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.id#" >
+			</cfquery>
+			<cfreturn fetchQuestionInfo />
+			<cfcatch type = "database">
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestionInfo]viewDetails" />
+			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
+			</cfcatch>
+		</cftry>
 	</cffunction>
 
 </cfcomponent>

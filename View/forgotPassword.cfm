@@ -14,18 +14,10 @@
 		                            "Link has been send to your email.Please open that within 1 hrs.",
 		                            "Internal problem. Please try again"]>
 				<cfif isdefined("URL.errID")>
-				    <cfif URL.errId EQ 1>
-					   <cfoutput>#errorArray[1]#</cfoutput>
-				    </cfif>
-				    <cfif URL.errId EQ 2>
-					   <cfoutput>#errorArray[2]#</cfoutput>
-				    </cfif>
-				    <cfif URL.errId EQ 3>
-					   <cfoutput>#errorArray[3]#</cfoutput>
-				    </cfif>
-				    <cfif URL.errId EQ 4>
-					   <cfoutput>#errorArray[4]#</cfoutput>
-				    </cfif>
+				    <cfif URL.errId EQ 1><cfoutput>#errorArray[1]#</cfoutput></cfif>
+				    <cfif URL.errId EQ 2><cfoutput>#errorArray[2]#</cfoutput></cfif>
+				    <cfif URL.errId EQ 3><cfoutput>#errorArray[3]#</cfoutput></cfif>
+				    <cfif URL.errId EQ 4><cfoutput>#errorArray[4]#</cfoutput></cfif>
 		         <cfelse>
 			     </cfif>
 		      </div>
@@ -42,7 +34,6 @@
 					    <input type="text" id= "uid" name="uid" placeholder="Email Id" class="input_box" maxlength="50" onblur="emailValid()">
 					    <div id="eid"> </div>
 					 </div>
-
 					 <input name="send" type="Submit" class="btn" value="Send" >
                 </form>
 			</div>

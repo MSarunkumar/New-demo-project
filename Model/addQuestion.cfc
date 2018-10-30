@@ -36,8 +36,8 @@
 			<cfreturn TRUE />
 
 			<cfcatch type = "database">
-			<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitQuestion]addQuestion.cfc" />
-			<cfreturn FALSE />
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitQuestion]addQuestion.cfc" />
+				<cfreturn FALSE />
 			</cfcatch>
 		</cftry>
 
@@ -51,19 +51,25 @@
 		<cfargument name = "op3"  required = "true" type = "string"  />
 		<cfargument name = "op4"  required = "true" type = "string"  />
 		<cfargument name = "ans"  required = "true" type = "numeric" />
-		<cfquery name = "doUpdateOpion">
-			UPDATE  ms_question
-				SET
-		            option1 = <cfqueryparam value = "#ARGUMENTS.op1#"  cfsqltype = "cf_sql_varchar">,
-		            option2 = <cfqueryparam value = "#ARGUMENTS.op2#"  cfsqltype = "cf_sql_varchar">,
-					option3 = <cfqueryparam value = "#ARGUMENTS.op3#"  cfsqltype = "cf_sql_varchar">,
-				    option4 = <cfqueryparam value = "#ARGUMENTS.op4#"  cfsqltype = "cf_sql_varchar">,
-					answer =  <cfqueryparam value = "#ARGUMENTS.ans#"  cfsqltype = "cf_sql_integer">
+		<cftry>
+			<cfquery name = "doUpdateOpion">
+				UPDATE  ms_question
+					SET
+			            option1 = <cfqueryparam value = "#ARGUMENTS.op1#"  cfsqltype = "cf_sql_varchar">,
+			            option2 = <cfqueryparam value = "#ARGUMENTS.op2#"  cfsqltype = "cf_sql_varchar">,
+						option3 = <cfqueryparam value = "#ARGUMENTS.op3#"  cfsqltype = "cf_sql_varchar">,
+					    option4 = <cfqueryparam value = "#ARGUMENTS.op4#"  cfsqltype = "cf_sql_varchar">,
+						answer =  <cfqueryparam value = "#ARGUMENTS.ans#"  cfsqltype = "cf_sql_integer">
 
-			WHERE questionId = <cfqueryparam cfsqltype = "cf_sql_integer"  value = "#ARGUMENTS.qid#">
+				WHERE questionId = <cfqueryparam cfsqltype = "cf_sql_integer"  value = "#ARGUMENTS.qid#">
 
-		</cfquery>
-		<cfreturn TRUE />
+			</cfquery>
+			<cfreturn TRUE />
+			<cfcatch type="database">
+				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[updateOption]addQuestion.cfc" />
+				<cfreturn FALSE />
+			</cfcatch>
+		</cftry>
 	</cffunction>
 
 

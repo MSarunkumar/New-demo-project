@@ -1,6 +1,5 @@
 <cfinclude template="../../Includes/adminPageValidate.cfm" />
 
-
  <html>
 	<head>
 		<title>Adding Question</title>
@@ -11,6 +10,7 @@
 					<div class="data-container">
 					    <div id="heading"> Edit Question</div>
 					    <div class="serverSideError"></div>
+
 					    <cfif NOT isDefined("URL.quesId")>
 						    <cflocation url="adminDashboard.cfm"  addtoken="no" />
 						</cfif>

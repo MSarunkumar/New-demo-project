@@ -19,8 +19,8 @@
 				                 So please complete that before starting a new test.[Or login again]",
 				                "Your score successfully submited.Please check your result.@.. [GOOD LUCK]",
 				                "You have already attempted this test.You can attempt one test only for a subject",
-				                "Please wait,Test will be active at","Test has been started.You late more than 10 minute"
-				                 ]>
+				                "Please wait,Test will be active at","Test has been deactivate.You late more than 10 minute"
+				                , "Profile updated successfully"]>
 				<cfif isdefined("URL.errID")>
 					<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
 					<cfif URL.errId EQ 2> <cfoutput>#errorArray[2]#</cfoutput> </cfif>
@@ -29,17 +29,29 @@
 					<cfif URL.errId EQ 5>
 						<cfoutput>#errorArray[5]#&nbsp::&nbsp#SESSION.isStarted.startTime# </cfoutput> </cfif>
 					<cfif URL.errId EQ 6><cfoutput>#errorArray[6]#</cfoutput> </cfif>
+					<cfif URL.errId EQ 7><cfoutput>#errorArray[7]#</cfoutput> </cfif>
 				<cfelse>
 				</cfif>
 			 </div>
-		     <div id="testIcon">
+
+		     <div class="testIcon">
 				 <a href="instruction.cfm">
-			     <img src="../../assets/icon/takeTest.png" height="150px" width="400px;"><br>
+			     <img src="../../assets/icon/takeTest.png" height="135px" width="270px;">
 			     </a>
-			</div><br>
-		     <div id="resultIcon">
+			</div>
+		     <div class="resultIcon">
 				 <a href="viewMark.cfm">
-			     <img src="../../assets/icon/checkResult.png" height="150px" width="400px;">
+			     <img src="../../assets/icon/checkResult.png" height="135px" width="270px;">
+				 </a>
+			</div>
+			 <div class="testIcon">
+				 <a href="Profile.cfm">
+			     <img src="../../assets/icon/viewProfile.png" height="135px" width="270px;">
+				 </a>
+			</div>
+			 <div class="resultIcon">
+				 <a href="scheduledTest.cfm">
+			     <img src="../../assets/icon/viewTests.png" height="135px" width="270px;">
 				 </a>
 			</div>
 			</div>

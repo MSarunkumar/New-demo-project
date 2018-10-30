@@ -6,14 +6,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 
 		<cfinclude template = "../../Includes/adminModule.cfm" />
-
-
 		             <div class="data-container">
 	                    <center><h1> Make Test</h1></center>
-                        <!--- <strong>NOTE</strong><br>
-						1. Activate time must be less than Deactivate time.<br>
-						2. Time interval of activate and deactivate time should not be less than 1 hrs.<br>
-						3. Time duration of test must be less than time interval(Activation test time).<br> --->
 	                    <div class="serverSideError">
 				              <cfset errorArray=["Test time and duration updated successfully"]>
 					          <cfif isdefined("URL.errID")>

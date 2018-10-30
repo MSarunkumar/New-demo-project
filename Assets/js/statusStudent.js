@@ -63,6 +63,7 @@ function getStatus(email, _this) {
 	
 	var value = $(_this).val();
 	var current_status = (value === "Block" ? 0 : 1 );
+	
 	$.ajax({
 		type:"post",
 		url:"../../Model/blockUnblock.cfc?method=getStatus",
@@ -73,6 +74,7 @@ function getStatus(email, _this) {
 		datatype:"JSON",
 		success:function(data) {
 			 var respStatus = $.parseJSON(data);
+			 
 			 if(respStatus.DONE) {
 				 var result = respStatus.DATA;
 				 if(result) {

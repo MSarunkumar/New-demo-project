@@ -72,7 +72,7 @@
           }
           //...........................................................................              password Validation 
           function passwordValid() {
-              password = document.getElementById('password')
+              password = document.getElementById("password")
                   .value;
               password=password.trim();
               var lowerCaseLetters = /[a-z]/g;
@@ -100,7 +100,7 @@
           
           //.......................................................................................   mobile1 Validation
           function mobileValid() {
-                  mobile = document.getElementById('mobile')
+                  mobile = document.getElementById("mobile")
                   .value;
               mobile=mobile.trim();
               var regmob = /^\d{10}$/;
@@ -157,7 +157,7 @@
         	 }
           //....................................... confirm-password
           function cpasswordValid() {
-               cpassword = document.getElementById('cpassword')
+               cpassword = document.getElementById("cpassword")
                   .value;
               if (password != cpassword) {
                   cp_Valid = ShowError("cpid", "Does not match Confirm-Password ");

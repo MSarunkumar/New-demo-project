@@ -24,8 +24,9 @@
 			 <br><br><br>
 	       <center> <h1>An unexpected error occurred.</h1>
                               <h2>Please try after some time.<h2> <br><br>
+							<br><br>
 			 <br><br><br>
-			 <br><br><br><br><br></center>
+			 <br><br><br></center>
 
 		</div>
 	</body>

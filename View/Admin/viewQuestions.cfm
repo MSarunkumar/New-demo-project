@@ -6,7 +6,7 @@
 		<cfinclude template = "../../Includes/adminModule.cfm" />
 
 				<div class="data-container">
-					<center><h1>Question View </h1><center>
+					<center><h1>Question View </h1></center>
 					<div class="serverSideError">
 						<cfset errorArray=["Options updated successfully"]>
 				        <cfif isdefined("URL.errID")>
@@ -15,11 +15,13 @@
 						 </cfif>
 					</div>
 	                <cfset VARIABLES.questions = APPLICATION.viewDetailsObj.getQuestions() />
+
 	                <cfif isDefined("VARIABLES.questions.errID") >
 					<cfif VARIABLES.questions.errID EQ -1>
 						<cflocation url = "adminDashboard.cfm?errID=1" addtoken = "no" />
 					</cfif>
 					</cfif>
+
 	                <table id="tableId" class="cell-border order-column  stripe hover">
 						<thead>
 							<tr>
@@ -58,7 +60,7 @@
 							 </cfoutput>
 						 </tbody>
 					</table><br><br>
-				<a href="questionPdf.cfm"><button id="resultBtn">Download Pdf of all questions</button></a>
+				 <a href="questionPdf.cfm"><button id="resultBtn">Download Pdf of all questions</button></a>
                  <br><br><br>
 				</div>
 			</div><br>

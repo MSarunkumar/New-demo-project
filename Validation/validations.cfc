@@ -146,12 +146,40 @@
 
 
 	</cffunction>
-<!--- Method : Make Date time formate  --->
-	<cffunction name = "getFormat" >
 
+<!--- Method : It will validate  profile value of student  --->
+	<cffunction name = "editProfileValid" access = "remote" returnformat = "JSON"  returntype = "boolean"
+				hint = "After validation return true/false">
+		<cfargument name = "name"      required = "true"  type = "string"  />
+	    <cfargument name = "date"      required = "true"  type = "date"    />
+	    <cfargument name = "mobile"    required = "true"  type = "numeric" />
+	    <cfargument name = "address"   required = "true"  type = "string"  />
+
+
+                <cfset  LOCAL.valid = TRUE />
+
+			    <cfif NOT isValid("regex", trim(ARGUMENTS.name), "[A-Za-z ]+") >
+						<cfset LOCAL.valid = FALSE />
+				</cfif>
+			     <!--- Check future date --->
+
+	      		<cfset LOCAL.todayDate = DateFormat(now(), "mm/dd/yyyy") />
+	      		<cfset LOCAL.studentDob = ARGUMENTS.date />
+
+				<cfif DateCompare(LOCAL.todayDate,LOCAL.studentDob) EQ -1>
+				  		<cfset LOCAL.valid = FALSE />
+				</cfif>
+
+			    <cfif (NOT isValid("regex", trim(ARGUMENTS.mobile),"[0-9]{10}") OR ARGUMENTS.mobile EQ 0)>
+				  		<cfset LOCAL.valid = FALSE />
+			    </cfif>
+
+			    <cfif (len(trim(ARGUMENTS.address)) LTE 0) >
+				   		<cfset LOCAL.valid = FALSE />
+			    </cfif>
+
+			<cfreturn LOCAL.valid />
 	</cffunction>
-
-
 
 
 </cfcomponent>

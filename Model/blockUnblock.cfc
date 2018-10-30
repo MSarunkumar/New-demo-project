@@ -20,11 +20,12 @@
 			<cfset LOCAL.result.data = "" />
 
 		    <cfset LOCAL.success = toggleBlock(ARGUMENTS.email) />
-
+             <!--- Check DB Error ------------------------->
             <cfif NOT LOCAL.success >
 				<cfset LOCAL.result.done = "false" />
                 <cfreturn LOCAL.result />
 			</cfif>
+			<!--- -------------------------------------- --->
 		    <cftry>
 		    	<cfquery name = "fetchStatus">
                   SELECT status
@@ -86,6 +87,7 @@
 				<cfset LOCAL.result.done = "false" />
                 <cfreturn LOCAL.result />
 			</cfif>
+
 		    <cftry>
 		    	<cfquery name = "fetchStatus">
                   SELECT status
@@ -122,7 +124,6 @@
 			  <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[toggleActive] blockUnblock" />
               <cfreturn FALSE />
 			</cfcatch>
-
 		</cftry>
 
 	</cffunction>
