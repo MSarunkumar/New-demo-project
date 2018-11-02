@@ -32,12 +32,15 @@ where email='admin@admin.com';/* password = Admin@123 */
   );
  /*....................    NEW   ms_result         .............. */
 CREATE TABLE  ms_result (
+  resultId       int           NOT NULL IDENTITY (1, 1) PRIMARY KEY,
   studentEmail   varchar(50)   NOT NULL,
   startDate      datetime      NOT NULL,
   endDate        datetime      DEFAULT NULL, 
   score          int           DEFAULT 0,
   totalquestion  int           NOT NULL,
-  subject        varchar(30)   NOT NULL
+  subject        varchar(30)   NOT NULL,
+  status         int           DEFAULT 1,
+  testId         int     FOREIGN KEY REFERENCES ms_test(testId)
   ); 
 /*.......................  NEW   ms_password   ........*/
   CREATE TABLE   ms_password (
@@ -48,11 +51,18 @@ CREATE TABLE  ms_result (
   
   );
  /*....................... NEW ms_test ..............*/
-  CREATE TABLE   ms_test (
-  test          varchar(15)  NOT NULL PRIMARY KEY,
-  startTime     datetime     NOT NULL, 
-  duration      int          NOT NULL
+ CREATE TABLE   ms_test (
+  testId          int        NOT NULL IDENTITY (1, 1) PRIMARY KEY,
+  test          varchar(15)  NOT NULL,
+  startTime     datetime     NOT NULL,
+  duration      int          NOT NULL,
+  totalQuestion int          NOT NULL
   )
-  INSERT INTO ms_test (test, startTime, duration)
-VALUES ('Math','2018-10-01 06:59:00',20);
+
+INSERT INTO ms_test (test, startTime, duration,totalQuestion)
+VALUES ('English','2018-10-01 06:59:00',20,6);
   /*...............................................*/
+
+
+
+

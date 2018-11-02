@@ -34,21 +34,19 @@
 							 <tbody>
 			                    <cfoutput query = "VARIABLES.schedule">
 								<cfset VARIABLES.sec = Datediff("s",VARIABLES.schedule.startTime,VARIABLES.currentTime) />
+								<cfif VARIABLES.sec LT 600>
 								<tr>
 		                             <td align="center">#test#</td>
 									 <td align="center">#startTime#</td>
 				                     <td align="center">#duration#</td>
-				                     <cfif VARIABLES.sec GT 600>
-									 <td align="center"> Deactive</td>
-									</cfif>
 									 <cfif VARIABLES.sec LT 600 AND VARIABLES.sec GT 0>
 									 <td align="center" id="activeId"> Active</td>
 									</cfif>
 									<cfif VARIABLES.sec LTE 0>
 									 <td align="center"> Upcoming</td>
 									</cfif>
-
 			                      </tr>
+			                      </cfif>
 								 </cfoutput>
 							 </tbody>
 		            	</table><br>

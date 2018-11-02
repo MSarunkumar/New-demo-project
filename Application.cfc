@@ -1,10 +1,10 @@
 <cfcomponent hint = "This is Application cfc for Online Exam System Project" accessors = "true"
 	output = "false" persistent = "false">
 
-	<cfset THIS.name = "onlineExam21" />
-	<cfset THIS.applicationTimeout = CreateTimeSpan(0,4 ,0, 0) />
+	<cfset THIS.name = "onlineExamSystem22" />
+	<cfset THIS.applicationTimeout = CreateTimeSpan(0,1,0, 0) />
 	<cfset THIS.sessionManagement = TRUE />
-	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 1,0, 0) />
+	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 0,30, 0) />
     <cfset THIS.datasource = "demoProject" />
 
 	<!--------------- Method [ OnApplicationStart ] -------------->
@@ -15,13 +15,13 @@
           <cffile action = "write" file = "D:/Errors/project.txt"
 		          output = "Application has been started,all errors in demo project..Time --> #now()# ">
 
-          <cfset APPLICATION.signupObj = CreateObject("component", "Model.signup")               />
-		  <cfset APPLICATION.loginObj = CreateObject("component", "Model.login")                 />
-		  <cfset APPLICATION.logoutObj = CreateObject("component", "Model.logout")               />
-          <cfset APPLICATION.takeTestObj = CreateObject("component", "Model.takeTest")           />
-          <cfset APPLICATION.viewDetailsObj = CreateObject("component", "Model.viewDetails")     />
-		  <cfset APPLICATION.blockUnblockObj = CreateObject("component", "Model.blockUnblock")   />
-		  <cfset APPLICATION.FP  = CreateObject("component", "Model.forgotPassword")             />
+          <cfset APPLICATION.signupObj = CreateObject("component", "Model.signup") />
+		  <cfset APPLICATION.loginObj = CreateObject("component", "Model.login") />
+		  <cfset APPLICATION.logoutObj = CreateObject("component", "Model.logout") />
+          <cfset APPLICATION.takeTestObj = CreateObject("component", "Model.takeTest") />
+          <cfset APPLICATION.viewDetailsObj = CreateObject("component", "Model.viewDetails") />
+		  <cfset APPLICATION.blockUnblockObj = CreateObject("component", "Model.blockUnblock") />
+		  <cfset APPLICATION.forgotPasswordObj  = CreateObject("component", "Model.forgotPassword") />
 
 		<cfreturn TRUE />
 	</cffunction>
@@ -40,6 +40,8 @@
 
 	<cffunction name = "OnRequestStart" access = "public" returntype = "boolean" output = "false"
 		        hint = "Fires when the user request to next page" >
+
+
 
 		<cfreturn TRUE />
 	</cffunction>
@@ -60,9 +62,8 @@
 	<cffunction name = "OnRequest" access = "public" returntype = "void" output = "true"
 		                            hint = "Fires after pre page processing is complete.">
 
-		 <cfargument name = "TargetPage" type = "string" required = "TRUE"/>
-
-         <cfinclude template = "#ARGUMENTS.TargetPage#" />
+		<cfargument name = "TargetPage" type = "string" required = "true"/>
+        <cfinclude template = "#ARGUMENTS.TargetPage#" />
 
 
 		<cfreturn />
@@ -101,10 +102,8 @@
 		<cfargument name = "Exception" type = "any" required = "true" />
 		<cfargument type = "String" name = "EventName" required = "true"/>
 		    <!------------------- Write all error --------------------->
-
-		<cfoutput>
 		<cffile action = "append" file = "D:/Errors/project.txt"output = "onError  Event Name: #ARGUMENTS.Eventname# Message:
-		           #ARGUMENTS.Exception.message#--> #ARGUMENTS.Exception#..Time --> #now()#" ></cfoutput>
+		           #ARGUMENTS.Exception.message#--> #ARGUMENTS.Exception#..Time --> #now()#" >
 
 	    <!--- <cflocation url="http://www.localhost:5000/OnlineExam2/error/onError.cfm" addtoken="no" /> --->
 

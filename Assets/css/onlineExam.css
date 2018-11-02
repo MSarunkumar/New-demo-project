@@ -99,6 +99,9 @@ input[type="search"],select{
 #activeId{
 	color:blue;
 }
+#dataTableBody{
+	border:2px solid #417cf4;
+}
 /*.................................................................*/
 .grid-container{
 	display: grid;

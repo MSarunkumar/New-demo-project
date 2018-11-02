@@ -78,10 +78,10 @@ function getStatus(email, _this) {
 			 if(respStatus.DONE) {
 				 var result = respStatus.DATA;
 				 if(result) {
-					 $(_this).val("Unblock");	
+					 $(_this).val("Block");	
 				 }
 				 else {
-					 $(_this).val("Block");	
+					 $(_this).val("Unblock");	
 				 }
 				 $(_this).toggleClass("btn-red");
 				 $(_this).toggleClass("btn-green");

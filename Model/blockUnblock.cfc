@@ -78,6 +78,7 @@
 			<cfargument name = "status"      required = "true" type = "numeric"  hint = "It will catch staus">
 
 			<cfset LOCAL.result = structNew()>
+
 			<cfset LOCAL.result.done = "false" />
 			<cfset LOCAL.result.data = "" />
 
@@ -92,7 +93,7 @@
 		    	<cfquery name = "fetchStatus">
                   SELECT status
 				  FROM   ms_question
-				  WHERE  questionId = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.questionId#">
+				  WHERE  questionId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.questionId#">
 				</cfquery>
 				<cfset LOCAL.result.done = "true" />
 				<cfset LOCAL.result.data = fetchStatus.status />
@@ -127,4 +128,66 @@
 		</cftry>
 
 	</cffunction>
+
+<!--- Method : It will alloe for multiple test for a subject --->
+	<cffunction name = "getAllowStatus" access = "remote" returnType = "struct" returnFormat = "JSON">
+			<cfargument name = "studentEmailId"  required = "true" type = "string"  hint = "It will catch student emailId">
+			<cfargument name = "subject"      required = "true" type = "string"  hint = "It will catch subject name">
+
+			<cfset LOCAL.resultStatus = structNew()>
+
+			<cfset LOCAL.resultStatus.done = "false" />
+			<cfset LOCAL.resultStatus.data = "" />
+
+		    <cfset LOCAL.success = toggleAllow(ARGUMENTS.studentEmailId,ARGUMENTS.subject) />
+			<!--- check DB error --->
+            <cfif NOT LOCAL.success >
+				<cfset LOCAL.resultStatus.done = "false" />
+                <cfreturn LOCAL.resultStatus />
+			</cfif>
+
+		    <cftry>
+		    	<cfquery name = "LOCAL.fetchAllowStatus">
+                  SELECT status
+				  FROM   ms_result
+				  WHERE  studentEmail = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.studentEmailId#">
+						AND subject = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.subject#">
+				</cfquery>
+				<cfset LOCAL.resultStatus.done = "true" />
+				<cfset LOCAL.resultStatus.data = LOCAL.fetchAllowStatus.status />
+
+				<cfcatch type = "database">
+                  <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getAllowStatus].blockUnblock" />
+			      <cfset LOCAL.resultStatus.done = "false" />
+				</cfcatch>
+			</cftry>
+			<cfreturn LOCAL.resultStatus />
+		</cffunction>
+
+<!--- ------    Method : It will do allow/notAllow for multiple test  ------------>
+	<cffunction name = "toggleAllow" access = "private" hint = "It will do toggle the status of allow"
+		                              returntype = "boolean">
+		<cfargument name = "studentEmail" required = "true" type = "string" hint = "It will catch student email"/>
+	    <cfargument name = "subject" required = "true" type = "string" hint = "It will catch subject name"/>
+	    <cftry>
+		    <cfquery name="doToggle">
+			  UPDATE ms_result
+			  SET    status = CASE
+				                  WHEN status = 1 THEN 0
+				                  ELSE 1
+			                  END
+			  WHERE studentEmail = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.studentEmail#">
+						AND subject = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.subject#">
+
+			</cfquery>
+			<cfreturn TRUE />
+			<cfcatch>
+			  <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[toggleAllow] blockUnblock" />
+              <cfreturn FALSE />
+			</cfcatch>
+		</cftry>
+
+	</cffunction>
+
+
 </cfcomponent>

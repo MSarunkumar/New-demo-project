@@ -3,10 +3,12 @@
  */
           var t_Valid  = false;
           var st_Valid = false;
-          var d_Valid = false;         
+          var d_Valid = false;  
+          var q_Valid = false;
           var test; var startT;         
-          var durationT;
+          var durationT; var queNum;          
           var readyStartTime = "" ;
+          var totalQuestion;
           
           
           
@@ -15,8 +17,9 @@
               testValid();
               startValid();
               durValid();
+              queValid();
               
-              if (t_Valid && st_Valid  && d_Valid ) {      
+              if (t_Valid && st_Valid  && d_Valid && q_Valid ) {      
                    return true;
               }    
               else 
@@ -40,17 +43,7 @@
               }
               
            }
-    //.............................................................  end time  validation
-         /* function endValid() {
-        	  endT = document.getElementById("endId").value;
-        	  endT = endT.trim();
-        	  if(endT == "") {
-        		  et_Valid = ShowError("etid" , "Please choose deactivate time of test");
-        	  }
-              else {
-            	  et_Valid = done("etid");
-              }
-           }*/
+  
    //..............................................................  Test duration validation
           function durValid() {
         	  durationT = document.getElementById("durId").value;
@@ -67,20 +60,36 @@
               }
               
            }
-            
-   //....................................................  It will remove error message and return true.
+    //..............................................          Validate total number of question in test
+          function queValid() {
+        	  queNum = document.getElementById("queId").value;
+        	  queNum = queNum.trim();
+              var reg = /^\d{1,2}$/;
+              if (queNum == "" || queNum == "0") {
+                  q_Valid = ShowError("qtid", " Please enter total question ");
+              }
+              else if (!reg.test(queNum)) {
+            	  q_Valid = ShowError("qtid", " Please enter only digits");
+              }
+              else {
+            	        q_Valid = done("qtid");
+              }
+              
+           }
+                    
+   //..........................................   It will remove error message and return true.
          function done(ids) {
               document.getElementById(ids).innerHTML = '';
               return true;
           }
          
-   //......................................  It will display error message on specified position(based on ids)
+   //......................................       It will display error message on specified position(based on ids)
           function ShowError(ids, msg) {
               document.getElementById(ids).innerHTML = msg;
               return false;
           }
          
-  //........................................  It will validate drop down test option  
+  //........................................       It will validate drop down test option  
           function selectValid(value,ids,msg) {
         	  if(value == "0") {
     			  return ShowError(ids, msg);
@@ -128,90 +137,105 @@
         		}
           });
           */
-          
-     //.......................   getStartTimeFormat ................
-         
-          
+      //....................................................  
           $("#update").click(function() {
         	  
         	  if(formValidation()) {
+        		  $.ajax({
+        				type:"Post"  ,
+        		        url: "../../Model/viewDetails.cfc?method=getTotalActiveQuestion" ,
+        		        data:{  
+        		        	 subject:test
+        		       	     },
+        		        datatype: "json",
+        		        success:function(res) { 
+        		        	 totalQuestion = $.parseJSON(res);
+        		        	 
+        		        	   if(totalQuestion < queNum) {
+        		        		   q_Valid = ShowError("qtid", " Please enter total question less than active question");    
+        	                   }
+        		        	   else if(totalQuestion == -1) {
+        		        		   $(".serverSideError").html("Internal Problem. Please try again.");
+        		        	   }
+        		        	   else {
+        		        		   getStartTimeFormat();
+        		        	   }
+        		            }
+                        });
+        	  }
+          });
+          
+          
+          
+          
+     //.......................   getStartTimeFormat ................
+          function getStartTimeFormat() {      
         	  $.ajax({
   				type: "Post"  ,
-  		        url: "/OnlineExam2/Validation/validations.cfc?method=getDateTimeFormat" ,
+  		        url: "../../Validation/validations.cfc?method=getDateTimeFormat" ,
   		        data:{  
   		        	   time:startT  
   		       	     },
   		        datatype: "json",
   		        success:function(res) { 
   		                readyStartTime = $.parseJSON(res);
-  		              $.confirm({
-  					    title: "Confirm ..!!",
-  						type:"green",
-  					    content: "Do you want to update test time ?",
-  					    theme: "material",
-  					    boxWidth: "35%",
-  					    useBootstrap: false,
-  					    buttons: {
-  					        confirm: function () {
-  					        	updateTestTime();
-  					        },
-  					        cancel: function () {
-  			                  
-  					        }
-  					      }
- 	       	          });
-  		               
+  		                isTestOverlap();
   		           }
         	    });
         	 }
         	  
-          });
-          
-     //................  getEndTimeFormat  ..............................
-       /*   function getEndTimeFormat(endT) {
+       //..............................................   Two test can not be overlap 
+          function isTestOverlap() {
         	  $.ajax({
-  				type: "Post"  ,
-  		        url: "/OnlineExam2/Validation/validations.cfc?method=getDateTimeFormat" ,
-  		        data:{  
-  		        	   time:endT  
-  		       	     },
-  		        datatype: "json",
-  		        success:function(res)
-  		             { 
-  		               readyEndTime = $.parseJSON(res);
-  		             $.confirm({
- 					    title: "Confirm ..!!",
- 						type:"green",
- 					    content: "Do you want to update test time ?",
- 					    theme: "material",
- 					    boxWidth: "35%",
- 					    useBootstrap: false,
- 					    buttons: {
- 					        confirm: function () {
- 					        	updateTestTime();
- 					        },
- 					        cancel: function () {
- 			                  
- 					        }
- 					      }
-	       	              });
-  		                
-  		             }
-        	  });
+         		 type:"post",
+         		 url:"../../Model/takeTest.cfc?method=isOverlap",
+         		 data:{
+         			    subject: test,
+ 		        	    startTime:readyStartTime,
+ 		        	    duration:durationT
+         		      },
+         		 datatype:"json",
+         		 success:function (res) {
+
+         			 var resp = $.parseJSON(res);
+         			 console.log(resp);
+         			 if(resp) {
+         				  $.confirm({
+         					    title: "Confirm ..!!",
+         						type:"green",
+         					    content: "Do you want to update test time ?",
+         					    theme: "material",
+         					    boxWidth: "35%",
+         					    useBootstrap: false,
+         					    buttons: {
+         					        confirm: function () {
+         					        	updateTestTime();
+         					        },
+         					        cancel: function () {
+         			                  
+         					        }
+         					      }
+         		  	          });  		               	          				
+         			 }
+         			 else {
+         				 $("#stid").html("Two test can not be overlap");
+         			 }
+         		 }
+         	  });
         	  
-          }*/
-          
+          }      
     //...........         it will update the test time and duration      ....................... 
     			        	   
           function updateTestTime() {
         	  
         	  $.ajax({
         		 type:"post",
-        		 url:"/OnlineExam2/Model/takeTest.cfc?method=updateTestTime",
+        		 url:"../../Model/takeTest.cfc?method=updateTestTime",
         		 data:{
         			    testName: test,
 		        	    startTime:readyStartTime,
-		       	        duration:durationT
+		       	        duration:durationT,
+		       	        totalQuestion:queNum
         		      },
         		 datatype:"json",
         		 success:function (res) {

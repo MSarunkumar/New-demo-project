@@ -13,9 +13,10 @@
 					<cfset VARIABLES.mark = APPLICATION.viewDetailsObj.getMark() />
 					<!--- Check DB error ---------------------------------------------- --->
 					<cfif isDefined("VARIABLES.mark.errID") >
-					<cfif VARIABLES.mark.errID EQ -1>
-						<cflocation url = "studentDashboard.cfm?errID=1" addtoken = "no" />
-					</cfif>
+						<cfif VARIABLES.mark.errID EQ -1>
+							<cflocation url = "studentDashboard.cfm?errID=1" addtoken = "no" />
+						</cfif>
+					<cfelse>
 					</cfif>
                     <!--- ----------------------------------------------------------- --->
 		        	<center><h1>Your Result</h1></center>
@@ -23,27 +24,27 @@
 					<table id="tableId" class="cell-border order-column  stripe hover">
 						<thead>
 							<tr>
-							   <th>Test           </th>
-							   <th>Score          </th>
-							   <th>Total Questions</th>
-							   <th>Start Time     </th>
-							   <th>End Time	      </th>
+							   <th> Test </th>
+							   <th> Score </th>
+							   <th> Total Questions </th>
+							   <th> Start Time </th>
+							   <th> End Time </th>
 		                    </tr>
 						</thead>
 
 						<tbody>
 							<cfoutput query="VARIABLES.mark">
 								<tr>
-									<td>#Subject#      </td>
-									<td>#score#	       </td>
-									<td>#totalQuestion#</td>
-									<td>#startDate#    </td>
-									<td>#endDate#      </td>
+									<td> #Subject# </td>
+									<td> #score# </td>
+									<td> #totalQuestion# </td>
+									<td> #startDate# </td>
+									<td> #endDate# </td>
 								</tr>
 							</cfoutput>
 						</tbody>
 					</table>
-					<a href="resultPdf.cfm"><button id="resultBtn">Download Result</button></a>
+					<a href="resultPdf.cfm"><input type="button" id="resultBtn" value="Download Result"></a>
 	        	</div>
 			</div><br>
 		</div>

@@ -53,7 +53,7 @@ Method : if user want to resend link than we have to delete previouse record,So 
 	<cffunction name = "submitData" access = "public" returntype = "boolean" >
 		<cfargument name = "email" required = "true" type = "string" hint = "It will catch email" />
 		<cfargument name = "guid"  required = "true" type = "string" hint = "It will catch guid"  />
-    	<cfset var currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
+    	<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
         <cftry>
 			   <cfquery name = "insertData" >
 	             INSERT  INTO  ms_password (email,guids,times)
@@ -91,9 +91,11 @@ Method : if user want to resend link than we have to delete previouse record,So 
 
 <!----------- Method : It will send email with Link  -------------------------------->
 		<cffunction name = "sendEmail" access = "public">
+
 			<cfargument name = "from"  required = "true" type = "string">
 			<cfargument name = "to"    required = "true" type = "string">
 		    <cfargument name = "guid"  required = "true" type = "string">
+
 
 		   	<cfmail from = "#ARGUMENTS.from#" to = "#ARGUMENTS.to#" subject = "Recover Password " type = "html">
                <h3>

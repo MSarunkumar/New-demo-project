@@ -24,7 +24,7 @@
                 <cfset VARIABLES.salt = Hash(GenerateSecretKey("AES"), "SHA-512") />
 	            <cfset VARIABLES.hashedPassword = Hash(FORM.password & VARIABLES.salt, "SHA-512") />
 <!--- ------------------------------------------------------------------------------------------- --->
-                <cfset VARIABLES.updateStatus = APPLICATION.FP.resetPassword(FORM.email,VARIABLES.hashedPassword,VARIABLES.salt) />
+                <cfset VARIABLES.updateStatus = APPLICATION.forgotPasswordObj.resetPassword(FORM.email,VARIABLES.hashedPassword,VARIABLES.salt) />
 				<cfif VARIABLES.updateStatus EQ FALSE>
 				 <cflocation url="../index.cfm?errId=4" addtoken="no" />
 			    </cfif>

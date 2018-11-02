@@ -8,19 +8,23 @@ if(document.referrer != 'http://localhost:5000/') {
 	  history.pushState(null, null, '');
 	   });
 }
-//......................................................................
+//.........................................................................
         var isSubmit = false;
 		var score = 0;
-		var totalQ = 0;
 		var num = 0;
 		var subjectName = $("#subjectName").val();
-		
-		getTotalQuestion(subjectName);
-		
-	      
-	$("#nextBtn").click( function () {
+		var totalQ = $("#totalQuestion").val();
+		var testIdentifier = $("#testId").val();
+		var totalQuestion = parseInt(totalQ,10);
 		
 		
+		getQuestionId(totalQuestion);
+	     
+		console.log(totalQuestion);
+	    console.log("hiii");
+	    
+	   $("#nextBtn").click( function () {
+			
 		if ( $("#answer").val() != undefined ) {
 	    	if (totalQuestion != 1) {
                if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
@@ -30,9 +34,9 @@ if(document.referrer != 'http://localhost:5000/') {
 		}
             //....   it is for disabled Next button and change the color of submit 
             //       button  at last question     ...................
+		
 		if (totalQuestion == 1) {
-		     $("#nextBtn").attr("disabled","disabled");
-		     $("#nextBtn").css("background-color", "#abafba");
+		     $("#nextBtn").attr("disabled","disabled").css("background-color", "#abafba");
 		     $("#submitBtn").css("background-color", "#e80b28");
 		}			
 		else {
@@ -48,7 +52,7 @@ if(document.referrer != 'http://localhost:5000/') {
 		 num=num+1;           // This variable  is showing question number. 
 	      $.ajax({
 	         type: "Post"  ,
-	         url: "/OnlineExam2/Model/takeTest.cfc?method=getQuestions" ,
+	         url: "../../Model/takeTest.cfc?method=getQuestions" ,
 	         data:{qid:questionId },
 	         datatype: "json",
 	         
@@ -73,7 +77,7 @@ if(document.referrer != 'http://localhost:5000/') {
 		
 		 if(! isSubmit)
 	     {
-		//............................       It is for calculating score of last question 
+		//............................   It is for calculating score of last question 
 	         if ($("#answer").val() != undefined ) {
 	        	if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
 	                        score = score+1;
@@ -81,12 +85,13 @@ if(document.referrer != 'http://localhost:5000/') {
 	    	 }
 	    //............................   It will submit the score  
 	         
-	         $.ajax( {
+	         $.ajax({
 		         type: "Post"  ,
-		         url: "/OnlineExam2/Model/takeTest.cfc?method=submitScore" ,
+		         url: "../../Model/takeTest.cfc?method=submitScore" ,
 		         data:{ score:parseInt(score),
 		        	    totalQuestion:parseInt(totalQ),
-		        	    subject:subjectName
+		        	    subject:subjectName,
+		        	    testId:testIdentifier
 		        	    },
 		         
 		         datatype: "json",
@@ -112,7 +117,7 @@ if(document.referrer != 'http://localhost:5000/') {
 		 
 			 $.ajax({
 		         type: "Post"  ,
-		         url: "/OnlineExam2/Model/takeTest.cfc?method=getQuestionId" ,
+		         url: "../../Model/takeTest.cfc?method=getQuestionId" ,
 		         data:{ qno: tq,
 		        	    sub:subjectName
 		        	    },
@@ -129,28 +134,6 @@ if(document.referrer != 'http://localhost:5000/') {
 		          });
 		    }
 	
-	  function getTotalQuestion(subjectName) {
-		 //....... It will fetch total number of question based on subject
-		  
-			 $.ajax( {
-		         type: "Post"  ,
-		         url: "/OnlineExam2/Model/takeTest.cfc?method=totalQuestion" ,
-		         data:{sub:subjectName},
-		         datatype: "json",
-		         success:function(res)
-		              {
-		        	  totalQuestion = $.parseJSON(res);
-		        	  
-		        	  if (totalQ === 0) {
-		    	    	  totalQ = totalQuestion;
-		    	    	  }
-		        	  if (totalQuestion == -1) {
-		        		  window.location.assign("studentDashboard.cfm?errId=1");  
-		        	  }
-		        	  getQuestionId(totalQuestion);
-		              }
-		        });
-            }
 	
 	$("#submitBtn").click( function () {
 		
@@ -187,7 +170,7 @@ if(document.referrer != 'http://localhost:5000/') {
 
 
 
-window.onbeforeunload = function () {
+/*window.onbeforeunload = function () {
     window.setTimeout(function () { 
     	
     	if( ! isSubmit) { 
@@ -201,4 +184,4 @@ window.onbeforeunload = function () {
     window.onbeforeunload = null;  
                                     
     return 'Press "Stay On Page" to go to online exam system!';      
-}
+}*/

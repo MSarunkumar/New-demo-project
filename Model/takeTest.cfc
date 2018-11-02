@@ -15,9 +15,9 @@
 	<cffunction name = "getQuestions" returntype = "query" access = "remote" returnformat = "JSON">
 		<cfargument name = "qid" type = "any" required = "yes">
 
-		<cfset LOCAL.qd = LSParseNumber(qid)>
-		<cftry>
+		<cfset LOCAL.qd = LSParseNumber(qid) />
 
+		<cftry>
 	        <cfquery name = "fetchQuestion">
 		        SELECT    question,option1,option2,option3,option4,answer
 		        FROM      ms_question
@@ -59,20 +59,23 @@
 	<!--- Method:  it will submit the result of test --- --->
 
 	<cffunction name = "submitScore" access = "remote" returntype = "boolean"  returnformat = "JSON">
-        <cfargument name = "score"         required = "true"   type = "numeric"   />
-		<cfargument name = "totalQuestion" required = "true"   type = "numeric"   />
-		<cfargument name = "subject"       required = "true"   type = "string"    />
+        <cfargument name = "score" required = "true"   type = "numeric" hint = "It will catch score"/>
+		<cfargument name = "totalQuestion" required = "true"   type = "numeric" hint = "Total question in test"/>
+		<cfargument name = "subject" required = "true"   type = "string" hint = "Test name"/>
+		<cfargument name = "testId" required = "true" type = "numeric" hint = "It will catch testId" />
+
 		<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss")# />
         <cftry>
 			<cfquery name = "submitResult" >
-	         INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject)
+	         INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject,testId)
                     VALUES(
-	                  <cfqueryparam value = "#SESSION.userEmail#"       cfsqltype = "cf_sql_varchar"    >,
-		              <cfqueryparam value = "#SESSION.startTime#"       cfsqltype = "cf_sql_timestamp"  >,
-		              <cfqueryparam value = "#LOCAL.currentTime#"       cfsqltype = "cf_sql_timestamp"  >,
-		              <cfqueryparam value = "#ARGUMENTS.score#"         cfsqltype = "cf_sql_integer"    >,
-		              <cfqueryparam value = "#ARGUMENTS.totalQuestion#" cfsqltype = "cf_sql_integer"    >,
-		              <cfqueryparam value = "#ARGUMENTS.subject#"       cfsqltype = "cf_sql_varchar"    >
+	                  <cfqueryparam value = "#SESSION.userEmail#"       cfsqltype = "cf_sql_varchar" >,
+		              <cfqueryparam value = "#SESSION.startTime#"       cfsqltype = "cf_sql_timestamp" >,
+		              <cfqueryparam value = "#LOCAL.currentTime#"       cfsqltype = "cf_sql_timestamp" >,
+		              <cfqueryparam value = "#ARGUMENTS.score#"         cfsqltype = "cf_sql_integer" >,
+		              <cfqueryparam value = "#ARGUMENTS.totalQuestion#" cfsqltype = "cf_sql_integer" >,
+		              <cfqueryparam value = "#ARGUMENTS.subject#"       cfsqltype = "cf_sql_varchar" >,
+		              <cfqueryparam value = "#ARGUMENTS.testId#"        cfsqltype = "cf_sql_integer" >
                       )
 	        </cfquery>
 	        <!--- Change the activity of student --->
@@ -149,12 +152,16 @@
 		<cfargument name = "testName" required = "true" type = "string" />
 		<cfargument name = "startTime" required = "true" type = "date"  />
 		<cfargument name = "duration"  required = "true" type = "numeric" />
+		<cfargument name = "totalQuestion" required = "true" type = "numeric" />
 		<cftry>
 			<cfquery name = "doUpdateTestTime">
-			  UPDATE ms_test
-			  SET    startTime = <cfqueryparam cfsqltype = "cf_sql_timestamp" value = "#ARGUMENTS.startTime#"> ,
-			         duration = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.duration#">
-			  WHERE  test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.testName#">
+				INSERT INTO  ms_test (test,startTime,duration,totalQuestion)
+				       VALUES (
+				       <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.testName#">,
+				       <cfqueryparam cfsqltype = "cf_sql_timestamp" value = "#ARGUMENTS.startTime#"> ,
+				       <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.duration#">,
+			           <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.totalQuestion#">
+			           )
 			</cfquery>
 	        <cfreturn TRUE />
 	        <cfcatch type="database">
@@ -165,6 +172,48 @@
 
 	</cffunction>
 
+<!--- Method :  Two test can not be overlap of same subject if overlap return false else true   --->
+	<cffunction name = "isOverlap" access = "remote" returnformat = "JSON" returntype = "boolean" hint = "return true if overlap">
+		<cfargument name = "subject" required = "true" type = "string" hint = "It will catch subject name"/>
+		<cfargument name = "startTime" required = "true" type = "date" hint = "It will catch start time" />
+		<cfargument name = "duration" required = "true" type = "numeric" hint = "It will catch duration of test"/>
 
+		<cfset LOCAL.dbTimeDuration = APPLICATION.viewDetailsObj.getTimeDuration(ARGUMENTS.subject) />
+
+		<!--- If admin set the test first time so no need of check time limit return true --->
+		<cfif LOCAL.dbTimeDuration.RecordCount EQ 0><cfreturn TRUE /></cfif>
+
+		<!--- Getting formate so we can take currect difference of datetime --->
+        <cfset LOCAL.currentStartTime = DateTimeFormat(ARGUMENTS.startTime, "MM d yyyy HH:nn:ss ") />
+
+		<!--- Check each test time so they can not overlap --->
+		<cfloop query = "LOCAL.dbTimeDuration">
+
+		   <cfset LOCAL.dbStartTime = DateTimeFormat(LOCAL.dbTimeDuration.startTime, "MM d yyyy HH:nn:ss ") />
+		   <cfset LOCAL.minuteDiff =  Datediff("n",LOCAL.dbStartTime,LOCAL.currentStartTime ) />
+
+		   <cfif LOCAL.minuteDiff EQ 0> <cfreturn FALSE/></cfif>
+           <!--- If difference is +ve means future time from db test --->
+		   <cfif LOCAL.minuteDiff GT 0>
+		        <cfif LOCAL.dbTimeDuration.duration GTE LOCAL.minuteDiff >
+					<cfreturn  FALSE/>
+			    </cfif>
+			</cfif>
+
+			<!---If difference is -ve means past time from db test  --->
+			<cfif LOCAL.minuteDiff LT 0>
+				<cfif abs(LOCAL.minuteDiff) LTE ARGUMENTS.duration>
+					<cfreturn FALSE />
+				</cfif>
+			</cfif>
+		</cfloop>
+        <!--- ----------------------------------------------------- --->
+		<cfreturn TRUE />
+	</cffunction>
+
+	<!--- Method : Get current time  --->
+	<cffunction  name = "getCurrentTime" access = "public"  returntype = "date">
+	   <cfreturn DateTimeFormat(now(), "MM d yyyy HH:nn:ss ") />
+	</cffunction>
 
 </cfcomponent>

@@ -9,17 +9,16 @@
 		<div id="main-body">
              <cfinclude template="../Includes/upperBar.cfm" />
              <div id="serverSideError">
-		     	<cfset errorArray=[ "Not registered Email Id",
+		     	<cfset VARIABLES.errorArray=[ "Not registered Email Id",
 		     	                    "Please enter valid format",
 		                            "Link has been send to your email.Please open that within 1 hrs.",
 		                            "Internal problem. Please try again"]>
 				<cfif isdefined("URL.errID")>
-				    <cfif URL.errId EQ 1><cfoutput>#errorArray[1]#</cfoutput></cfif>
-				    <cfif URL.errId EQ 2><cfoutput>#errorArray[2]#</cfoutput></cfif>
-				    <cfif URL.errId EQ 3><cfoutput>#errorArray[3]#</cfoutput></cfif>
-				    <cfif URL.errId EQ 4><cfoutput>#errorArray[4]#</cfoutput></cfif>
-		         <cfelse>
-			     </cfif>
+					<cfif URL.errID GTE 1 AND URL.errID LTE 4 >
+						<cfoutput>#VARIABLES.errorArray[URL.errID]#</cfoutput>
+					</cfif>
+		         	<cfelse>
+			    </cfif>
 		      </div>
 			 <div class="form-area">
 				<div class="form-header"> Recover Password </div>

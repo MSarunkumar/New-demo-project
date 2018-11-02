@@ -9,25 +9,25 @@
 				<div class="serverSideError"></div>
 
 				<cfset VARIABLES.student = APPLICATION.viewDetailsObj.getStudents() />
-
+				<!--- Check DB error ----------------------- --->
                 <cfif isDefined("VARIABLES.student.errID") >
 					<cfif VARIABLES.student.errID EQ -1>
 						<cflocation url = "adminDashboard.cfm?errID=1" addtoken = "no">
 					</cfif>
 				</cfif>
-
+				<!--- -------------------------------------- --->
                 <table id="tableId" class="cell-border order-column  stripe hover">
-                   <thead>
+                   <thead >
 						<tr>
 					   	    <th>Name</th>
 							<th>Email</th>
 							<th>Dob</th>
 							<th>Mobile</th>
 						    <th>Address Line</th>
-						    <th>Status</th>
+						    <th>Action</th>
 						 </tr>
 					 </thead>
-					 <tbody>
+					 <tbody id="dataTableBody">
 						 <cfoutput query="VARIABLES.student">
 							 <tr>
 								 <td>#Name#</td>
@@ -38,9 +38,9 @@
 
 								 <td>
 									 <cfif  #status# EQ 0>
-										 <input type="button" class="actionButton btn-red" id="blockButton" onClick="javascript:getStatus('#email#', this)" value="Block" />
-									<cfelse>
 										<input type="button" class="actionButton btn-green" id="unblockButton" onClick="javascript:getStatus('#email#', this)" value="Unblock" />
+									<cfelse>
+									    <input type="button" class="actionButton btn-red" id="blockButton" onClick="javascript:getStatus('#email#', this)" value="Block" />
 									</cfif>
 
 								 </td>

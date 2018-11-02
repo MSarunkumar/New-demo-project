@@ -2,28 +2,25 @@
 	<cflocation  url = "../error/error.cfm" addtoken = "no" />
 <cfelse>
 
-	<cfset VARIABLES.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
-
-	<cfset VARIABLES.times = APPLICATION.FP.getTime(URL.id) />
-
+	<cfset VARIABLES.currentTime = DateTimeFormat(now(), "MM d yyyy HH:nn:ss ") />
+	<cfset VARIABLES.times = APPLICATION.forgotPasswordObj.getTime(URL.id) />
 	<cfif  VARIABLES.times EQ "">
 		<cflocation  url = "../error/error.cfm" addtoken = "no" />
 	</cfif>
 
 	<cfset VARIABLES.sec = Datediff("s",VARIABLES.times,VARIABLES.currentTime) />
 	<cfset VARIABLES.minutes = int(VARIABLES.sec/60) />
-	<!--- Link will be expired in 60 minetus --->
+	<!--- Link will be expired after 60 minetus --->
 	<cfif  VARIABLES.minutes GT 60>
 		<cfoutput>
 			<h1>
-				The Link has been Expired.
+                Online Exam System password recovery
+				link has been Expired.
 				<a href="../index.cfm"> Go Back </a>
 			</h1>
 		</cfoutput>
 	<cfelse>
-		<cfset VARIABLES.email = APPLICATION.FP.getEmail(URL.id) />
-
-
+		<cfset VARIABLES.email = APPLICATION.forgotPasswordObj.getEmail(URL.id) />
 
 		<html>
 			<head>
@@ -42,10 +39,10 @@
 				    <div class="hat-icon">
 		               <img src="../assets/image/hat.png" width="200px" height="130px">
                     </div>
-					<cfset errorArray = ["Please enter valid format of password"]>
-					<cfif isdefined("URL.errID")>
+					<cfset VARIABLES.errorArray = ["Please enter valid format of password"]>
+					<cfif isdefined("URL.errId")>
 					    <cfif URL.errId EQ 1>
-						   <cfoutput>#errorArray[1]#</cfoutput>
+						   <cfoutput>#VARIABLES.errorArray[URL.errId]#</cfoutput>
 					    </cfif>
 				    </cfif>
 					<div class="form-area">

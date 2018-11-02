@@ -10,10 +10,9 @@
 					    <div id="heading"> Add Question</div>
 
 					    <div class="serverSideError">
-						    <cfset errorArray = ["Question added successfully ..!!!" ] />
+						    <cfset VARIABLES.errorArray = ["Question added successfully ..!!!" ] />
 						    <cfif isDefined("URL.errID") >
-								<cfif URL.errID EQ 1><cfoutput>#errorArray[1]# </cfoutput></cfif>
-
+								<cfif URL.errID EQ 1><cfoutput>#VARIABLES.errorArray[URL.errID]# </cfoutput></cfif>
 							<cfelse>
 						    </cfif>
 					    </div>

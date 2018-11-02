@@ -5,9 +5,9 @@
 isTestOnline();
 
 function isTestOnline() {
-	 $.ajax( {
+	/* $.ajax( {
          type: "Post"  ,
-         url: "/OnlineExam2/Model/takeTest.cfc?method=isOnline" ,
+         url: "../../Model/takeTest.cfc?method=isOnline" ,
          datatype: "json",
          success:function(res)
               { 
@@ -16,6 +16,6 @@ function isTestOnline() {
                 	 window.location.assign("../../index.cfm?errId=9");	
                 }  
         	  }
-           });
+           });*/
 		 setTimeout( isTestOnline, 1000);	
 	}

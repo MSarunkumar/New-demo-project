@@ -1,4 +1,6 @@
 <cfinclude template="../../Includes/studentPageValidate.cfm" />
+
+
 <html>
 	<head>
 		<title>Result PDF</title>

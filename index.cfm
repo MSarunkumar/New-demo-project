@@ -25,7 +25,7 @@
              </div>
 
              <div id="serverSideError">
-				<cfset errorArray=["Invalid format Email Id/Password",
+				<cfset VARIABLES.errorArray=["Invalid format Email Id/Password",
 				                    "Please enter registered Email Id/Password",
 				                    "Please enter correct Email Id/Password",
 				                    "Internal problem,Please try again",
@@ -34,17 +34,10 @@
 				                    "You are blocked by ADMIN",
 				                    "Invalid user","You are offline for taking the test"]>
 				<cfif isdefined("URL.errID")>
-					<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 2> <cfoutput>#errorArray[2]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 3> <cfoutput>#errorArray[3]#</cfoutput> </cfif>
-                    <cfif URL.errId EQ 4> <cfoutput>#errorArray[4]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 5> <cfoutput>#errorArray[5]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 6> <cfoutput>#errorArray[6]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 7> <cfoutput>#errorArray[7]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 8> <cfoutput>#errorArray[8]#</cfoutput> </cfif>
-					<cfif URL.errId EQ 9> <cfoutput>#errorArray[9]#</cfoutput> </cfif>
-
-				<cfelse>
+					<cfif URL.errID GTE 1 AND URL.errID LTE 9 >
+						<cfoutput>#VARIABLES.errorArray[URL.errID]#</cfoutput>
+					</cfif>
+					<cfelse>
 				</cfif>
             </div>
 			<div class="form-area">

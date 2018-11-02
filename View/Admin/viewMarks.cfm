@@ -27,6 +27,7 @@
 								<th>Start Time</th>
 								<th>End Time</th>
 								<th>Status</th>
+								<th>Action</th>
 							 </tr>
 						 </thead>
 						 <tbody>
@@ -40,10 +41,17 @@
 			                     <td>#startDate#</td>
 								 <td>#endDate#</td>
 								 <cfif #VARIABLES.scorePer# LT 33>
-						         <td id="fail">FAIL</td>
+						           <td id="fail">FAIL</td>
 						         <cfelse>
-						         <td id="pass">PASS</td>
+						           <td id="pass">PASS</td>
 						         </cfif>
+						         <td>
+									 <cfif  #status# EQ 0>
+										<input type="button" class="actionButton btn-green"  onClick="javascript:getAllowStatus('#studentEmail#','#subject#', this)" value="Allow" />
+									<cfelse>
+									    <input type="button" class="actionButton btn-red"  onClick="javascript:getAllowStatus('#studentEmail#','#subject#', this)" value="Not Allow" />
+									</cfif>
+								 </td>
 		                      </tr>
 							 </cfoutput>
 						 </tbody>
@@ -53,6 +61,6 @@
         	</div><br>
         </div>
 		  <cfinclude template="../../Includes/footer.cfm" />
-		<script src="../../assets/js/viewMark.js"></script>
+		<script src="../../assets/js/viewMarks.js"></script>
 	</body>
 </html>

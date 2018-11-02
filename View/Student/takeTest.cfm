@@ -5,57 +5,75 @@
 </cfif>
 
 <!--- -----------------------------------------------     for multiple device  --->
-
- <cfset VARIABLES.isActive = APPLICATION.viewDetailsObj.getActivity() />
+<cfset VARIABLES.isActive = APPLICATION.viewDetailsObj.getActivity() />
 <!--- It is for checking DB error --->
 <cfif VARIABLES.isActive EQ -1>
 	<cflocation url="studentDashboard.cfm?errId=1" addtoken="no" />
 </cfif>
-<!---  student is taking the test to another device --->
+<!---  student is taking the test to another device   --->
 <cfif VARIABLES.isActive EQ 1>
 	<cflocation url="studentDashboard.cfm?errId=2" addtoken="no" />
 </cfif>
+<!--- ----------------------------------------------------------------------- --->
 
-<!--- ------------------------------------------------     one test for a subject --->
+<!--- ---------------------------------------------  It will check this test is active or not  --->
+<cfset VARIABLES.activeTestId = APPLICATION.viewDetailsObj.getActiveTestId(FORM.subId) />
 
-<cfset VARIABLES.isAttempt =  APPLICATION.viewDetailsObj.isAttemptTest(FORM.subId) />
+<!---  Test is active or not    -------------------------- --->
+<cfif VARIABLES.activeTestId EQ 0>
+	 <cflocation url="studentDashboard.cfm?errId=8" addtoken="no" />
+</cfif>
+<cfset VARIABLES.testInfo = APPLICATION.viewDetailsObj.getTestInfo(VARIABLES.activeTestId) />
+<!--- ---  Check DB error   --->
+<cfif isDefined("VARIABLES.testInfo.errID") >
+	<cfif VARIABLES.testInfo.errID EQ -1>
+		<cflocation url = "studentDashboard.cfm?errID=1" addtoken = "no">
+	</cfif>
+</cfif>
+<!--- ------------------------------------------------------------------------------------ --->
+
+
+<!--- ------------------   One test for a subject depend on admin if allow for multiple tests  --->
+<cfset VARIABLES.isAttempt =  APPLICATION.viewDetailsObj.isAttemptTest(VARIABLES.activeTestId) />
+
 <!--- It is for checking DB error --->
 <cfif VARIABLES.isAttempt EQ -1>
 	<cflocation url="studentDashboard.cfm?errId=1" addtoken="no" />
 </cfif>
-<!--- Student can attempt a particular test only one time ------------ --->
+<!--- check student is already attempted or not if yes then check admin allow or not  --->
+
 <cfif VARIABLES.isAttempt GT 0>
-	 <cflocation url="studentDashboard.cfm?errId=4" addtoken="no" />
-</cfif>
+	<cflocation url="studentDashboard.cfm?errId=4" addtoken="no" />
+	<!---
+    <cfset VARIABLES.isAllowed = APPLICATION.viewDetailsObj.isAllow(FORM.subId) />
+	<!--- Check DB error  ----  --->
+	<cfif VARIABLES.isAllowed EQ -1>
+		<cflocation url="studentDashboard.cfm?errId=1" addtoken="no" />
+	</cfif>
 
-<!--- ---------------------------------------------- Test is active or not  --->
+	<cfif VARIABLES.isAllowed EQ 1>
+		<cflocation url="studentDashboard.cfm?errId=4" addtoken="no" />
+	</cfif>
+ --->
 
-<cfset SESSION.isStarted =  APPLICATION.viewDetailsObj.getTimeInfo(FORM.subId) />
-
-<cfset VARIABLES.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
-
-<cfset VARIABLES.seconds = Datediff("s",VARIABLES.currentTime,SESSION.isStarted.startTime)  />
-<!--- If seconds in >0 that means test is not active --->
-<cfif VARIABLES.seconds GT 0>
-	<cflocation url="studentDashboard.cfm?errId=5" addtoken="no" />
-</cfif>
-<cfset VARIABLES.seconds = abs(VARIABLES.seconds) />
-<cfset VARIABLES.minutes = int(VARIABLES.seconds/60) />
-<!---  student can take test after 10 minutes of active test timeline  --->
-<cfif  VARIABLES.minutes GT 10>
-	<cflocation url="studentDashboard.cfm?errId=6" addtoken="no" />
-</cfif>
-<cfset VARIABLES.testDuration = (SESSION.isStarted.duration - VARIABLES.minutes) />
+ </cfif>
 
 
+<!--- ------------------------------------------ Get the current time from server and set test duration --->
+<cfset VARIABLES.currentTime = APPLICATION.takeTestObj.getCurrentTime() />
+<!--- Set the current time in session for tracking the student spent time in test --->
+<cfset SESSION.startTime = VARIABLES.currentTime />
+<cfset VARIABLES.minute = Datediff("n",VARIABLES.testInfo.startTime,VARIABLES.currentTime) />
+<cfset VARIABLES.testDuration = (VARIABLES.testInfo.duration - VARIABLES.minute)/>
 <!--- --------------------------------------------------------------------------------------- --->
+
 <!--- It is changing the test activity of student so he can`t give test to another device. --->
 <cfset VARIABLES.isChangeActive = APPLICATION.takeTestObj.changeActivity() />
-
+<!--- check DB error --->
 <cfif VARIABLES.isChangeActive EQ FALSE>
 	<cflocation url="studentDashboard.cfm?errId=1" addtoken="no" />
 </cfif>
-<cfset SESSION.startTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
+
 
 <html>
 	<head>
@@ -77,7 +95,11 @@
 					 	<div class="name" > Name:&nbsp<cfoutput>#SESSION.student.Name#</cfoutput>  </div>
 					 	<div class="subject">Subject:&nbsp<cfoutput>#FORM.subId#</cfoutput></div>
 				 	</div><br><br>
-				 	<cfoutput><input type="hidden" id="subjectName" value="#FORM.subId#"></cfoutput>
+				 	<cfoutput>
+					 	<input type="hidden" id="subjectName" value="#FORM.subId#">
+						<input type="hidden" id="totalQuestion" value="#VARIABLES.testInfo.totalQuestion#">
+					    <input type="hidden" id="testId" value="#VARIABLES.activeTestId#">
+					</cfoutput>
 
 					<div id="ques" > </div>
                     <div id="btn">

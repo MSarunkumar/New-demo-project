@@ -8,9 +8,9 @@
 		             <div class="data-container">
 	                    <center><h1> admin dashboard</h1></center>
 	                    <div class="serverSideError">
-				              <cfset errorArray=["Internal problem.Please try again"]>
+				              <cfset VARIABLES.errorArray=["Internal problem.Please try again"]>
 					          <cfif isdefined("URL.errID")>
-								<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
+								<cfif URL.errId EQ 1> <cfoutput>#VARIABLES.errorArray[URL.errID]#</cfoutput> </cfif>
 								<cfelse>
 							  </cfif>
 			             </div>

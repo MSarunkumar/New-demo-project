@@ -31,6 +31,7 @@
 
 			        <cfif NOT isValid("regex", trim(ARGUMENTS.email),"^([a-zA-Z0-9_\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$")>
 				    	 <cfset LOCAL.valid = FALSE />
+
 				    </cfif>
 
 				     <!--- Check future date --->
@@ -141,8 +142,8 @@
 
 		<cfset LOCAL.stime = CreateDateTime(LOCAL.Time[1],LOCAL.Time[2],LOCAL.Time[3],
 			                                    LOCAL.Time[4],LOCAL.Time[5],00) />
-        <cfset LOCAL.STime = #DateTimeFormat(LOCAL.stime, "MM d yyyy HH:nn:ss ")# />
-		<cfreturn  LOCAL.STime/>
+        <cfset LOCAL.stime = #DateTimeFormat(LOCAL.stime, "MM d yyyy HH:nn:ss ")# />
+		<cfreturn  LOCAL.stime/>
 
 
 	</cffunction>

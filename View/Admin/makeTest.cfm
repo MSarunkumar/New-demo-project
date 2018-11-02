@@ -9,9 +9,10 @@
 		             <div class="data-container">
 	                    <center><h1> Make Test</h1></center>
 	                    <div class="serverSideError">
-				              <cfset errorArray=["Test time and duration updated successfully"]>
+				              <cfset VARIABLES.errorArray=["Test time and duration updated successfully"]>
+
 					          <cfif isdefined("URL.errID")>
-								<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
+								<cfif URL.errId EQ 1> <cfoutput>#VARIABLES.errorArray[1]#</cfoutput> </cfif>
 								<cfelse>
 							  </cfif>
 			             </div>
@@ -38,20 +39,19 @@
 								  onblur="startValid()" />
 								<div id="stid" class="error"> </div>
 							</div>
-
-                            <!--- <div class="container">
-								<div class="label-container">Please set the deactivate time of test </div>
-                                 <input type="datetime-local" id="endId" name="end" class="input-box"
-								        onblur="endValid()" />
-							    <div id= "etid" class="error"> </div>
-							</div> --->
-
 							<div class="container">
 								<div class="label-container">Please enter time duration of test in minutes </div>
                                  <input type="text" id="durId" name="dur" class="input-box" maxlength="3"
-								        title="Duration must be less than time difference of start,end  time "
+								        title="Duration should be less than 4 digit "
 								        onblur="durValid()"/>
 							    <div id= "dtid" class="error"> </div>
+							</div>
+							<div class="container">
+								<div class="label-container">Please enter total question </div>
+                                 <input type="text" id="queId" name="dur" class="input-box" maxlength="2"
+								        title="Total question must be less than or equal to activate question"
+								        onblur="queValid()"/>
+							    <div id= "qtid" class="error"> </div>
 							</div>
 
 

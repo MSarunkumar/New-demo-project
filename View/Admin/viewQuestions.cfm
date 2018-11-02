@@ -8,9 +8,9 @@
 				<div class="data-container">
 					<center><h1>Question View </h1></center>
 					<div class="serverSideError">
-						<cfset errorArray=["Options updated successfully"]>
+						<cfset VARIABLES.errorArray=["Options updated successfully"]>
 				        <cfif isdefined("URL.errID")>
-							<cfif URL.errId EQ 1> <cfoutput>#errorArray[1]#</cfoutput> </cfif>
+							<cfif URL.errId EQ 1> <cfoutput>#VARIABLES.errorArray[URL.errID]#</cfoutput> </cfif>
 							<cfelse>
 						 </cfif>
 					</div>
@@ -32,7 +32,7 @@
 								<th>Option3</th>
 								<th>Option4</th>
 								<th>Answer</th>
-								<th>Status</th>
+								<th>Action</th>
 								<th>Action</th>
  							</tr>
 						 </thead>
@@ -48,9 +48,9 @@
 									 <td>#answer#</td>
 									 <td >
 								    <cfif  #status# EQ 1>
-										 <input type="button" class="actionButton btn-green " id="blockButton" onClick="javascript:getQuestionStatus('#questionId#', this);" value="Active" />
-									<cfelse>
 										<input type="button" class="actionButton btn-red " id="unblockButton" onClick="javascript:getQuestionStatus('#questionId#', this);" value="Inactive" />
+									<cfelse>
+										<input type="button" class="actionButton btn-green " id="blockButton" onClick="javascript:getQuestionStatus('#questionId#', this);" value="Active" />
 									</cfif>
 									</td>
 									<td>

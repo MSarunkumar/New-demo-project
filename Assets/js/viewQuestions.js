@@ -34,10 +34,10 @@ function getQuestionStatus(questionId, _this) {
 				 
 				 var result = respStatus.DATA;
 				 if(result) {
-					 $(_this).val("Active");	
+					 $(_this).val("Inactive");	
 				 }
 				 else {
-					 $(_this).val("Inactive");	
+					 $(_this).val("Active");	
 				 }
 				 $(_this).toggleClass("btn-red");
 				 $(_this).toggleClass("btn-green");
