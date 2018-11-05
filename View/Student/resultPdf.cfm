@@ -1,6 +1,5 @@
 <cfinclude template="../../Includes/studentPageValidate.cfm" />
 
-
 <html>
 	<head>
 		<title>Result PDF</title>
@@ -15,7 +14,7 @@
 				</cfif>
 			</cfif>
 		<!--- ------------------------------------------------------------------ --->
-		<cfdocument format = "PDF" overwrite = "true" >
+		<cfdocument format = "PDF" overwrite = "true" filename = "onlineExamSystemResult.pdf">
 
 			<cfoutput>
 			<cfdocumentitem type="header">
@@ -70,5 +69,9 @@
 			</cfdocumentitem>
 			</cfoutput>
 		</cfdocument>
+
+
 	</body>
 </html>
+<cfheader name="Content-Disposition" value="attachment;filename=onlineExamSystemResult.pdf">
+<cfcontent type="application/octet-stream" file="#expandPath('.')#/onlineExamSystemResult.pdf">

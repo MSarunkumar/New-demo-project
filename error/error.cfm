@@ -2,20 +2,7 @@
 <html>
 	<head>
 		 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-		<style>
-		#main-body{
-          background-color: #d3dbde;
-          font-family: 'Lato', sans-serif;
-		  height:100%;
-		}
-		#left-elt{
-		 background-color:#363c3d;
-		 font-size:23px;
-	     font-weight:bold;
-	     padding:10px;
-	     color:white;
-	    }
-		</style>
+		 <link href="http://www.localhost:5000/OnlineExam2/assets/css/error.css" rel="stylesheet">
 
 	</head>
 	<body>

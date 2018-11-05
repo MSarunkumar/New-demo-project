@@ -20,8 +20,8 @@
 
 
 
-			             <cfchart format = "jpg" scalefrom = "0"   scaleto = "14" show3d = "Yes" chartwidth = "850"
-			                      chartheight = "350" dataBackgroundColor = "##b5deff">
+			             <cfchart format = "jpg" scalefrom = "0"   scaleto = "25" show3d = "Yes" chartwidth = "850"
+			                      chartheight = "350" dataBackgroundColor = "b5deff">
 
 
 

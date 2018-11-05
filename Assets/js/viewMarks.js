@@ -13,7 +13,7 @@ var table = $("#tableId").DataTable({
 });
 
  
- function getAllowStatus(email,subject, _this) {
+ function getAllowStatus(email,testId, _this) {
 		
 		var value = $(_this).val();
 		var current_status = (value === "ALLOW" ? 0 : 1 );
@@ -23,7 +23,7 @@ var table = $("#tableId").DataTable({
 			url:"../../Model/blockUnblock.cfc?method=getAllowStatus",
 			data:{
 				  studentEmailId:email,
-				  subject:subject
+				  testId:testId
 				 
 				  },
 			datatype:"JSON",
@@ -33,13 +33,12 @@ var table = $("#tableId").DataTable({
 				 if(respStatus.DONE) {
 					 var result = respStatus.DATA;
 					 if(result) {
-						 $(_this).val("Not Allow");	
+						 $(_this).val("Allow");				 
 					 }
 					 else {
-						 $(_this).val("Allow");	
+						 $(_this).val("Not Allow");							 
 					 }
-					 $(_this).toggleClass("btn-red");
-					 $(_this).toggleClass("btn-green");
+					
 				 }
 				 else {
 					 $(".serverSideError").html("Internal problem.Please try again");

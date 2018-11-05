@@ -15,7 +15,7 @@
 		</cfif>
 	    <!--- ------------------------------------------------------------------ --->
 
-    	<cfdocument format = "PDF" overwrite = "true" >
+    	<cfdocument format = "PDF" overwrite = "true" filename = "questions.pdf">
 
 			<cfoutput>
 			<cfdocumentitem type = "header">
@@ -71,3 +71,5 @@
 	</cfdocument>
 	</body>
 </html>
+<cfheader name="Content-Disposition" value="attachment;filename=questions.pdf">
+<cfcontent type="application/octet-stream" file="#expandPath('.')#/questions.pdf">

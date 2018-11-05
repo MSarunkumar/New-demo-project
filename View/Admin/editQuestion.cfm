@@ -67,11 +67,17 @@
 							<div class="container">
 								<div class="label-container">Please select answer</div>
 							    <select  id="ansID" name="ansId" value="1"  class="input-box" onChange="ansValid()">
-									<option  value="0">Choose Answer</option>
-									<option  value="1">	Option 1 </option>
-									<option  value="2"> Option 2 </option>
-							        <option  value="3"> Option 3 </option>
-									<option  value="4"> Option 4 </option>
+								    <!--- It is for showing answer --->
+								<cfloop from="1" to="4" index="i" >
+									<cfoutput>
+									<cfif i EQ  VARIABLES.questionInfo.answer>
+										<cfif VARIABLES.questionInfo.answer EQ i><option  value="#i#" selected> Option #i# </option></cfif>
+									<cfelse>
+									 <option  value="#i#" > Option #i#  </option>
+									 </cfif>
+									</cfoutput>
+								</cfloop>
+
 								</select>
 								<div id="aid" class="error"></div>
 							</div>

@@ -21,7 +21,7 @@
 			<cfargument name = "ans"  required = "true" type = "numeric" />
 
 	    <cftry>
-			 <cfquery name = "submitQues" >
+			 <cfquery name = "LOCAL.submitQues" >
 		      INSERT INTO ms_question (question,option1,option2,option3,option4,answer,subject)
 	                 VALUES (
 				            <cfqueryparam value = "#ARGUMENTS.ques#" cfsqltype = "cf_sql_varchar">,
@@ -36,7 +36,8 @@
 			<cfreturn TRUE />
 
 			<cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitQuestion]addQuestion.cfc" />
+
+				<cfset APPLICATION.loggingObj.doLog("addQuestion","submitQuestion",cfcatch.message,cfcatch.detail) />
 				<cfreturn FALSE />
 			</cfcatch>
 		</cftry>
@@ -52,7 +53,7 @@
 		<cfargument name = "op4"  required = "true" type = "string"  />
 		<cfargument name = "ans"  required = "true" type = "numeric" />
 		<cftry>
-			<cfquery name = "doUpdateOpion">
+			<cfquery name = "LOCAL.doUpdateOpion">
 				UPDATE  ms_question
 					SET
 			            option1 = <cfqueryparam value = "#ARGUMENTS.op1#"  cfsqltype = "cf_sql_varchar">,
@@ -66,7 +67,7 @@
 			</cfquery>
 			<cfreturn TRUE />
 			<cfcatch type="database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[updateOption]addQuestion.cfc" />
+				<cfset APPLICATION.loggingObj.doLog("addQuestion","updateOption",cfcatch.message,cfcatch.detail) />
 				<cfreturn FALSE />
 			</cfcatch>
 		</cftry>

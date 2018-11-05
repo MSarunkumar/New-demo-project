@@ -43,9 +43,8 @@
 <!--- check student is already attempted or not if yes then check admin allow or not  --->
 
 <cfif VARIABLES.isAttempt GT 0>
-	<cflocation url="studentDashboard.cfm?errId=4" addtoken="no" />
-	<!---
-    <cfset VARIABLES.isAllowed = APPLICATION.viewDetailsObj.isAllow(FORM.subId) />
+
+    <cfset VARIABLES.isAllowed = APPLICATION.viewDetailsObj.isAllow(VARIABLES.activeTestId) />
 	<!--- Check DB error  ----  --->
 	<cfif VARIABLES.isAllowed EQ -1>
 		<cflocation url="studentDashboard.cfm?errId=1" addtoken="no" />
@@ -54,7 +53,7 @@
 	<cfif VARIABLES.isAllowed EQ 1>
 		<cflocation url="studentDashboard.cfm?errId=4" addtoken="no" />
 	</cfif>
- --->
+
 
  </cfif>
 
@@ -91,9 +90,9 @@
                 <div class="upper-bar"> ONLINE EXAM SYSTEM</div>
 				<div id="container">
 				    <div id="heading">
-					 	<cfoutput><div class="timer" data-minutes-left="#VARIABLES.testDuration#"></div></cfoutput>
-					 	<div class="name" > Name:&nbsp<cfoutput>#SESSION.student.Name#</cfoutput>  </div>
-					 	<div class="subject">Subject:&nbsp<cfoutput>#FORM.subId#</cfoutput></div>
+					 	<cfoutput><div class="timer" data-minutes-left="#VARIABLES.testDuration#"></div>
+					 	<div class="name" > Name:&nbsp#SESSION.student.Name#  </div>
+					 	<div class="subject">Subject:&nbsp#FORM.subId#</cfoutput></div>
 				 	</div><br><br>
 				 	<cfoutput>
 					 	<input type="hidden" id="subjectName" value="#FORM.subId#">

@@ -1,7 +1,7 @@
 <cfcomponent hint = "This is Application cfc for Online Exam System Project" accessors = "true"
 	output = "false" persistent = "false">
 
-	<cfset THIS.name = "onlineExamSystem22" />
+	<cfset THIS.name = "onlineExam" />
 	<cfset THIS.applicationTimeout = CreateTimeSpan(0,1,0, 0) />
 	<cfset THIS.sessionManagement = TRUE />
 	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 0,30, 0) />
@@ -22,6 +22,7 @@
           <cfset APPLICATION.viewDetailsObj = CreateObject("component", "Model.viewDetails") />
 		  <cfset APPLICATION.blockUnblockObj = CreateObject("component", "Model.blockUnblock") />
 		  <cfset APPLICATION.forgotPasswordObj  = CreateObject("component", "Model.forgotPassword") />
+		  <cfset APPLICATION.loggingObj = CreateObject("component", "Model.logging") />
 
 		<cfreturn TRUE />
 	</cffunction>
@@ -92,8 +93,8 @@
 
         <cffile action = "append" file = "D:/Errors/project.txt"
 		        output = "Application #Arguments.ApplicationScope.applicationname# Ended..Time --> #now()#" />
-
 		<cfreturn />
+
 	</cffunction>
 
 <!--- Method [OnError] ---------------------------------------------------------->
@@ -105,7 +106,7 @@
 		<cffile action = "append" file = "D:/Errors/project.txt"output = "onError  Event Name: #ARGUMENTS.Eventname# Message:
 		           #ARGUMENTS.Exception.message#--> #ARGUMENTS.Exception#..Time --> #now()#" >
 
-	    <!--- <cflocation url="http://www.localhost:5000/OnlineExam2/error/onError.cfm" addtoken="no" /> --->
+	        <cfinclude template = "error/onError.cfm" />
 
 
 		<!--- Display an error message if there is a page context. --->

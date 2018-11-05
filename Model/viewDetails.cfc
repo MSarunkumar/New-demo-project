@@ -11,37 +11,34 @@
 
 
 
-<!---  Method :  it will return student information   ---------------- --->
-
+<!---  Method :  it will return all student information   ---------------- --->
 	<cffunction name = "getStudents" access = "public"  returntype = "query"  hint = "It will return student info">
 
 		<cftry>
-			<cfquery name = "students"  >
+			<cfquery name = "LOCAL.fetchStudents"  >
 			   SELECT  Name,email,dob,phone,address,status
 			   FROM    ms_student
-			   WHERE   roles = 'student'; <!--- change --->
+			   WHERE   roles = 'student';
 			</cfquery>
-			<cfreturn students/>
+			<cfreturn LOCAL.fetchStudents/>
 			<cfcatch type = "database">
-			  <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getStudents]viewDetails" />
+				<cfset APPLICATION.loggingObj.doLog("viewDetails","getStudents",cfcatch.message,cfcatch.detail) />
               <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
     	 </cftry>
 	</cffunction>
 
 
-
 <!---  Method :  it will return all question information  --------------------->
-
 	<cffunction name = "getQuestions" access = "public" returntype = "query" >
 		 <cftry>
-             <cfquery name = "question"  >
+             <cfquery name = "LOCAL.question"  >
                SELECT    questionId,question,option1,option2,option3,option4,answer,subject,status
                FROM      ms_question
              </cfquery>
-             <cfreturn question />
+             <cfreturn LOCAL.question />
              <cfcatch type = "database">
-               <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestions]viewDetails" />
+               <cfset APPLICATION.loggingObj.doLog("viewDetails","getQuestions",cfcatch.message,cfcatch.detail) />
                <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			 </cfcatch>
 		</cftry>
@@ -57,71 +54,61 @@
 			<cfreturn 0 />
 		</cfif>
 	    <cfset LOCAL.currentTime = DateTimeFormat(now(), "MM d yyyy HH:nn:ss ") />
+	    <!--- check which one is active so return testId --->
 	    <cfloop query = "LOCAL.getTestTime">
 		     <cfset LOCAL.minute = Datediff("n",LOCAL.getTestTime.startTime,LOCAL.currentTime) />
-		     <cfif LOCAL.minute LT 10 AND LOCAL.minute GT 0 >
+		     <cfif LOCAL.minute LT 11 AND LOCAL.minute GTE 0 >
 			 	<cfreturn LOCAL.getTestTime.testId />
 			 </cfif>
 		</cfloop>
         <cfreturn 0 />
-		<!--- <cftry>
-			<cfquery name = "fetchTime">
-				SELECT startTime,duration
-				FROM   ms_test
-				WHERE  test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.TEST#">
-			</cfquery>
-			<cfreturn fetchTime />
-			<cfcatch>
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getTimeInfo]viewDetails" />
-				<cfreturn queryNew("errID","Integer",{errId=-1}) />
-			</cfcatch>
-		</cftry> --->
 
 	</cffunction>
-<!--- Method : It will return subject and start time  --->
+
+<!--- Method : It will return testId and start time of particular subject--->
 	<cffunction name = "getTestStartTime" access = "private" returntype = "query" hint = "It will return testId and startTime">
 		<cfargument name = "subject" required = "true" type = "string" hint = "It will catch subject name">
 
-			<cfquery name = "fetchTestStartTime">
+			<cfquery name = "LOCAL.fetchTestStartTime">
 				SELECT testId,startTime
 				FROM ms_test
 				WHERE test = <cfqueryparam cfsqltype = "cf_sql_varchar" maxlength = "50"
 		                            value = "#ARGUMENTS.subject#">
 			</cfquery>
-			<cfreturn fetchTestStartTime />
+			<cfreturn LOCAL.fetchTestStartTime />
 	</cffunction>
 
-<!--- Method: It will return test info based on testId --->getTestInfo
+<!--- Method: It will return test info based on testId --->
 	<cffunction name = "getTestInfo" access = "public" returntype = "query" >
 		<cfargument name = "testId"  required = "true"  type = "numeric" hint = "It will catch test Id">
 		 <cftry>
-				<cfquery name = "fetchTestInfo">
+				<cfquery name = "LOCAL.fetchTestInfo">
 					SELECT test,startTime,duration,totalQuestion
 					FROM   ms_test
 					WHERE  testId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.testId#">
 				</cfquery>
-				<cfreturn fetchTestInfo />
+				<cfreturn LOCAL.fetchTestInfo />
 				<cfcatch>
-					<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getTestInfo]viewDetails" />
+					<cfset APPLICATION.loggingObj.doLog("viewDetails","getTestInfo",cfcatch.message,cfcatch.detail) />
 					<cfreturn queryNew("errID","Integer",{errId=-1}) />
 				</cfcatch>
 			</cftry>
 
 	</cffunction>
-<!-------- Method : it will return particular student detail based on Email --->
 
+<!-------- Method : it will return particular student detail based on Email --->
 	<cffunction name = "getStudent" access = "public" returntype = "query" >
 		<cfargument name = "email" required = "yes" type = "string" >
 		<cftry>
-			<cfquery name = "student"  >
+			<cfquery name = "LOCAL.student"  >
               SELECT    Name,email,dob,phone,address
               FROM      ms_student
               WHERE     email = <cfqueryparam cfsqltype = "cf_sql_varchar" maxlength = "50"
 	                            value = "#ARGUMENTS.email#">
 			</cfquery>
-         	<cfreturn student />
+         	<cfreturn LOCAL.student />
         	<cfcatch type = "database">
-         	  <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getStudent]viewDetails" />
+         	  <cfset APPLICATION.loggingObj.doLog("viewDetails","getStudent",cfcatch.message,cfcatch.detail) />
               <cfreturn queryNew("errID","Integer",{errId=-1}) />
 		 	</cfcatch>
 		</cftry>
@@ -130,17 +117,16 @@
 
 
 <!------------ Method :  It will show Marks of all students  ---------------------->
-
 	<cffunction name = "getMarks" access = "public" returntype = "query" >
 
 		<cftry>
-			<cfquery name = "marks"  >
-              SELECT     studentEmail,startDate,endDate,score,totalQuestion,subject,status
+			<cfquery name = "LOCAL.marks"  >
+              SELECT     studentEmail,startDate,endDate,score,totalQuestion,subject,status,testId
               FROM       ms_result
             </cfquery>
-            <cfreturn marks />
+            <cfreturn LOCAL.marks />
             <cfcatch type = "database">
-              <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getMarks]viewDetails" />
+              <cfset APPLICATION.loggingObj.doLog("viewDetails","getMarks",cfcatch.message,cfcatch.detail) />
               <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
         </cftry>
@@ -148,19 +134,18 @@
 
 
 <!--- Method : it will return Mark of one student based on Email ---------------->
-
 	<cffunction name = "getMark" access = "public" returntype = "query" >
 
 		<cftry>
-			<cfquery name = "mark"  >
+			<cfquery name = "LOCAL.mark"  >
 			  SELECT    startDate,endDate,score,totalQuestion,subject
 			  FROM      ms_result
 			  WHERE     studentEmail = <cfqueryparam cfsqltype = "cf_sql_varchar" maxlength = "50"
 			                   value = "#SESSION.userEmail#">
 			</cfquery>
-			<cfreturn mark />
+			<cfreturn LOCAL.mark />
 			<cfcatch type = "database">
-			  <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getMark]viewDetails" />
+			  <cfset APPLICATION.loggingObj.doLog("viewDetails","getMark",cfcatch.message,cfcatch.detail) />
 			  <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
 		</cftry>
@@ -168,21 +153,20 @@
 
 
 <!--- Method : it will return activity of student [he is taking the test or not ]  --->
-
 	<cffunction name = "getActivity" access = "public" hint = "Return active column value [0/1]"
 				returntype = "numeric" output = "false" >
 
 		<cftry>
-			<cfquery name = "fetchActivity">
+			<cfquery name = "LOCAL.fetchActivity">
 				SELECT active
 				FROM   ms_student
 				WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" maxlength = "50"
 			                                 value = "#SESSION.userEmail#">
 			</cfquery>
 
-			<cfreturn  fetchActivity.active />
+			<cfreturn  LOCAL.fetchActivity.active />
 			<cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getActivity]viewDetails" />
+				 <cfset APPLICATION.loggingObj.doLog("viewDetails","getActivity",cfcatch.message,cfcatch.detail) />
 			    <cfreturn -1/>
 			</cfcatch>
 		</cftry>
@@ -191,7 +175,6 @@
 
 
 <!--- Method : it will return question count array [active/total  ] for chart  ------------->
-
 	<cffunction name = "quesInfoChart" returntype = "Any" access = "public" >
 		<cfargument name = "quecInfo" required = "true" type = "string" />
 
@@ -216,21 +199,20 @@
 <!--- ------------------------------------------------------------------------------->
 	</cffunction>
 
-
 <!--- Method: It will return total question group by subject  ---------------------->
 	<cffunction name = "getTotalSubject" access = "private" hint = "Return total question group by subject"
 				returntype = "Query" output = "false" >
 
 		<cftry>
-			<cfquery name = "fetchTotal">
+			<cfquery name = "LOCAL.fetchTotal">
 				SELECT   COUNT(status) as total
                 FROM     ms_question
                 GROUP BY subject
 				ORDER BY subject
 			</cfquery>
-			<cfreturn  fetchTotal />
+			<cfreturn  LOCAL.fetchTotal />
 			<cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getActivity]viewDetails" />
+				<cfset APPLICATION.loggingObj.doLog("viewDetails","getTotalSubject",cfcatch.message,cfcatch.detail) />
 			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
 		</cftry>
@@ -243,16 +225,16 @@
 				returntype = "Query" output = "false" >
 
 		<cftry>
-			<cfquery name = "fetchActive">
+			<cfquery name = "LOCAL.fetchActive">
 				SELECT COUNT(status) as active
                 FROM ms_question
                 WHERE status = 1
                 GROUP BY subject,status
 				ORDER BY subject
 			</cfquery>
-			<cfreturn  fetchActive />
+			<cfreturn  LOCAL.fetchActive />
 			<cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getActivity]viewDetails" />
+				<cfset APPLICATION.loggingObj.doLog("viewDetails","getActiveSubject",cfcatch.message,cfcatch.detail) />
 			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
 		</cftry>
@@ -271,7 +253,7 @@
 				</cfquery>
 				<cfreturn LOCAL.isAttempt.attemptCount />
 				<cfcatch type = "database">
-					<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[isAttemptTest]viewDetails" />
+					<cfset APPLICATION.loggingObj.doLog("viewDetails","isAttemptTest",cfcatch.message,cfcatch.detail) />
 					<cfreturn -1 />
 				</cfcatch>
 
@@ -282,14 +264,14 @@
 	<!--- Method : It will return scheduled test information  ----------------------->
 	<cffunction name = "getSchedule" access = "public"  returntype = "query" hint = "fetch scheduled test info">
 		<cftry>
-			<cfquery name = "fetchSchedule">
+			<cfquery name = "LOCAL.fetchSchedule">
 				SELECT test,startTime,duration,totalQuestion
 				FROM ms_test
 			</cfquery>
 
-			<cfreturn fetchSchedule />
+			<cfreturn LOCAL.fetchSchedule />
 			<cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getSchedule]viewDetails" />
+				<cfset APPLICATION.loggingObj.doLog("viewDetails","getSchedule",cfcatch.message,cfcatch.detail) />
 			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
 		</cftry>
@@ -297,18 +279,17 @@
 
 
 <!--- Method : it will return question information based on questionId -----------------------  --->
-
 	<cffunction name = "getQuestionInfo"  access = "public"  returntype = "query" hint = "return question info">
 		<cfargument name = "id" required = "true" type = "numeric" hint = "It will catch question ID" />
 		<cftry>
-			<cfquery name = "fetchQuestionInfo">
+			<cfquery name = "LOCAL.fetchQuestionInfo">
 				SELECT  question,option1,option2,option3,option4,answer,subject
 				FROM    ms_question
 				WHERE questionId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.id#" >
 			</cfquery>
-			<cfreturn fetchQuestionInfo  />
+			<cfreturn LOCAL.fetchQuestionInfo  />
 			<cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestionInfo]viewDetails" />
+				<cfset APPLICATION.loggingObj.doLog("viewDetails","getQuestionInfo",cfcatch.message,cfcatch.detail) />
 			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
 		</cftry>
@@ -326,7 +307,7 @@
 		</cfquery>
 		<cfreturn LOCAL.fetch.countActiveQuestion />
 		<cfcatch>
-			<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getTotalActiveQuestion]viewDetails" />
+			<cfset APPLICATION.loggingObj.doLog("viewDetails","getTotalActiveQuestion",cfcatch.message,cfcatch.detail) />
 			<cfreturn -1 />
 		</cfcatch>
 		</cftry>
@@ -344,27 +325,25 @@
 		<cfreturn LOCAL.fetchTime />
 
 	</cffunction>
+
 <!--- Method : It will check student is allowed or not  ---------------  --->
 	<cffunction name = "isAllow" access = "public" hint = "check admin allow or not " returntype = "numeric">
-		<cfargument name = "testName" required = "true" type = "string" />
-			<!--- <cftry> --->
+		<cfargument name = "testId" required = "true" type = "numeric" />
+			 <cftry>
 				<cfquery name = "LOCAL.returnIsAllow">
 					SELECT status
 					FROM ms_result
 					WHERE studentEmail = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#SESSION.userEmail#">
-					      AND subject = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.testName#">
+					      AND testId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#ARGUMENTS.testId#">
 				</cfquery>
 				<cfreturn  LOCAL.returnIsAllow.status />
-				<!--- <cfcatch type = "database">
-					<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[isAllow]viewDetails" />
+			    <cfcatch type = "database">
+					<cfset APPLICATION.loggingObj.doLog("viewDetails","isAllow",cfcatch.message,cfcatch.detail) />
 					<cfreturn -1 />
 				</cfcatch>
 
-			</cftry> --->
+			</cftry>
 
 	</cffunction>
-
-
-
 
 </cfcomponent>

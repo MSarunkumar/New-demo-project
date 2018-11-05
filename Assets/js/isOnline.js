@@ -5,7 +5,7 @@
 isTestOnline();
 
 function isTestOnline() {
-	/* $.ajax( {
+	 $.ajax( {
          type: "Post"  ,
          url: "../../Model/takeTest.cfc?method=isOnline" ,
          datatype: "json",
@@ -13,9 +13,9 @@ function isTestOnline() {
               { 
                 var submitRes = $.parseJSON(res);
                 if (submitRes == "offline") {
-                	 window.location.assign("../../index.cfm?errId=9");	
+                	 window.location.assign("../../Controller/logoutAction.cfm");	
                 }  
         	  }
-           });*/
+           });
 		 setTimeout( isTestOnline, 1000);	
 	}

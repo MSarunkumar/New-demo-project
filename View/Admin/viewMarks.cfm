@@ -46,10 +46,10 @@
 						           <td id="pass">PASS</td>
 						         </cfif>
 						         <td>
-									 <cfif  #status# EQ 0>
-										<input type="button" class="actionButton btn-green"  onClick="javascript:getAllowStatus('#studentEmail#','#subject#', this)" value="Allow" />
+									 <cfif  #status# EQ 1>
+										<input type="button" class="allowBtn"  onClick="javascript:getAllowStatus('#studentEmail#','#testId#', this)" value="Allow" />
 									<cfelse>
-									    <input type="button" class="actionButton btn-red"  onClick="javascript:getAllowStatus('#studentEmail#','#subject#', this)" value="Not Allow" />
+									    <input type="button" class="allowBtn"  onClick="javascript:getAllowStatus('#studentEmail#','#testId#', this)" value="Not Allow" />
 									</cfif>
 								 </td>
 		                      </tr>

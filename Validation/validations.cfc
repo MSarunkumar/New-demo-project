@@ -105,26 +105,7 @@
 			<cfreturn LOCAL.valid />
 	</cffunction>
 
-<!--- Method : It will validate duration of test, start and end time of test which is made by admin ---------->
 
-	<!--- <cffunction name = "makeTestValid" access = "remote" returnformat = "JSON" returntype = "Array">
-		<cfargument name = "startTime"  required = "true"  type = "any"     />
-		<cfargument name = "endTime"    required = "true"  type = "any"     />
-		<cfargument name = "duration"   required = "true"  type = "numeric" />
-
-			<cfset LOCAL.sTime = getDateTimeFormat(ARGUMENTS.startTime) />
-			 <cfset LOCAL.eTime = getDateTimeFormat(ARGUMENTS.endTime)   />
-            <cfset LOCAL.err = arrayNew(1) />
-            <cfset LOCAL.minutes = Datediff("n",LOCAL.sTime, LOCAL.eTime) />
-
-			<cfif LOCAL.minutes LT 60>
-				<cfset arrayAppend(LOCAL.err,1,"true") />
-			</cfif>
-	        <cfif (LOCAL.minutes) LT ARGUMENTS.duration >
-		        <cfset arrayAppend(LOCAL.err,2,"true") />
-	        </cfif>
-            <cfreturn  LOCAL.err/>
-	</cffunction> --->
 
 <!--- -- Method : it will return array of timestump ----------------------------->
 	<cffunction name = "getDateTimeFormat" access = "remote"  returntype = "string" returnformat = "JSON">
@@ -137,12 +118,13 @@
 		<cfset arrayAppend(LOCAL.Time,LOCAL.sdayArray[1],"true") />
 		<cfset arrayAppend(LOCAL.Time,LOCAL.sdayArray[2],"true") />
 		<cfset arrayAppend(LOCAL.Time,LOCAL.sdayArray[3],"true") />
+
 		<cfset arrayAppend(LOCAL.Time,LOCAL.sTimeArray[1],"true") />
 		<cfset arrayAppend(LOCAL.Time,LOCAL.sTimeArray[2],"true") />
 
 		<cfset LOCAL.stime = CreateDateTime(LOCAL.Time[1],LOCAL.Time[2],LOCAL.Time[3],
 			                                    LOCAL.Time[4],LOCAL.Time[5],00) />
-        <cfset LOCAL.stime = #DateTimeFormat(LOCAL.stime, "MM d yyyy HH:nn:ss ")# />
+        <cfset LOCAL.stime = DateTimeFormat(LOCAL.stime, "MM d yyyy HH:nn:ss ") />
 		<cfreturn  LOCAL.stime/>
 
 

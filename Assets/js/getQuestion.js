@@ -16,38 +16,34 @@ if(document.referrer != 'http://localhost:5000/') {
 		var totalQ = $("#totalQuestion").val();
 		var testIdentifier = $("#testId").val();
 		var totalQuestion = parseInt(totalQ,10);
+		var randomArr = [] ;
+		var pointer = 0;
 		
-		
-		getQuestionId(totalQuestion);
-	     
-		console.log(totalQuestion);
-	    console.log("hiii");
+		getActiveQuestionIdArr(subjectName);
 	    
 	   $("#nextBtn").click( function () {
 			
 		if ( $("#answer").val() != undefined ) {
-	    	if (totalQuestion != 1) {
+	    	if (totalQuestion-pointer > 1) {
                if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
                   score = score+1;
                 }
 	    	}
 		}
-            //....   it is for disabled Next button and change the color of submit 
-            //       button  at last question     ...................
-		
-		if (totalQuestion == 1) {
+//.......   it is for disabled Next button and change the color of submit button  at last question
+           	
+		if (pointer == totalQuestion-1) {
 		     $("#nextBtn").attr("disabled","disabled").css("background-color", "#abafba");
 		     $("#submitBtn").css("background-color", "#e80b28");
 		}			
 		else {
-			 totalQuestion = totalQuestion-1;
-		     getQuestionId(totalQuestion);
+			 pointer = pointer+1; 
+			 nextQuestion(activeQuestionIdArr[randomArr[pointer]]);
 		}
 	});
 	
-	//..............  It is fetching the questions with options and answer based 
-	//                on question Id.   ..................
-	
+//..............  It is fetching the questions with options and answer based on question Id. 
+
 	function nextQuestion(questionId) {
 		 num=num+1;           // This variable  is showing question number. 
 	      $.ajax({
@@ -75,8 +71,7 @@ if(document.referrer != 'http://localhost:5000/') {
 	
 	function submitScore() {
 		
-		 if(! isSubmit)
-	     {
+		 if(! isSubmit) {
 		//............................   It is for calculating score of last question 
 	         if ($("#answer").val() != undefined ) {
 	        	if ($("#answer").val() == $("input[name='radioBtn']:checked").val()) {
@@ -105,36 +100,15 @@ if(document.referrer != 'http://localhost:5000/') {
 		        	        window.location.assign("studentDashboard.cfm?errId=1");
 		        	    }
 		        	  }
-	         });
-	   }
-	else {
-		 window.location.assign("studentDashboard.cfm");		 
+	         	});
+	     }
+		 else {
+		   window.location.assign("studentDashboard.cfm");		 
 		 }
 	}
 	
-	function getQuestionId(tq) {
-		//....  It will fetch question Id based on subject and total number of question 
-		 
-			 $.ajax({
-		         type: "Post"  ,
-		         url: "../../Model/takeTest.cfc?method=getQuestionId" ,
-		         data:{ qno: tq,
-		        	    sub:subjectName
-		        	    },
-		         datatype: "json",
-		         
-		         success:function(res)
-		              {
-		        	     questionId = $.parseJSON(res);
-		        	     if(questionId == -1) {
-		        	    	 window.location.assign("studentDashboard.cfm?errId=1");
-		        	     }
-		        	     nextQuestion(questionId);
-		              }
-		          });
-		    }
 	
-	
+//..............................................................................................
 	$("#submitBtn").click( function () {
 		
 		$.confirm({
@@ -156,18 +130,53 @@ if(document.referrer != 'http://localhost:5000/') {
 		});
 	  });
 
-	//.........This function calls when time will be over .
-	
+//...........................................  onComplete function calls when time will be over .	
 	$(function(){
-		  $(".timer").startTimer( {
+		  $(".timer").startTimer({
 		    onComplete: function(element) {
 		       submitScore();
 		    }
 		  }).click(function() { 
-			  //.......... it will fire, when some one click on timer
+			  //... it will fire, when some one click on timer
 		     });
 	});
 
+//............................................  Get total Active question`s Id Array based on subject 
+ 
+	function getActiveQuestionIdArr(subject) {
+		
+		$.ajax({
+	         type: "Post"  ,
+	         url: "../../Model/takeTest.cfc?method=getActiveQuestionIdArr" ,
+	         data:{
+	        	    subject:subject },
+	         datatype: "json",	
+	         success:function(res)
+	              {
+	        	     activeQuestionIdArr = $.parseJSON(res);
+					 totalActiveQuestion = activeQuestionIdArr.length;
+	        	     getRandomArray();
+	        	     if(randomArr.length > 0 && totalActiveQuestion >0 )
+	        	    	 {
+	        	    	  nextQuestion(activeQuestionIdArr[randomArr[pointer]]);
+	        	    	 }
+	        	     else {
+	        	    	 window.location.assign("studentDashboard.cfm?errId=1"); 
+	        	     }
+	        	   }
+	
+	    });
+    }
+//........  Generate distinct number 0-n (n=total number of active question on that subject - 1) 
+    function getRandomArray() {	
+		while(randomArr.length < totalQuestion) {	
+			var randomNumber = Math.floor(Math.random()*totalActiveQuestion) ;
+            //................ if number is already generated then generate another number	
+		    if(randomArr.indexOf(randomNumber) > -1)
+		    	continue;	
+		    randomArr[randomArr.length] = randomNumber;
+		}		
+    }
 
 
 /*window.onbeforeunload = function () {

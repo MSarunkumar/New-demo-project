@@ -7,8 +7,6 @@
 	--->
 <cfcomponent accessors = "true" output = "false" persistent = "false">
 
-
-
 <!---Method: [emailExist] function will check, user already registered or not,based on recordcount. if recordcount
 		   Equal to one that means user exist with this email. --->
 
@@ -17,16 +15,16 @@
 		<cfargument name = "email" hint = "It will catch the email" required = "true" type = "string" />
 
 			<cftry>
-				<cfquery name = "checkEmail">
+				<cfquery name = "LOCAL.checkEmail">
 				   SELECT email
 				   FROM   ms_student
 				   WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
 				</cfquery>
 
-				<cfreturn checkEmail.RecordCount />
+				<cfreturn LOCAL.checkEmail.RecordCount />
 
 		        <cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[emailExist]signup.cfc" />
+				 <cfset APPLICATION.loggingObj.doLog("signup","emailExist",cfcatch.message,cfcatch.detail) />
 				<cfreturn -1 />
 		        </cfcatch>
 			</cftry>
@@ -52,7 +50,7 @@
 	    <cfset LOCAL.hashedPassword = Hash(ARGUMENTS.password & LOCAL.salt, "SHA-512") />
 
 		<cftry>
-        	<cfquery name = "insertQuery" >
+        	<cfquery name = "LOCAL.insertQuery" >
 	     	INSERT  INTO  ms_student (Name,email,dob,phone,address,password,salt)
          	VALUES  (
 	            <cfqueryparam value = "#ARGUMENTS.name#"        cfsqltype = "cf_sql_varchar" >,
@@ -68,7 +66,7 @@
 			<cfreturn TRUE />
 
 			<cfcatch type = "database">
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitDetail]signup.cfc" />
+				 <cfset APPLICATION.loggingObj.doLog("signup","submitDetail",cfcatch.message,cfcatch.detail) />
 				<cfreturn FALSE />
 			</cfcatch>
 
@@ -83,7 +81,7 @@
 		<cfargument name = "phone"    required = "true" type = "numeric"  />
 		<cfargument name = "address"  required = "true" type = "string"   />
 		<cftry>
-			<cfquery name="doUpdate">
+			<cfquery name="LOCAL.doUpdate">
 				UPDATE ms_student
 				SET		Name = <cfqueryparam value = "#ARGUMENTS.name#"        cfsqltype = "cf_sql_varchar" >,
 		                dob = <cfqueryparam value = "#ARGUMENTS.dob#"         cfsqltype = "cf_sql_date"    >,
@@ -94,7 +92,7 @@
 			</cfquery>
 			<cfreturn TRUE />
 			<cfcatch>
-				<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[updateProfile]signup.cfc" />
+				 <cfset APPLICATION.loggingObj.doLog("signup","updateProfile",cfcatch.message,cfcatch.detail) />
 				<cfreturn FALSE />
 			</cfcatch>
         </cftry>

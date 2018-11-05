@@ -28,7 +28,6 @@
 					<cfelse>
 					</cfif>
 				 </div>
-
 			     <div class="testIcon">
 					 <a href="scheduledTest.cfm">
 				     <img src="../../assets/icon/viewTests.png" height="135px" width="270px;">

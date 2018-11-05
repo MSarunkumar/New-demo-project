@@ -11,7 +11,9 @@
 
 
 	<cffunction name = "logout" returntype="void" access = "public">
-       <cfset structClear(SESSION) />
+		<cfset structClear(SESSION) />
+<!--- For logout --->
+		<cfset sessionRotate()/>
     </cffunction>
 
 </cfcomponent>

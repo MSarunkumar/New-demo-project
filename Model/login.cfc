@@ -15,15 +15,14 @@
 		<cfargument name = "email" required = "yes" type = "string" />
 
 		<cftry>
-		      <cfquery name = "fetchPassword">
+		      <cfquery name = "LOCAL.fetchPassword">
 		        SELECT password
 		        FROM   ms_student
 		        WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
 	         </cfquery>
-		     <cfreturn fetchPassword.password />
+		     <cfreturn LOCAL.fetchPassword.password />
 		     <cfcatch type = "database">
-		       <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getPassword]login">
-		       <cfreturn "FALSE" />
+			 <cfset APPLICATION.loggingObj.doLog("login","getPassword",cfcatch.message,cfcatch.detail) />		       <cfreturn "" />
 			 </cfcatch>
 		</cftry>
 	</cffunction>
@@ -34,15 +33,14 @@
 		<cfargument name = "email" required = "yes" type = "string" />
 
 		<cftry>
-		      <cfquery name = "fetchSalt" >
+		      <cfquery name = "LOCAL.fetchSalt" >
 		         SELECT salt
 		         FROM   ms_student
 		         WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
 	          </cfquery>
-		      <cfreturn fetchSalt.salt />
+		      <cfreturn LOCAL.fetchSalt.salt />
 		      <cfcatch type = "database">
-		        <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getSalt]login">
-		        <cfreturn "FALSE" />
+			  <cfset APPLICATION.loggingObj.doLog("login","getSalt",cfcatch.message,cfcatch.detail) />			        <cfreturn "" />
 			  </cfcatch>
 		</cftry>
 	</cffunction>
@@ -51,30 +49,31 @@
     <cffunction name = "getRole" access = "public" output = "false" returntype = "string">
 		<cfargument name = "email" required = "yes" type = "string" />
 		<cftry>
-		      <cfquery name = "fetchRole" >
+		      <cfquery name = "LOCAL.fetchRole" >
 		         SELECT roles
 		         FROM   ms_student
 		         WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
 	          </cfquery>
-		      <cfreturn fetchRole.roles />
+		      <cfreturn LOCAL.fetchRole.roles />
 		      <cfcatch type = "database">
-		      	<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getRole]login">
+		      	<cfset APPLICATION.loggingObj.doLog("login","getRole",cfcatch.message,cfcatch.detail) />
 		      	<cfreturn "" />
 			 </cfcatch>
 		</cftry>
 	</cffunction>
+
 <!--- It will return status of student [block / unblock] --->
 	<cffunction name = "getStatus" access = "public" output = "false" returntype = "numeric">
 			<cfargument name = "email" required = "yes" type = "string" />
 			<cftry>
-			       <cfquery name = "fetchStatus" >
+			       <cfquery name = "LOCAL.fetchStatus" >
 			         SELECT status
 			         FROM   ms_student
 			         WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
 		           </cfquery>
-			      <cfreturn fetchStatus.status />
+			      <cfreturn LOCAL.fetchStatus.status />
 			      <cfcatch type = "database">
-			       <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getRole]]login" />
+			       <cfset APPLICATION.loggingObj.doLog("login","getStatus",cfcatch.message,cfcatch.detail) />
 			       <cfreturn -1 />
 				  </cfcatch>
 			</cftry>

@@ -124,7 +124,16 @@ input[type="search"],select{
 .btn-green{
 	background-color: #1bef09;
 }
-
+.allowBtn{
+	padding:5px 10px;
+	background-color:#35a0a5;
+	color:white;
+	font-size:15px;
+	border:none; 
+	border-radius: 5px;
+	cursor:pointer;
+	text-decoration:none; 
+}
 #tableId{
 	
 }

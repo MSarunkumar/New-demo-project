@@ -15,47 +15,27 @@
 	<cffunction name = "emailExist" returntype = "numeric" access = "public" hint = "It will return no. of record">
 		<cfargument name = "email" hint = "It will catch the email" required = "true" type = "string" />
         <cftry>
-		      <cfquery name = "checkEmail" >
+		      <cfquery name = "LOCAL.checkEmail" >
 	            SELECT pid
 	            FROM   ms_password
 	            WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
               </cfquery>
-              <cfreturn checkEmail.RecordCount>
+              <cfreturn LOCAL.checkEmail.RecordCount>
 		      <cfcatch>
-	            <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[emailExist]FP">
-	            <cfreturn -1 />
+ 			  <cfset APPLICATION.loggingObj.doLog("forgotPassword","emailExist",cfcatch.message,cfcatch.detail) />
+			  <cfreturn -1 />
 		      </cfcatch>
 		</cftry>
 	</cffunction>
-
-<!---
-Method : if user want to resend link than we have to delete previouse record,So it will Delete the stored record
-
-	<cffunction name = "deleteRecord" access = "public" hint = "It will delete the record" returntype = "boolean">
-		<cfargument name = "email" hint = "It will catch the email" required = "true" type = "string" />
-        <cftry>
-			  <cfquery name = "delete">
-		         DELETE
-		         FROM   ms_password
-		         WHERE  email = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.email#">
-              </cfquery>
-			  <cfreturn TRUE />
-              <cfcatch type = "database">
-			     <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[deleteEmail]FP" />
-			     <cfreturn FALSE />
-			  </cfcatch>
-		</cftry>
-	</cffunction >
- --->
 
 <!---------------- Method : It store the details of sended Link like[Email,guid,time] ----------->
 
 	<cffunction name = "submitData" access = "public" returntype = "boolean" >
 		<cfargument name = "email" required = "true" type = "string" hint = "It will catch email" />
 		<cfargument name = "guid"  required = "true" type = "string" hint = "It will catch guid"  />
-    	<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
+    	<cfset LOCAL.currentTime = DateTimeFormat(now(), "MM d yyyy HH:nn:ss ") />
         <cftry>
-			   <cfquery name = "insertData" >
+			   <cfquery name = "LOCAL.insertData" >
 	             INSERT  INTO  ms_password (email,guids,times)
                          VALUES (
                         <cfqueryparam value = "#ARGUMENTS.email#"   cfsqltype = "cf_sql_varchar">,
@@ -65,7 +45,7 @@ Method : if user want to resend link than we have to delete previouse record,So 
                </cfquery>
                <cfreturn TRUE />
 		       <cfcatch type = "database">
-		       	 <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[submitData]FP">
+		       	  <cfset APPLICATION.loggingObj.doLog("forgotPassword","submitData",cfcatch.message,cfcatch.detail) />
 		         <cfreturn FALSE />
 			   </cfcatch>
 		</cftry>
@@ -76,21 +56,21 @@ Method : if user want to resend link than we have to delete previouse record,So 
 	<cffunction name = "getTime" returntype = "string" access = "public" hint = "It will return time">
 		<cfargument name = "guid" hint = "It will catch guid" required = "true" type = "string" />
          <cftry>
-		        <cfquery name = "timeQuery">
+		        <cfquery name = "LOCAL.timeQuery">
 		          SELECT times
 		          FROM   ms_password
 		          WHERE  guids = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.guid#">
                 </cfquery>
-                <cfreturn timeQuery.times>
+                <cfreturn LOCAL.timeQuery.times>
                 <cfcatch type = "database">
-		          <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getTime]FP">
+		           <cfset APPLICATION.loggingObj.doLog("forgotPassword","getTime",cfcatch.message,cfcatch.detail) />
                   <cfreturn "" />
 				</cfcatch>
 		  </cftry>
 	</cffunction >
 
 <!----------- Method : It will send email with Link  -------------------------------->
-		<cffunction name = "sendEmail" access = "public">
+		<cffunction name = "sendEmail" access = "public" hint = "Send email with guid">
 
 			<cfargument name = "from"  required = "true" type = "string">
 			<cfargument name = "to"    required = "true" type = "string">
@@ -124,7 +104,7 @@ Method : if user want to resend link than we have to delete previouse record,So 
 	          </cfquery>
 	          <cfreturn TRUE />
               <cfcatch type = "database">
-		      	<cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[resetPassword]FP">
+		      	<cfset APPLICATION.loggingObj.doLog("forgotPassword","resetPassword",cfcatch.message,cfcatch.detail) />
 		      	<cfreturn FALSE />
 			  </cfcatch>
 		</cftry>
@@ -145,14 +125,14 @@ Method : if user want to resend link than we have to delete previouse record,So 
 	<cffunction name = "getEmail" access = "public" returntype = "string">
 		<cfargument name = "guid" required = "true" type = "string">
 		<cftry>
-	        <cfquery name = "returnEmail">
+	        <cfquery name = "LOCAL.returnEmail">
 	       	   SELECT email
 		       FROM   ms_password
 		       WHERE  guids = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.guid#">
 	         </cfquery>
-	         <cfreturn returnEmail.email />
+	         <cfreturn LOCAL.returnEmail.email />
 	         <cfcatch type = "database">
-	           <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[getEmail]FP">
+	           <cfset APPLICATION.loggingObj.doLog("forgotPassword","getEmail",cfcatch.message,cfcatch.detail) />
 		       <cfreturn  "" />
 			 </cfcatch>
 		</cftry>

@@ -9,51 +9,24 @@
 	--->
 <cfcomponent hint = "It is for getting question at test time." accessors = "true" output = "false" persistent = "false">
 
-	<!--- Method 1  will return question with options and answer --->
-
-
+	<!--- Method 1  It will return question with options and answer based on questionId --->
 	<cffunction name = "getQuestions" returntype = "query" access = "remote" returnformat = "JSON">
 		<cfargument name = "qid" type = "any" required = "yes">
 
 		<cfset LOCAL.qd = LSParseNumber(qid) />
-
 		<cftry>
-	        <cfquery name = "fetchQuestion">
+	        <cfquery name = "LOCAL.fetchQuestion">
 		        SELECT    question,option1,option2,option3,option4,answer
 		        FROM      ms_question
 		        WHERE     questionId = <cfqueryparam cfsqltype = "cf_sql_integer" value = "#LOCAL.qd#">
 	        </cfquery>
-	        <cfreturn fetchQuestion />
+	        <cfreturn LOCAL.fetchQuestion />
 	        <cfcatch type = "database">
-		        <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestions]takeTest" />
+		        <cfset APPLICATION.loggingObj.doLog("takeTest","getQuestions",cfcatch.message,cfcatch.detail) />
 	            <cfreturn queryNew("errID","Integer",{errId=-1}) />
 			</cfcatch>
 		</cftry>
-
 	</cffunction>
-
-
-	<!---    Method   It will return questionId based on total no. of question and active state   --->
-
-	<cffunction name = "getQuestionId" returntype = "numeric" access = "remote" returnformat = "JSON">
-		<cfargument name = "qno" type = "numeric" required = "true" hint="It will catch no. of question">
-		<cfargument name = "sub" type = "string"  required = "true" hint="It will catch subject">
-		<cftry>
-	       <cfquery name = "getId" >
-	          SELECT TOP 1 questionId AS qid
-                     FROM  ( SELECT DISTINCT TOP #ARGUMENTS.qno# questionId FROM ms_question
-				          WHERE (subject = <cfqueryparam value = "#ARGUMENTS.sub#" cfsqltype = "cf_sql_varchar">
-				                 AND status = 1)
-                             ORDER BY questionId DESC) bb
-                             ORDER BY questionId
-               </cfquery>
-	        <cfreturn getId.qid  />
-	        <cfcatch type = "database">
-	           <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[getQuestionId]takeTest" />
-               <cfreturn -1 />
-			</cfcatch>
-		</cftry>
-     </cffunction>
 
 
 	<!--- Method:  it will submit the result of test --- --->
@@ -64,9 +37,9 @@
 		<cfargument name = "subject" required = "true"   type = "string" hint = "Test name"/>
 		<cfargument name = "testId" required = "true" type = "numeric" hint = "It will catch testId" />
 
-		<cfset LOCAL.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss")# />
+		<cfset LOCAL.currentTime = DateTimeFormat(now(), "MM d yyyy HH:nn:ss") />
         <cftry>
-			<cfquery name = "submitResult" >
+			<cfquery name = "LOCAL.submitResult" >
 	         INSERT INTO ms_result (studentEmail,startDate,endDate,score,totalQuestion,subject,testId)
                     VALUES(
 	                  <cfqueryparam value = "#SESSION.userEmail#"       cfsqltype = "cf_sql_varchar" >,
@@ -86,7 +59,7 @@
 
             <cfreturn TRUE />
 	        <cfcatch type = "database">
-	           <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..#now()#..fun[submitScore]takeTest" />
+	           <cfset APPLICATION.loggingObj.doLog("takeTest","submitScore",cfcatch.message,cfcatch.detail) />
                <cfreturn FALSE />
 		    </cfcatch>
 		</cftry>
@@ -94,29 +67,11 @@
   </cffunction>
 
 
-	<!--- Method:  It will return total number of questions based on subject    --->
-
-	<cffunction name = "totalQuestion" access = "remote" returntype = "numeric" returnformat = "JSON">
-		<cfargument name = "sub" required = "true" type = "string" hint = "It will catch subject name">
-		<cftry>
-		   <cfquery name = "totalNo">
-               SELECT COUNT(questionId) AS total
-               FROM   ms_question
-               WHERE  (subject = <cfqueryparam value = "#ARGUMENTS.sub#" cfsqltype = "cf_sql_varchar">
-                               AND status = 1)
-           </cfquery>
-	       <cfreturn totalNo.total>
-	       <cfcatch type = "database"   >
-		       <cflog file = "onlineExamErrorLog" text = "#cfcatch.message# #cfcatch.detail#..fun[totalQuestion]takeTest" />
-               <cfreturn -1 />
-		   </cfcatch>
-		</cftry>
-	</cffunction>
 
 <!---  Method : It will update the value of active in ms_student table  -------------------------->
  	<cffunction name = "changeActivity" access = "public" hint = "Update active column in table" returntype = "boolean">
 		<cftry>
-			<cfquery name = "updateActive">
+			<cfquery name = "LOCAL.updateActive">
               UPDATE ms_student
 			  SET  active = CASE
 			                   WHEN active = 1 THEN 0
@@ -128,12 +83,13 @@
 			</cfquery>
 			<cfreturn TRUE />
 			<cfcatch type = "database">
-			  <cflog file = "onlineExamErrorLog" text="#cfcatch.message# #cfcatch.detail#..fun[changeActivity]takeTest" />
+			<cfset APPLICATION.loggingObj.doLog("takeTest","changeActivity",cfcatch.message,cfcatch.detail) />
 			  <cfreturn FALSE />
 			</cfcatch>
 		</cftry>
 
 	</cffunction>
+
 
 	<!---  Method : It will return info about user is online or not    ------------------------------- --->
 	<cffunction name = "isOnline" access = "remote" returnformat = "JSON" returntype = "string">
@@ -153,8 +109,9 @@
 		<cfargument name = "startTime" required = "true" type = "date"  />
 		<cfargument name = "duration"  required = "true" type = "numeric" />
 		<cfargument name = "totalQuestion" required = "true" type = "numeric" />
+		<!--- Error handled using try catch block --->
 		<cftry>
-			<cfquery name = "doUpdateTestTime">
+			<cfquery name = "LOCAL.doUpdateTestTime">
 				INSERT INTO  ms_test (test,startTime,duration,totalQuestion)
 				       VALUES (
 				       <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.testName#">,
@@ -165,7 +122,7 @@
 			</cfquery>
 	        <cfreturn TRUE />
 	        <cfcatch type="database">
-		      <cflog file = "onlineExamErrorLog" text="#cfcatch.message# #cfcatch.detail#..fun[updateTestTime]takeTest" />
+		      <cfset APPLICATION.loggingObj.doLog("takeTest","updateTestTime",cfcatch.message,cfcatch.detail) />
 			  <cfreturn FALSE />
 			</cfcatch>
 		</cftry>
@@ -181,18 +138,18 @@
 		<cfset LOCAL.dbTimeDuration = APPLICATION.viewDetailsObj.getTimeDuration(ARGUMENTS.subject) />
 
 		<!--- If admin set the test first time so no need of check time limit return true --->
-		<cfif LOCAL.dbTimeDuration.RecordCount EQ 0><cfreturn TRUE /></cfif>
+		<cfif LOCAL.dbTimeDuration.RecordCount EQ 0> <cfreturn TRUE /> </cfif>
 
 		<!--- Getting formate so we can take currect difference of datetime --->
         <cfset LOCAL.currentStartTime = DateTimeFormat(ARGUMENTS.startTime, "MM d yyyy HH:nn:ss ") />
 
-		<!--- Check each test time so they can not overlap --->
+		<!--- Check each test time so they can not overlap ------------------------------------- --->
 		<cfloop query = "LOCAL.dbTimeDuration">
 
 		   <cfset LOCAL.dbStartTime = DateTimeFormat(LOCAL.dbTimeDuration.startTime, "MM d yyyy HH:nn:ss ") />
 		   <cfset LOCAL.minuteDiff =  Datediff("n",LOCAL.dbStartTime,LOCAL.currentStartTime ) />
 
-		   <cfif LOCAL.minuteDiff EQ 0> <cfreturn FALSE/></cfif>
+		   <cfif LOCAL.minuteDiff EQ 0> <cfreturn FALSE/> </cfif>
            <!--- If difference is +ve means future time from db test --->
 		   <cfif LOCAL.minuteDiff GT 0>
 		        <cfif LOCAL.dbTimeDuration.duration GTE LOCAL.minuteDiff >
@@ -214,6 +171,33 @@
 	<!--- Method : Get current time  --->
 	<cffunction  name = "getCurrentTime" access = "public"  returntype = "date">
 	   <cfreturn DateTimeFormat(now(), "MM d yyyy HH:nn:ss ") />
+	</cffunction>
+
+	<!--- Method : it will return a array of active questions`s ids based on subject  --->
+	<cffunction name = "getActiveQuestionIdArr" access = "remote"  returntype = "array" returnformat = "JSON">
+		<cfargument name = "subject" required = "true" type = "string"  hint = "It will catch subject name" />
+
+		 <cfset LOCAL.IdsQuery = getQuestionIds(ARGUMENTS.subject) />
+         <cfset LOCAL.IdsArray = arrayNew(1) />
+
+		 <cfloop query = "LOCAL.IdsQuery">
+			 <cfset arrayAppend(LOCAL.IdsArray,LOCAL.IdsQuery.questionId,"true") />
+		 </cfloop>
+         <cfreturn LOCAL.IdsArray />
+
+	</cffunction>
+
+	<!--- Method: It will return Active question`s Id from ms_question table --->
+	<cffunction name = "getQuestionIds" access = "private" returntype = "query">
+		<cfargument name = "subject" required = "true"  type = "string" />
+
+			<cfquery name = "LOCAL.fetchQuestionIds">
+				SELECT questionId
+				FROM   ms_question
+				WHERE subject = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.subject#">
+				      AND status = 1
+			</cfquery>
+			<cfreturn LOCAL.fetchQuestionIds />
 	</cffunction>
 
 </cfcomponent>
