@@ -111,7 +111,7 @@
 	<cffunction name = "getDateTimeFormat" access = "remote"  returntype = "string" returnformat = "JSON">
 		<cfargument name = "time" type = "string" />
 
-		<cfset LOCAL.sDateTime = ARGUMENTS.time.Split('T') />
+		<cfset LOCAL.sDateTime = ARGUMENTS.time.Split(' ') />
 		<cfset LOCAL.sdayArray = LOCAL.sDateTime[1].split('-') />
 		<cfset LOCAL.sTimeArray = LOCAL.sDateTime[2].split(':') />
 		<cfset LOCAL.Time = arrayNew(1) />

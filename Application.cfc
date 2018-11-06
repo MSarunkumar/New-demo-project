@@ -1,7 +1,7 @@
 <cfcomponent hint = "This is Application cfc for Online Exam System Project" accessors = "true"
 	output = "false" persistent = "false">
 
-	<cfset THIS.name = "onlineExam" />
+	<cfset THIS.name = "onlineExamSystem" />
 	<cfset THIS.applicationTimeout = CreateTimeSpan(0,1,0, 0) />
 	<cfset THIS.sessionManagement = TRUE />
 	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 0,30, 0) />

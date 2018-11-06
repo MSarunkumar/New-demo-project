@@ -256,9 +256,7 @@
 					<cfset APPLICATION.loggingObj.doLog("viewDetails","isAttemptTest",cfcatch.message,cfcatch.detail) />
 					<cfreturn -1 />
 				</cfcatch>
-
 			</cftry>
-
 	</cffunction>
 
 	<!--- Method : It will return scheduled test information  ----------------------->
@@ -306,7 +304,7 @@
 			       AND status = 1
 		</cfquery>
 		<cfreturn LOCAL.fetch.countActiveQuestion />
-		<cfcatch>
+		<cfcatch type="database">
 			<cfset APPLICATION.loggingObj.doLog("viewDetails","getTotalActiveQuestion",cfcatch.message,cfcatch.detail) />
 			<cfreturn -1 />
 		</cfcatch>
@@ -316,14 +314,18 @@
 <!--- Method: It will return all test start time and duration of particular subject  --->
 	<cffunction name = "getTimeDuration" access = "public" returntype = "query" >
 		<cfargument name = "subject" required = "true" type = "string"  hint = "It will catch subject name"/>
-
-		<cfquery name = "LOCAL.fetchTime">
-			SELECT startTime,duration
-			FROM ms_test
-			WHERE test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.subject#">
-		</cfquery>
-		<cfreturn LOCAL.fetchTime />
-
+		<cftry>
+			<cfquery name = "LOCAL.fetchTime">
+				SELECT startTime,duration
+				FROM ms_test
+				WHERE test = <cfqueryparam cfsqltype = "cf_sql_varchar" value = "#ARGUMENTS.subject#">
+			</cfquery>
+			<cfreturn LOCAL.fetchTime />
+			<cfcatch type = "database">
+				<cfset APPLICATION.loggingObj.doLog("viewDetails","getTimeDuration",cfcatch.message,cfcatch.detail) />
+			    <cfreturn queryNew("errID","Integer",{errId=-1}) />
+			</cfcatch>
+		</cftry>
 	</cffunction>
 
 <!--- Method : It will check student is allowed or not  ---------------  --->
@@ -341,9 +343,7 @@
 					<cfset APPLICATION.loggingObj.doLog("viewDetails","isAllow",cfcatch.message,cfcatch.detail) />
 					<cfreturn -1 />
 				</cfcatch>
-
 			</cftry>
-
 	</cffunction>
 
 </cfcomponent>

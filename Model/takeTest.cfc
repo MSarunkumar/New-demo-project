@@ -190,7 +190,7 @@
 	<!--- Method: It will return Active question`s Id from ms_question table --->
 	<cffunction name = "getQuestionIds" access = "private" returntype = "query">
 		<cfargument name = "subject" required = "true"  type = "string" />
-
+		<cftry>
 			<cfquery name = "LOCAL.fetchQuestionIds">
 				SELECT questionId
 				FROM   ms_question
@@ -198,6 +198,11 @@
 				      AND status = 1
 			</cfquery>
 			<cfreturn LOCAL.fetchQuestionIds />
+			<cfcatch type = "database">
+		        <cfset APPLICATION.loggingObj.doLog("takeTest","getQuestionIds",cfcatch.message,cfcatch.detail) />
+	            <cfreturn queryNew("errID","Integer",{errId=-1}) />
+			</cfcatch>
+		</cftry>
 	</cffunction>
 
 </cfcomponent>

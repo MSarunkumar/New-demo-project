@@ -141,6 +141,7 @@
           $("#update").click(function() {
         	  
         	  if(formValidation()) {
+        		  
         		  $.ajax({
         				type:"Post"  ,
         		        url: "../../Model/viewDetails.cfc?method=getTotalActiveQuestion" ,
@@ -150,7 +151,7 @@
         		        datatype: "json",
         		        success:function(res) { 
         		        	 totalQuestion = $.parseJSON(res);
-        		        	 
+        		        	 //. if active question in less than admin enter total number of question 
         		        	   if(totalQuestion < queNum) {
         		        		   q_Valid = ShowError("qtid", " Please enter total question less than active question");    
         	                   }
@@ -250,3 +251,7 @@
         	  });
           }
 
+
+			$(document).ready(function () {
+				$("#picker").dateTimePicker();
+			})

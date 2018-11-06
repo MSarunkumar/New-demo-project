@@ -1,31 +1,19 @@
-
-<html >
-<head>
-
-    <link href="css/datetimepicker.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="js/datetimepicker.js"></script>
-    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-
-    <title>Beautiful Datetime Picker Demo</title>
-</head>
+<html>
+	<head>
+	    <link href="../../assets/css/datetimepicker.css" rel="stylesheet" type="text/css"/>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
+	    <script src="../../assets/js/datetimepicker.js" type="text/javascript"></script>
+	    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	    <title>Beautiful Datetime Picker Demo</title>
+	</head>
 	<body>
 	    <div id="picker"> </div>
 	    <input type="hidden" id="result" />
+		<input type = "button" id="btn" value="ccccc">
 
-		<div id="date"> hhh </div>
-
-		<script type="text/javascript">
-			    $(document).ready( function () {
-			        $('#picker').dateTimePicker();
-			    })
-
-			    var value=$("#result").val();
-			   console.log(value);
-			    	  $("#date").html(value);
-	    </script>
+		<script src="../../assets/js/setTestTime.js"  type="text/javascript"></script>
 	</body>
 </html>
 
