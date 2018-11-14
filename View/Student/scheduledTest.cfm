@@ -16,9 +16,9 @@
                          <!--- Check DB error  ------------------------- --->
 						<cfif isDefined("VARIABLES.schedule.errID") >
 
-						<cfif VARIABLES.schedule.errID EQ -1>
-							<cflocation url = "studentDashboard.cfm?errID=1" addtoken = "no">
-						</cfif>
+							<cfif VARIABLES.schedule.errID EQ -1>
+								<cflocation url = "studentDashboard.cfm?errID=1" addtoken = "no">
+							</cfif>
 
 						</cfif>
                         <!--- ------------------------------------------ --->

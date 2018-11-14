@@ -48,7 +48,7 @@
 							  </tr>
 						    </cfoutput>
 					  </tbody>
-                  </table>
+                  </table><br>
          		</div><br>
 			</div>
 

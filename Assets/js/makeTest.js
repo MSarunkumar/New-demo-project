@@ -99,44 +99,7 @@
 			   }
           }     
           
-  //.................. server side validations .......................
-          
-     /*     $("#update").click(function() {
-        	  
-        	  if(formValidation()) {
-        		  
-	    		  $.ajax({
-	    				type: "Post"  ,
-	    		        url: "/OnlineExam2/Validation/validations.cfc?method=makeTestValid" ,
-	    		        data:{  
-	    		        	   startTime:startT,
-	    		       	       endTime:endT,
-	    		       	       duration:durationT
-	    		       	     },
-	    		        
-	    		        datatype: "json",
-	    		        success:function(res)
-	    		             { 
-	    		               var resp = $.parseJSON(res);
-	    		               if (resp.length) {
-		    		               if (resp[0] == 1) {
-		    		            	   $("#etid").html("Interval time must be 1 hrs of activation");
-		    		            	  }   
-		    		               if (resp[0] == 2 || resp[1] == 2) {		    		            	 
-		    		            	   $("#dtid").html("Time duration must be less than interval time ");
-		    		            	  }
-	    		                }
-	    		                else {
-	    		            	   getStartTimeFormat(startT);
-	    		            	  
-	    			        	 
-	    		                 }
-	    		                 
-	    		             }		   	    
-	        		    });        			      
-        		}
-          });
-          */
+ 
       //....................................................  
           $("#update").click(function() {
         	  

@@ -1,10 +1,10 @@
 <cfcomponent hint = "This is Application cfc for Online Exam System Project" accessors = "true"
 	output = "false" persistent = "false">
 
-	<cfset THIS.name = "onlineExamSystem" />
-	<cfset THIS.applicationTimeout = CreateTimeSpan(0,1,0, 0) />
+	<cfset THIS.name = "onlineExamSystem123" />
+	<cfset THIS.applicationTimeout = CreateTimeSpan(0,4,0, 0) />
 	<cfset THIS.sessionManagement = TRUE />
-	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 0,30, 0) />
+	<cfset THIS.sessionTimeout = CreateTimeSpan(0, 3,0, 0) />
     <cfset THIS.datasource = "demoProject" />
 
 	<!--------------- Method [ OnApplicationStart ] -------------->
@@ -102,7 +102,8 @@
 		                          hint = "Fires when an exception occures that is not caught by a try/catch.">
 		<cfargument name = "Exception" type = "any" required = "true" />
 		<cfargument type = "String" name = "EventName" required = "true"/>
-		    <!------------------- Write all error --------------------->
+
+		<!------------------- Write all error --------------------->
 		<cffile action = "append" file = "D:/Errors/project.txt"output = "onError  Event Name: #ARGUMENTS.Eventname# Message:
 		           #ARGUMENTS.Exception.message#--> #ARGUMENTS.Exception#..Time --> #now()#" >
 

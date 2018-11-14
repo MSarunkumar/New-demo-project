@@ -6,7 +6,7 @@
 			<div class="data-container">
 		                <center><h1>Time table of tests</h1></center>
 		                <cfset VARIABLES.schedule = APPLICATION.viewDetailsObj.getSchedule() />
-		                <cfset VARIABLES.currentTime = #DateTimeFormat(now(), "MM d yyyy HH:nn:ss ")# />
+		                <cfset VARIABLES.currentTime = DateTimeFormat(now(), "MM d yyyy HH:nn:ss ") />
 
                          <!--- Check DB Error -------------------------------------------- --->
 						<cfif isDefined("VARIABLES.schedule.errID") >
@@ -29,19 +29,19 @@
 							 </thead>
 							 <tbody>
 			                    <cfoutput query = "VARIABLES.schedule">
-				                 <cfset VARIABLES.sec = Datediff("s",VARIABLES.schedule.startTime,VARIABLES.currentTime) />
+				                 <cfset VARIABLES.minutes = Datediff("n",VARIABLES.schedule.startTime,VARIABLES.currentTime) />
 								 <tr>
 		                             <td align="center">#test#</td>
 									 <td align="center">#startTime#</td>
 									 <td align="center">#totalQuestion#</td>
 				                     <td align="center">#duration#</td>
-				                      <cfif VARIABLES.sec GT 600>
+				                      <cfif VARIABLES.minutes GT duration>
 									 <td align="center"> Deactive</td>
 									</cfif>
-									 <cfif VARIABLES.sec LT 600 AND VARIABLES.sec GT 0>
+									 <cfif VARIABLES.minutes LT duration AND VARIABLES.minutes GT 0>
 									 <td align="center" id="activeId"> Active</td>
 									</cfif>
-									<cfif VARIABLES.sec LTE 0>
+									<cfif VARIABLES.minutes LTE 0>
 									 <td align="center"> Upcoming</td>
 									</cfif>
 

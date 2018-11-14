@@ -24,7 +24,6 @@
 			</cfdocumentitem>
 
 			<h4>Date ::#dateformat(now())#  &nbsp &nbsp &nbsp Time ::#TimeFormat(now(), "HH:nn:ss")#</h4>
-			<strong>Note:</strong> Please save in .pdf extension.
 			<h4 style="text-align:right">ADMIN</h4><hr>
 			</cfoutput>
 

@@ -1,10 +1,12 @@
 <cfinclude template="../../Includes/studentPageValidate.cfm" />
 <cfset SESSION.student = APPLICATION.viewDetailsObj.getStudent(SESSION.userEmail) />
+
 <cfif isDefined("SESSION.student.errID") >
 	<cfif SESSION.student.errID EQ -1>
 		<cflocation url = "../../index.cfm?errID=4" addtoken = "no">
 	</cfif>
 </cfif>
+
 <html>
 	<head>
 		<title> Student Dashboard</title>
@@ -16,7 +18,7 @@
 			     <div class="serverSideError">
 				 <cfset VARIABLES.errorArray=["Internal problem.Please try again",
 					                "Your test is already started.
-					                 So please complete that before starting a new test.[Or login again]",
+					                 So please complete that before starting a new test.",
 					                "Your score successfully submited.Please check your result.",
 					                "You have already attempted this test.You can attempt one test only for a subject",
 					                "Please wait,Test will be active.","Test has been deactivate."

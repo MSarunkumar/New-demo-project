@@ -7,9 +7,9 @@
   --- author: mindfire
   --- date:   11/2/18
   --->
-<cfcomponent hint="It will log the error and return meaning full value" accessors="true" output="false" persistent="false">
+<cfcomponent hint="It will log the error " accessors="true" output="false" persistent="false">
 
-<!--- Method  : It will log all error files and return false --->
+<!--- Method  : It will log all errors  --->
 
 	<cffunction  name = "doLog" access = "public"  hint = "It will log and return false">
 		<cfargument name = "componentName" required = "true" type = "string" hint = "It will catch component name"/>

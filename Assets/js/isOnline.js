@@ -17,5 +17,5 @@ function isTestOnline() {
                 }  
         	  }
            });
-		 setTimeout( isTestOnline, 1000);	
+		 setTimeout( isTestOnline, 500);	
 	}

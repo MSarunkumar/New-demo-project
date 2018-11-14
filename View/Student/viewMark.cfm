@@ -1,6 +1,5 @@
 <cfinclude template="../../Includes/studentPageValidate.cfm" />
 
-
 <html>
 	<head>
 		<title> Student Result </title>

@@ -11,9 +11,10 @@
 
 
 	<cffunction name = "logout" returntype="void" access = "public">
+		<!--- delete custom variable from session --->
 		<cfset structClear(SESSION) />
-<!--- For logout --->
-		<cfset sessionRotate()/>
+		<!--- For logout change cfid and cftoken --->
+		<cfset sessionRotate() />
     </cffunction>
 
 </cfcomponent>
